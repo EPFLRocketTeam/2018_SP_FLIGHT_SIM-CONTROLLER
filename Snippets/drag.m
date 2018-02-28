@@ -17,23 +17,23 @@ function CD = drag(Rocket, alpha, Uinf, nu, a)
 % -------------------------------------------------------------------------
 % 1. Geometrical Parameters
 % -------------------------------------------------------------------------
-c = (Rocket.fin_cr + Rocket.fin_ct)/2; % fin cord
-dm = Rocket.diameters(find(Rocket.diameters == max(Rocket.diameters), 1, 'first')); % maximum body diameter
-Sm = pi*dm^2/4; % maximum cross-sectional body area
-SE = (Rocket.fin_cr + Rocket.fin_ct )/2*Rocket.fin_s; % Exposed planform fin area
-df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.fin_cr/2, 'linear'); % body diameter at middle of fin station
-SF = SE + 1/2*df*Rocket.fin_cr; % Virtual fin planform area
 
+dm = Rocket.dm; % maximum rocket diameter 
+Sm = Rocket.Sm; % maximum cross-sectional body area
+c = Rocket.fin_c; % fin cord
+SE = Rocket.fin_SE; % Exposed planform fin area
+df = Rocket.fin_df; % body diameter at middle of fin station
+SF = Rocket.fin_SF; % Virtual fin planform area
 
 % -------------------------------------------------------------------------
 % 2. Reynolds Numbers (eq 191, p 458)
 % -------------------------------------------------------------------------
 
 % 2.1 Body 
-Rl = Rocket.stage_z(end)*Uinf/nu/100; 
+Rl = Rocket.stage_z(end)*Uinf/nu; 
 Rl_crit = 5e5;
 % 2.2 Fins
-Rc = c*Uinf/nu/100; 
+Rc = c*Uinf/nu; 
 Rc_crit = 5.14e6;
 % Critical values of the Reynolds number are selected as shown in Fig. 51,
 % p.464

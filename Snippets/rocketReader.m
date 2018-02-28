@@ -1,5 +1,9 @@
 function Rocket = rocketReader(rocketFilePath)
 
+% -------------------------------------------------------------------------
+% 1. Read Rocket
+% -------------------------------------------------------------------------
+
 rfid = fopen(rocketFilePath);
 
 while ~feof(rfid)
@@ -50,6 +54,18 @@ while ~feof(rfid)
             
         case "rocket_I"
             Rocket.rocket_I = line_data_num{1}(1);
+        
+        case "ab_x"
+            Rocket.ab_x = line_data_num{1}(1);
+            
+        case "ab_w"
+            Rocket.ab_w = line_data_num{1}(1);    
+        
+        case "ab_h"
+            Rocket.ab_h = line_data_num{1}(1);      
+            
+        case "ab_n"
+            Rocket.ab_n = line_data_num{1}(1); 
             
         otherwise
             display(["ERROR: In rocket definition, unknown line identifier: " line_id]);
@@ -57,10 +73,35 @@ while ~feof(rfid)
     end
 
 end    
-    
+   
+% -------------------------------------------------------------------------
+% 2. Checks
+% -------------------------------------------------------------------------
+
 if checkStages(Rocket)
     error("ERROR: Reading rocket definition file.")
 end
+
+% -------------------------------------------------------------------------
+% 3. Intrinsic parameters
+% -------------------------------------------------------------------------
+
+% 3.1 Maximum body diameter
+Rocket.dm = Rocket.diameters(find(Rocket.diameters == max(Rocket.diameters), 1, 'first')); 
+% 3.2 Fin cord
+Rocket.fin_c = (Rocket.fin_cr + Rocket.fin_ct)/2; 
+% 3.3 Maximum cross-sectional body area
+Rocket.Sm = pi*Rocket.dm^2/4; 
+% 3.4 Exposed planform fin area
+Rocket.fin_SE = (Rocket.fin_cr + Rocket.fin_ct )/2*Rocket.fin_s; 
+% 3.5 Body diameter at middle of fin station
+Rocket.fin_df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.fin_cr/2, 'linear'); 
+% 3.6 Virtual fin planform area
+Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr; 
+
+% -------------------------------------------------------------------------
+% 4. Sub-routines
+% -------------------------------------------------------------------------
 
 function flag = checkStages(Rocket)
     flag = 0;
@@ -71,7 +112,6 @@ function flag = checkStages(Rocket)
         flag = 1;
         display("ERROR: In rocket defintion, rocket must start with a point (diameters(1) = 0, stage_z(1) = 0)");
     end
-    
 end
 
 end
