@@ -1,0 +1,14 @@
+stages 3
+diameters 0 12 12
+stage_z 0 50 250
+fin_n 3
+fin_xt 228
+fin_s 11
+fin_cr 24
+fin_ct 12
+fin_xs 6
+fin_t 0.3
+lug_n 2
+lug_S 5e-5
+rocket_m 23.6 
+rocket_I 11
