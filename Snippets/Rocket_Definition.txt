@@ -16,3 +16,4 @@ ab_x 2.00
 ab_w 0.1
 ab_h 0.1
 ab_n 3
+rocket_cm 1.5

@@ -67,6 +67,9 @@ while ~feof(rfid)
         case "ab_n"
             Rocket.ab_n = line_data_num{1}(1); 
             
+        case 'rocket_cm'
+            Rocket.rocket_cm = line_data_num{1}(1);
+            
         otherwise
             display(['ERROR: In rocket definition, unknown line identifier: ' line_id]);
          
@@ -98,6 +101,8 @@ Rocket.fin_SE = (Rocket.fin_cr + Rocket.fin_ct )/2*Rocket.fin_s;
 Rocket.fin_df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.fin_cr/2, 'linear'); 
 % 3.6 Virtual fin planform area
 Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr; 
+% 3.7 Rocket Length
+Rocket.L = Rocket.stage_z(end);
 
 % -------------------------------------------------------------------------
 % 4. Sub-routines
