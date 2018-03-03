@@ -6,6 +6,10 @@ function Rocket = rocketReader(rocketFilePath)
 
 rfid = fopen(rocketFilePath);
 
+if rfid < 0
+   error('ERROR: Rocket file name unfound.') 
+end
+
 while ~feof(rfid)
 
     line_content = fgetl(rfid);
@@ -51,6 +55,9 @@ while ~feof(rfid)
             
         case 'rocket_m'
             Rocket.rocket_m = line_data_num{1}(1);
+            
+        case 'rocket_cm'
+            Rocket.rocket_cm = line_data_num{1}(1);
             
         case 'rocket_I'
             Rocket.rocket_I = line_data_num{1}(1);
@@ -98,6 +105,8 @@ Rocket.fin_SE = (Rocket.fin_cr + Rocket.fin_ct )/2*Rocket.fin_s;
 Rocket.fin_df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.fin_cr/2, 'linear'); 
 % 3.6 Virtual fin planform area
 Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr; 
+% 3.7 Airbrake braking surface
+Rocket.ab_S = Rocket.ab_w*Rocket.ab_h;
 
 % -------------------------------------------------------------------------
 % 4. Sub-routines

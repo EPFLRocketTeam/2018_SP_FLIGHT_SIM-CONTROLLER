@@ -1,0 +1,83 @@
+% ------------------------------------------------------------------------
+% AEROPLOT
+% Plot Aerodynamic values of lift and drag for various angles of attack, 
+% airbrake deployment angles and flow regimes.
+% Date : 1.03.2018
+% Author : Eric Brunner
+% -------------------------------------------------------------------------
+
+clear all; close all;
+
+% -------------------------------------------------------------------------
+% 1.0 Parameters and definitions
+% -------------------------------------------------------------------------
+
+readRocketFile = 1;
+rocketFile = 'Rocket_Definition.txt';
+
+if readRocketFile
+   Rocket = rocketReader(rocketFile); 
+end
+
+V = linspace(0, 80, 10);
+alpha = linspace(0, pi/2/9, 4);
+r = linspace(0, 1, 10);
+theta = pi/2*r;
+nu = 1.5e-5;
+a = 346;
+
+% -------------------------------------------------------------------------
+% 2.0 Coefficient calculation
+% -------------------------------------------------------------------------
+
+CD = zeros(length(V), length(alpha), length(theta));
+CN = zeros(1,length(alpha));
+XCP = zeros(1, length(alpha));
+
+for i = 1:length(V)
+    for j = 1:length(alpha)
+        for k = 1:length(theta)
+            CD_w = drag(Rocket, alpha(j), V(i), nu, a);
+            CD(i,j,k) = cos(alpha(j))*CD_w + ...
+                            drag_AB(Rocket, theta(k), alpha(j), V(i), nu);           
+        end 
+    end
+end
+
+for j = 1:length(alpha)
+   [CN(j),XCP(j)]  = normalLift(Rocket, alpha(j), 1.1, 0, pi/2, 1);
+   CN(j) = CN(j) + sin(alpha(j))*CD_w;
+end
+% -------------------------------------------------------------------------
+% 3.0 Plot values
+% -------------------------------------------------------------------------
+
+set(0,'defaultaxescolororder',[0 0 0]);
+set(0,'DefaultAxesLineStyleOrder',{'-', '--', ':', '-.'});
+
+% 3.1 Drag coefficient
+figure; hold on;
+for i = 1:length(alpha)
+    plot(V, CD(:,i,1), 'DisplayName', ['\alpha = ' num2str(rad2deg(alpha(i)))],...
+        'LineWidth', 2);
+end
+legend show; grid on;
+title 'Body-Fin Drag coefficient'; 
+xlabel 'U [m/s]'; ylabel 'Cd [-]';
+set(gca, 'Fontsize', 16);
+
+% 3.1 Normal force coefficient
+figure; hold on;
+plot(rad2deg(alpha), CN, 'LineWidth', 2);
+grid on;
+title 'Normal force coefficient'; 
+xlabel '\alpha [°]'; ylabel 'Cn [-]';
+set(gca, 'Fontsize', 16);
+
+% 3.1 Stability Margin
+figure; hold on;
+plot(rad2deg(alpha), (XCP-Rocket.rocket_cm)/Rocket.dm, 'LineWidth', 2);
+grid on;
+title 'Stability margin'; 
+xlabel '\alpha [°]'; ylabel '(X_{cp} - X_{cm})/d_m [-]';
+set(gca, 'Fontsize', 16);

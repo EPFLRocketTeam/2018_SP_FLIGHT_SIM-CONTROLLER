@@ -78,7 +78,7 @@ A_fp = A_fe + 0.5*d_f*fin.basechord;
 %% ------Viscous Friction------
 % Viscous friction ROCKET FORBODY Cf
 Re  = rho*V*l_b/mu;
-B = Re_cb*(0.074/Re^(0.2) - 1.328/sqrt(Re));
+B = Re_cb(0.074/Re^(0.2) - 1.328/sqrt(Re));
 
 if (Re < Re_cb)
     Cf =  1.328/sqrt(Re);
