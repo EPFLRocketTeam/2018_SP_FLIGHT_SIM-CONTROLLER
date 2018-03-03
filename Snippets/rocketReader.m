@@ -71,8 +71,8 @@ while ~feof(rfid)
             Rocket.rocket_cm = line_data_num{1}(1);
             
         case 'motor'
-            line_data_num = textscan(line_data,'%s');
-            Rocket.motor_ID = line_data_num{1};
+            line_data_num = textscan(line_data,'%g');
+            Rocket.motor_ID = line_data_num{1}(1);
         otherwise
             display(['ERROR: In rocket definition, unknown line identifier: ' line_id]);
          
