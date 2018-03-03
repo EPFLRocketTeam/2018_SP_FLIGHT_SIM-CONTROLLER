@@ -70,6 +70,9 @@ while ~feof(rfid)
         case 'rocket_cm'
             Rocket.rocket_cm = line_data_num{1}(1);
             
+        case 'motor'
+            line_data_num = textscan(line_data,'%s');
+            Rocket.motor_ID = line_data_num{1};
         otherwise
             display(['ERROR: In rocket definition, unknown line identifier: ' line_id]);
          
@@ -78,7 +81,29 @@ while ~feof(rfid)
 end    
    
 % -------------------------------------------------------------------------
-% 2. Checks
+% 2. Read Motor
+% -------------------------------------------------------------------------
+
+rfid = fopen(Rocket.motor_ID);
+
+% 2.1 Read Informations
+line_content = fgetl(rfid); % Read one line
+Info = textscan(line_content,'%s %f32 %f32 %f32 %f32 %f32 %s');
+
+Rocket.motor_dia = Info{1}(2);
+Rocket.motor_length = Info{1}(3);
+% 2.2 Read Thrust Informations
+t = []; T = []; % Initialization
+
+while ~feof(rfid)   % Test end of file
+    
+    line_content = fgetl(rfid); % Read one line
+    Tmp = textscan(line_content,'%f32 %f32');
+    t = [t Tmp{1}];
+    T = [T Tmp{2}];
+end
+% -------------------------------------------------------------------------
+% 3. Checks
 % -------------------------------------------------------------------------
 
 if checkStages(Rocket)
@@ -86,26 +111,26 @@ if checkStages(Rocket)
 end
 
 % -------------------------------------------------------------------------
-% 3. Intrinsic parameters
+% 4. Intrinsic parameters
 % -------------------------------------------------------------------------
 
-% 3.1 Maximum body diameter
+% 4.1 Maximum body diameter
 Rocket.dm = Rocket.diameters(find(Rocket.diameters == max(Rocket.diameters), 1, 'first')); 
-% 3.2 Fin cord
+% 4.2 Fin cord
 Rocket.fin_c = (Rocket.fin_cr + Rocket.fin_ct)/2; 
-% 3.3 Maximum cross-sectional body area
+% 4.3 Maximum cross-sectional body area
 Rocket.Sm = pi*Rocket.dm^2/4; 
-% 3.4 Exposed planform fin area
+% 4.4 Exposed planform fin area
 Rocket.fin_SE = (Rocket.fin_cr + Rocket.fin_ct )/2*Rocket.fin_s; 
-% 3.5 Body diameter at middle of fin station
+% 4.5 Body diameter at middle of fin station
 Rocket.fin_df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.fin_cr/2, 'linear'); 
-% 3.6 Virtual fin planform area
+% 4.6 Virtual fin planform area
 Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr; 
-% 3.7 Rocket Length
+% 4.7 Rocket Length
 Rocket.L = Rocket.stage_z(end);
 
 % -------------------------------------------------------------------------
-% 4. Sub-routines
+% 5. Sub-routines
 % -------------------------------------------------------------------------
 
 function flag = checkStages(Rocket)
