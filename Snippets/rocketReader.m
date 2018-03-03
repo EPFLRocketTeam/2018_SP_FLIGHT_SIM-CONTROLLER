@@ -114,6 +114,10 @@ Info = textscan(line_content,'%s %f32 %f32 %f32 %f32 %f32 %s');
 
 Rocket.motor_dia = Info{2};
 Rocket.motor_length = Info{3};
+Rocket.motor_delay = Info{4};
+Rocket.propel_mass = Info{5};
+Rocket.motor_mass = Info{6};
+
 % 2.2 Read Thrust Informations
 t = []; T = []; % Initialization
 
@@ -125,6 +129,8 @@ while ~feof(rfid)   % Test end of file
     T = [T Tmp{2}];
 end
 
+Rocket.Thrust_time = t;
+Rocket.Thrust_Force = T;
 % -------------------------------------------------------------------------
 % 3. Checks
 % -------------------------------------------------------------------------
@@ -153,7 +159,8 @@ Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr;
 Rocket.ab_S = Rocket.ab_w*Rocket.ab_h;
 % 4.8 Rocket Length
 Rocket.L = Rocket.stage_z(end);
-
+% 4.9 Burn Time
+Rocket.burn_time = t(end);
 % -------------------------------------------------------------------------
 % 5. Sub-routines
 % -------------------------------------------------------------------------
