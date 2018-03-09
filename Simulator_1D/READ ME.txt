@@ -1,0 +1,17 @@
+Simulateur 1D:
+---------------------------------------------------------------------------
+    Eric Brunner & Emilien Mingard
+    R?alis? comme projet de semestre, Laboratoire d'Automatique
+    Ecole Polytechnique F?d?rale Lausanne
+    Mars 2018
+---------------------------------------------------------------------------
+Script Matlab:
+    - Main_1D.m
+Fonctions:
+    - 
+    -
+    -
+    -
+    -
+Structure:
+    - Rocket

@@ -129,7 +129,7 @@ while ~feof(rfid)   % Test end of file
     T = [T Tmp{2}];
 end
 
-Rocket.Thrust_time = t;
+Rocket.Thrust_Time = t;
 Rocket.Thrust_Force = T;
 % -------------------------------------------------------------------------
 % 3. Checks
@@ -160,7 +160,7 @@ Rocket.ab_S = Rocket.ab_w*Rocket.ab_h;
 % 4.8 Rocket Length
 Rocket.L = Rocket.stage_z(end);
 % 4.9 Burn Time
-Rocket.burn_time = t(end);
+Rocket.Burn_Time = t(end);
 % -------------------------------------------------------------------------
 % 5. Sub-routines
 % -------------------------------------------------------------------------
