@@ -9,11 +9,11 @@ function [mass,dmassdt] = Mass_Lin(t,Rocket)
 
 % OUTPUT:
 if t > Rocket.Burn_Time
+    mass = Rocket.rocket_m;
     dmassdt = 0;
-    mass = Rocket.rocket_m-Rocket.motor_mass;
 else
     dmassdt = Rocket.motor_mass/Rocket.Burn_Time;
-    mass = Rocket.rocket_m-t*dmassdt;
+    mass = Rocket.rocket_m+Rocket.motor_mass-t*dmassdt;
 end
 end
 

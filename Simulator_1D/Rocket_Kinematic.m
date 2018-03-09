@@ -12,7 +12,7 @@ xdot = zeros(2,1);
 nu = 1.578e-5; %[m2/s] Viscosity, &&&&&&&&&&&& ADD FUNCTION??
 
 % Call Function:
-[M,dMdt] = Mass(t,Rocket);
+[M,dMdt] = Mass_Lin(t,Rocket);
 [Temp, a, p, rho] = stdAtmos(x(1));
 T = Thrust(t,Rocket);
 g = 9.81; %[m/s2] Gravity &&&&&&&&&&&&&&&&&&&& ADD FUNCTION??
