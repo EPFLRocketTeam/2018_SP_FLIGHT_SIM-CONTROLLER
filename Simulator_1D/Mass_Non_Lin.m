@@ -9,7 +9,7 @@ function [mass,dmassdt] = Mass_Non_Lin(t,Rocket)
 
 % OUTPUT:
 if t>Rocket.Burn_Time
-    mass = Rocket.rocket_m;
+    mass = Rocket.rocket_m+Rocket.motor_mass-Rocket.propel_mass;
     dmassdt = 0;
 else
     tt = linspace(0,t,500);

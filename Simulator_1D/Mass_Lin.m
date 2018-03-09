@@ -12,7 +12,7 @@ if t > Rocket.Burn_Time
     mass = Rocket.rocket_m;
     dmassdt = 0;
 else
-    dmassdt = Rocket.motor_mass/Rocket.Burn_Time;
+    dmassdt = Rocket.propel_mass/Rocket.Burn_Time;
     mass = Rocket.rocket_m+Rocket.motor_mass-t*dmassdt;
 end
 end

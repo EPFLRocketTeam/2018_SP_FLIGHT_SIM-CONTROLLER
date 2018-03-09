@@ -171,7 +171,7 @@ TT = Thrust(tt,Rocket);
 A_T = trapz(tt,TT); % Area under Thrust Curve
 
 % 5.2 Total Mass
-Rocket.Thrust2dMass_Ratio = Rocket.motor_mass/A_T;
+Rocket.Thrust2dMass_Ratio = Rocket.propel_mass/A_T;
 
 % -------------------------------------------------------------------------
 % 6. Sub-routines
