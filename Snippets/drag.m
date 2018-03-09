@@ -15,6 +15,12 @@ function CD = drag(Rocket, alpha, Uinf, nu, a)
 % Semester Project Report, Professor Collin Jones, June 2017.
 
 % -------------------------------------------------------------------------
+% 0. Divergence 
+% -------------------------------------------------------------------------
+if Uinf < 0.1
+    Uinf = 0.1;
+end
+% -------------------------------------------------------------------------
 % 1. Geometrical Parameters
 % -------------------------------------------------------------------------
 
@@ -65,7 +71,7 @@ Cf_turb_F = Cf_turb_F-B_F/Rc;
 
 
 % -------------------------------------------------------------------------
-% 4. 0° AoA drag
+% 4. 0?? AoA drag
 % -------------------------------------------------------------------------
 
 % 4.1 Wetted area ratio
@@ -88,11 +94,11 @@ else
 end
 % 4.2.2 Base drag (eq 162, p 431)
 CDb = 0.029*(Rocket.diameters(end)/dm)^3/sqrt(CDf_B);
-% 4.2.3 Body drag at 0° AoA (eq 160, p 431)
+% 4.2.3 Body drag at 0?? AoA (eq 160, p 431)
 CD0_B = CDf_B +CDb; 
 
 % 4.3 Fin drag
-% 4.3.1 Fin drag at 0° AoA (eq 159, p 433)
+% 4.3.1 Fin drag at 0?? AoA (eq 159, p 433)
 CD0_F = 2*(1+2*Rocket.fin_t/c)*Rocket.fin_n*SF/Sm; 
 if Rc < Rc_crit
     CD0_F = CD0_F*Cf_lam_F;

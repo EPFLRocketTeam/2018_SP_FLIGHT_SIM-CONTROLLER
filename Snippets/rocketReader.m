@@ -119,7 +119,7 @@ Rocket.propel_mass = Info{5};
 Rocket.motor_mass = Info{6};
 
 % 2.2 Read Thrust Informations
-t = []; T = []; % Initialization
+t = [0]; T = [0]; % Initialization
 
 while ~feof(rfid)   % Test end of file
     
@@ -161,8 +161,20 @@ Rocket.ab_S = Rocket.ab_w*Rocket.ab_h;
 Rocket.L = Rocket.stage_z(end);
 % 4.9 Burn Time
 Rocket.Burn_Time = t(end);
+
 % -------------------------------------------------------------------------
-% 5. Sub-routines
+% 5. Mass variation
+% -------------------------------------------------------------------------
+% 5.1 Total Impulse
+tt = linspace(0,Rocket.Burn_Time,2000);
+TT = Thrust(tt,Rocket);
+A_T = trapz(tt,TT); % Area under Thrust Curve
+
+% 5.2 Total Mass
+Rocket.Thrust2dMass_Ratio = Rocket.motor_mass/A_T;
+
+% -------------------------------------------------------------------------
+% 6. Sub-routines
 % -------------------------------------------------------------------------
 
 function flag = checkStages(Rocket)

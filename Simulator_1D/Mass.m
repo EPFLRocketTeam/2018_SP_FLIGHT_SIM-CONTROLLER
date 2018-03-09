@@ -1,4 +1,4 @@
-function [Mass,dMassdt] = Mass(t,Rocket)
+function [mass,dmassdt] = Mass(t,Rocket)
 %	Return the tocket mass during burn time
 %   INPUT:
 %   - t         Time
@@ -9,11 +9,13 @@ function [Mass,dMassdt] = Mass(t,Rocket)
 
 % OUTPUT:
 if t > Rocket.Burn_Time
-    dMassdt = 0;
-    Mass = Rocket.rocket_m-Rocket.motor_mass;
+    dmassdt = 0;
+    mass = Rocket.rocket_m-Rocket.motor_mass;
 else
-    dMassdt = Rocket.motor_mass/Rocket.Burn_Time
-    Mass = Rocket.rocket_m-t*dMassdt;
+    tt = linspace(0,Rocket.Burn_Time,2000);
+    pos = find(tt<t);
+    mass = Rocket.Thrust2dMass_Ratio*trapz(tt(pos),Thrust(tt(pos),Rocket));
+    dmassdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
 end
 end
 
