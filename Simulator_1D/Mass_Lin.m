@@ -1,4 +1,4 @@
-function [mass,dmassdt] = Mass(t,Rocket)
+function [mass,dmassdt] = Mass_Lin(t,Rocket)
 %	Return the tocket mass during burn time
 %   INPUT:
 %   - t         Time
@@ -12,10 +12,8 @@ if t > Rocket.Burn_Time
     dmassdt = 0;
     mass = Rocket.rocket_m-Rocket.motor_mass;
 else
-    tt = linspace(0,Rocket.Burn_Time,2000);
-    pos = find(tt<t);
-    mass = Rocket.Thrust2dMass_Ratio*trapz(tt(pos),Thrust(tt(pos),Rocket));
-    dmassdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
+    dmassdt = Rocket.motor_mass/Rocket.Burn_Time;
+    mass = Rocket.rocket_m-t*dmassdt;
 end
 end
 
