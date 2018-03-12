@@ -1,4 +1,4 @@
-function xdot = Rocket_Kinematic(t,x,Rocket,theta)
+function xdot = Rocket_Kinematic(t,x,Rocket,Environnement,theta)
 %   Contain Rockete Behaviour Equation
 %   1D simulator
 %   State Variable: x
@@ -9,7 +9,7 @@ function xdot = Rocket_Kinematic(t,x,Rocket,theta)
 xdot = zeros(2,1);
 
 % Environnemental parameter:
-nu = 1.578e-5; %[m2/s] Viscosity, &&&&&&&&&&&& ADD FUNCTION??
+nu = Environnement.Nu; %[m2/s] Viscosity, &&&&&&&&&&&& ADD FUNCTION??
 
 % Call Function:
 [M,dMdt] = Mass_Non_Lin(t,Rocket);

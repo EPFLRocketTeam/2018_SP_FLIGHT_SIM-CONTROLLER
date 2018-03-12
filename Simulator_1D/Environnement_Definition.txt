@@ -1,0 +1,4 @@
+Temperature_Ground 303
+Pressure_Ground 113000
+Humidity_Ground 1
+V_inf 10
