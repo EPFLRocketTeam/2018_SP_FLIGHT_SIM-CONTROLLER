@@ -11,7 +11,7 @@ Environnement = environnementReader('Environnement_Definition.txt');
 % -------------------------------------------------------------------------
 % Angle Boundaries (Shuriken AB Table)
 % -------------------------------------------------------------------------
-theta = linspace(-190.5,1.165,10);
+theta = linspace(-190.5,1.165,5);
 
 % -------------------------------------------------------------------------
 % Simulation 1D
@@ -43,21 +43,49 @@ figure(1);
 plot(T_Nominal,X_Nominal(:,1),'g','DisplayName','Thrust Phase');hold on
 
 %% Backward Simulation
+% Altitude of Interest
+Alt = linspace(1000,3048,100);
+
+% Simulation
 x_0 = [3048;0]; % Final condition wanted
 tspan = [35 Rocket.Burn_Time]; % Avoid motor thrust phase
 Data = []; % [Altitude, Speed, Angle of AB]
 Option = odeset('Events', @myEvent);
 for i = theta
-    [T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,i,Amplifier),tspan,x_0,Option); %%%%%%%%%%% ADD CONDITIONAL STOP
-    display(i);
-    Data = [Data;X(:,1) X(:,2) ones(length(X(:,1)),1)*i];
-    pos = find(X(:,1)>X_End_Burn);
-    figure(1);
-    plot(T(pos)-T(pos(end))+6.5,X(pos,1),'k','DisplayName',['Angle = ' num2str(theta) 'Deg']);
+    % Simulation ----------------------------------------------------------
+    [T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,i,Amplifier),tspan,x_0,Option);
+    %Data = [Data;X(:,1) X(:,2) ones(length(X(:,1)),1)*i];
+    
+    % Visualization -------------------------------------------------------
+%     pos = find(X(:,1)>X_End_Burn);
+%     figure(1);
+%     plot(T(pos)-T(pos(end))+6.5,X(pos,1),'k','DisplayName',['Angle = ' num2str(theta) 'Deg']);
+    
+    % DATA  Acquisition ---------------------------------------------------
+    pos = find(X(:,1)<3046);
+    V = interp1(X(pos,1),X(pos,2),Alt,'linear','extrap');
+    T = ones(1,length(Alt))*i;
+    Data = [Data;Alt' V' T'];
 end
 
-%% Find Interesting altitude 
-Alt = linspace(1000,3048,100);
-for i = 1:length(tetha)
-    
+Table = [];
+L_Alt = length(Alt);
+L_theta = length(theta);
+pos = 1:L_Alt:L_Alt*L_theta;
+for j = 1:L_Alt
+    Table = [Table;Data(pos+j-1,1) Data(pos+j-1,2) Data(pos+j-1,3)];
 end
+
+%% Graph Check
+pos1 = 1:L_theta:L_theta*L_Alt;
+for k = 1:5
+    figure(2);
+    plot(Table(pos1+k-1,1),Table(pos1+k-1,2),'DisplayName',['Angle = ' num2str(theta(k))]);hold on;axis([1000 3100 0 250]);
+    legend show;
+end
+
+
+
+
+
+
