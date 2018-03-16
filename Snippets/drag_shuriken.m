@@ -10,8 +10,8 @@ Rex = Rocket.ab_x*U/nu;
 delta = 0.37*Rocket.ab_x/Rex^0.2;
 
 % interpolate data
-h = interp1(theta_tab, h_tab, theta, 'linear', 'extrap');
-l = interp1(theta_tab, l_tab, theta, 'linear', 'extrap');
+h = interp1(theta_tab, h_tab, theta,'linear');
+l = interp1(theta_tab, l_tab, theta,'linear');
 
 % compute values
 % surface

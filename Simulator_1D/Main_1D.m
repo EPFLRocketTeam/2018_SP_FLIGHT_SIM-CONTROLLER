@@ -9,8 +9,8 @@ Rocket = rocketReader('Rocket_Definition.txt');
 Environnement = environnementReader('Environnement_Definition.txt');
 
 % Initial Conditions
-x_0 = [0;0.1]; % No speed, no height
-tspan = [0.1 30];
+x_0 = [2444,111.67]; % No speed, no height
+tspan = [15 26];
 
 % Simulation
 Option = odeset('Events', @myEvent);
