@@ -31,7 +31,7 @@ Env.a = 345;
 Env.g = 9.81;
 
 % 1.3 Parameter range
-x0 = linspace(1000, 3000, 100);
+x0 = linspace(1000, 3048, 100);
 
 % 1.4 rocket body drag at 0 AoA and at arbitrary (relatively high velocity)
 CD0_body = drag(Rocket, 0, Uinf, Env.nu, Env.a);
@@ -74,5 +74,7 @@ for i = 1:n_theta
     mask = zeros(1,n_theta);
     mask(i) = 1;
     v_tmp = v0_ext(find(kron(ones(1, length(x0)), mask)));
-   plot(x0, v_tmp); 
+    plot(x0, v_tmp, 'DisplayName', ['theta = ' num2str(theta_tab(i))]); 
 end
+axis([1000 3100 0 250]);
+legend show;

@@ -1,4 +1,13 @@
 function CD = drag_shuriken(Rocket, theta, alpha, Uinf, nu)
+% DRAG_SHURIKEN estimates the drag coefficient normalized to the Rocket's
+% reference area for the shuriken airbrake design.
+% INPUTS : 
+% - Rocket  : Rocket object
+% - theta   : Airbrakes command input, -190 = closed, 1.65 =
+%             open [deg]
+% - alpha   : wind angle of attack [deg]
+% - Uinf    : Air free stream velocity [m/s]
+% - nu      : dynamic viscosity coefficient [m2/s]
 
 % parameters
 theta_tab = [-190.5, -171.330000000000,-152.167000000000,-133,-113.834000000000,-94.6675000000000,-75.5010000000000,-56.3345000000000,-37.1680000000000,-18.0015000000000,1.16500000000000];
@@ -18,7 +27,7 @@ l = interp1(theta_tab, l_tab, theta,'linear');
 S = 0.5*h*l;
 % drag coefficient
 if h<delta
-    qr = 49/72*(h/delta)^2/7;
+    qr = 49/72*(h/delta)^(2/7);
 else
     qr = 1 - 4/9*delta/h+1/8*(delta/h)^2;
 end
