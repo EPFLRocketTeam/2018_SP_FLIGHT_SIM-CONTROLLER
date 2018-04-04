@@ -13,10 +13,10 @@ Rocket = rocketReader('Rocket_Definition.txt');
 %--------------------------------------------------------------------------
 Amplitude1 = [];
 t1 = linspace(0,30,1000);
-V = [5:1:40];   % Rocket speed at rail tip
-V_inf = 5;      % Wind speed
+Velocity = 28.2;   % Rocket speed at rail tip
+V_infi = [1:1:10];      % Wind speed
 
-for Velocity = V
+for V_inf = V_infi
     
 a_0 = 0;    % Rail condition
 da_0 = 0;   % Rail condition
@@ -59,8 +59,8 @@ end
 
 % 1.4 Results:
 figure(2);
-plot(V,Amplitude1/pi*180,'r');hold on;grid on;
-xlabel('Velocity [m/s]');ylabel('Amplitude of oscillation [deg]');
+plot(V_infi,Amplitude1/pi*180,'r');hold on;grid on;
+xlabel('Wind Velocity [m/s]');ylabel('Amplitude of oscillation [deg]');
 title('Amplitude vs Velocity at rail exit')
 
 %--------------------------------------------------------------------------
@@ -68,16 +68,18 @@ title('Amplitude vs Velocity at rail exit')
 %--------------------------------------------------------------------------
 Amplitude2 = [];
 t2 = linspace(0,30,1000);
-Impulsion = [1:1:10]; % Impulsion intensity
+V_wind = 8; % Wind rafal speed [m/s]
 Velocity = 25;      % Rocket speed at rail tip
+T_wind = [1 2]; % Wind rafal time [s]
 
-for H = Impulsion
+for t_wind = T_wind
  
 [Calpha, CP] = barrowmanLift(Rocket,0,Velocity/346,0); % No roll
 [CNa, Xp] = normalLift(Rocket,0,1.1,Velocity/346,0,0);
 C1 = CorrectionMoment(Rocket,CNa,Xp,Velocity);
 C2 = DampingMoment(Rocket,Calpha,CP,Velocity);
 
+H = C1*atan(V_wind/Velocity)*t_wind
 % 1.2 Solutions:
 damp = C1/Rocket.rocket_I - C2^2/4/Rocket.rocket_I^2; % Damping ratio
 if damp > 0
@@ -102,6 +104,6 @@ end
 
 % 1.4 Results:
 figure(4);
-plot(Impulsion,Amplitude2/pi*180,'r');hold on;grid on;
-xlabel('Velocity [m/s]');ylabel('Amplitude of oscillation [deg]');
+plot(T_wind*V_wind,Amplitude2/pi*180,'r');hold on;grid on;
+xlabel('Impulse Strength [m]');ylabel('Amplitude of oscillation [deg]');
 title('Amplitude vs Wind impulsion at rail exit')
