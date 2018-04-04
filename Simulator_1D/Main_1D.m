@@ -14,7 +14,7 @@ tspan = [15 26];
 
 % Simulation
 Option = odeset('Events', @myEvent);
-[T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,-190.5),tspan,x_0,Option);
+[T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,-190.5, 1),tspan,x_0,Option);
 
 %--------------------------------------------------------------------------
 % Visualization
