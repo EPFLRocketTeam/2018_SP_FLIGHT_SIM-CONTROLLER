@@ -6,7 +6,7 @@ function C2 = DampingMoment(Rocket,Calpha,CP,Velocity)
 % 1 Intrasic parameter
 %--------------------------------------------------------------------------
 rho = 1.22; % Air density at launch pad [kg/m3]
-mdot = Rocket.propel_mass/Rocket.burn_time;
+mdot = Rocket.propel_mass/Rocket.Burn_Time;
 %--------------------------------------------------------------------------
 % 2 Subparameter
 %--------------------------------------------------------------------------

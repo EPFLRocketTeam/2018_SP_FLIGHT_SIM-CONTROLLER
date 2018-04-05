@@ -1,5 +1,5 @@
 function xdot = Rocket_Kinematic(t,x,Rocket,Environnement,theta,Amplifier)
-%   Contain Rockete Behaviour Equation
+%   Contain Rocket Behaviour Equation
 %   1D simulator
 %   State Variable: x
 %   - x(1) = height;

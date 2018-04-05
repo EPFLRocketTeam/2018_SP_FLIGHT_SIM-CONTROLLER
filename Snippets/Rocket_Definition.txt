@@ -11,7 +11,7 @@ fin_t 0.003
 lug_n 2
 lug_S 1.9635e-5
 rocket_m 16.9
-rocket_I 11
+rocket_I 12
 rocket_cm 1.6
 ab_x 2.00
 ab_w 0.1

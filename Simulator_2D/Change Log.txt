@@ -1,0 +1,6 @@
+Reste a implementer:
+- Interactions avec rampe en x
+- Support de la rampe en y tant que pouss?e insuffisante
+- Mach Number
+- Environnement Temperature 
+- Envoronnement Pressure

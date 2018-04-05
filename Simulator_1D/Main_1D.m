@@ -1,4 +1,4 @@
-%% Rocket Simuator 1D
+%% Rocket Simulator 1D
 
 %--------------------------------------------------------------------------
 % Rocket Simulations
