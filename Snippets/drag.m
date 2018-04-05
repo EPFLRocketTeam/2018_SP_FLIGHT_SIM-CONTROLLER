@@ -121,6 +121,7 @@ CD0_FB = CD0_B + CD0_F + CD_l;
 
 % 5.1 Body drag at AoA
 % 5.1.1 factor tables as seen in Fig. 35 and 36 on p. 405
+alpha = abs(alpha);
 etatab=[4 6 8 10 12 14 16 18 20 22 24;0.6 0.63 0.66 0.68 0.71 0.725 0.74 0.75 0.758 0.77 0.775];
 deltaktab=[4 6 8 10 12 14 16 18 20;0.78 0.86 0.92 0.94 0.96 0.97 0.975 0.98 0.982];
 etak = interp1(etatab(1,:),etatab(2,:),Rocket.stage_z(end)/dm,'linear','extrap');

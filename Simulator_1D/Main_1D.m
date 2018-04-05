@@ -9,7 +9,7 @@ Rocket = rocketReader('Rocket_Definition.txt');
 Environnement = environnementReader('Environnement_Definition.txt');
 
 % Initial Conditions
-x_0 = [2444,111.67]; % No speed, no height
+x_0 = [2444,111.67]; % height, speed
 tspan = [15 26];
 
 % Simulation
