@@ -43,7 +43,7 @@ G = -g*Mass*ZE;
 Vrel = V - Environment.V_inf*XE; % (TODO: Allow for any wind direction)
 % angle of attack 
 Vcross = cross(RA, Vrel);
-alpha = atan2(Vcross(3), dot(RA, Vrel));
+alpha = atan2(norm(Vcross), dot(RA, Vrel));
 % Velocity magnitude and Mach number
 Vmag = norm(Vrel);
 M = Vmag/a;
