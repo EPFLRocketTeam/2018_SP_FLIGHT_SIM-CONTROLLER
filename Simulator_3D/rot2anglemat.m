@@ -1,8 +1,8 @@
 function angle = rot2anglemat(C)
 
-roll = acosd(C(3,3,:));
-pitch = atand(C(1,3,:)./C(2,3,:));
-yaw = atand(C(3,1,:)./C(3,2,:));
+pitch = atand(C(2,3,:)./C(3,3,:));
+yaw = -asind(C(1,3,:));
+roll = atand(C(1,2,:)./C(1,1,:));
 
 angle = [pitch, yaw, roll];
 

@@ -39,6 +39,10 @@ while ~feof(rfid)
         case 'Rail_Angle'
             line_data_num = textscan(line_data, '%f');
             Environnement.Rail_Angle = line_data_num{1}(1)/180*pi;
+            
+        case 'Rail_Azimuth'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.Rail_Azimuth = line_data_num{1}(1)/180*pi;
         otherwise
             display(['ERROR: In environnement definition, unknown line identifier: ' line_id]);
          

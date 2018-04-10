@@ -8,7 +8,7 @@ W = s(11:13);
 %% Coordinate systems
 
 % Rotation matrix from rocket coordinates to Earth coordinates
-C = quat2rot(Q);
+C = quat2rotmat(Q');
 
 % Rocket principle frame vectors expressed in earth coordinates
 YA = C*[1,0,0]'; % Yaw axis
@@ -59,7 +59,7 @@ end
 
 % Drag
 % Drag coefficient
-CD = drag(Rocket, alpha, Vmag, 1.55e-5, a); % (TODO: make air-viscosity adaptable to temperature)
+CD = drag(Rocket, alpha, Vmag, Environment.Nu, a); % (TODO: make air-viscosity adaptable to temperature)
 % Drag force
 D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RA; % (TODO: define drag in wind coordinate system)
 
@@ -73,7 +73,8 @@ F_tot = ...
 %% Moment estimation
 
 %Aerodynamic corrective moment
-MN = N*(Xcp-Rocket.rocket_cm); % (TODO: Allow cm to change with time)
+margin = (Xcp-Rocket.rocket_cm);
+MN = N*margin; % (TODO: Allow cm to change with time)
 
 M_tot = ...
     MN      ; % aerodynamic corrective moment
