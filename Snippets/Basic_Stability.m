@@ -22,8 +22,8 @@ a_0 = 0;    % Rail condition
 da_0 = 0;   % Rail condition
 [Calpha, CP] = barrowmanLift(Rocket,0,Velocity/346,0); % No roll
 [CNa, Xp] = normalLift(Rocket,0,1.1,Velocity/346,0,0);
-C1 = CorrectionMoment(Rocket,CNa,Xp,Velocity);
-C2 = DampingMoment(Rocket,Calpha,CP,Velocity);
+C1 = CorrectionMoment(0,Rocket,CNa,Xp,Velocity);
+C2 = DampingMoment(0,Rocket,Calpha,CP,Velocity);
 
 % 1.1 Wind disturbance:
 Ms = C1*atan(V_inf/Velocity);
@@ -76,8 +76,8 @@ for t_wind = T_wind
  
 [Calpha, CP] = barrowmanLift(Rocket,0,Velocity/346,0); % No roll
 [CNa, Xp] = normalLift(Rocket,0,1.1,Velocity/346,0,0);
-C1 = CorrectionMoment(Rocket,CNa,Xp,Velocity);
-C2 = DampingMoment(Rocket,Calpha,CP,Velocity);
+C1 = CorrectionMoment(0,Rocket,CNa,Xp,Velocity);
+C2 = DampingMoment(0,Rocket,Calpha,CP,Velocity);
 
 H = C1*atan(V_wind/Velocity)*t_wind
 % 1.2 Solutions:

@@ -15,7 +15,7 @@ nu = Environnement.Nu; %[m2/s] Viscosity, &&&&&&&&&&&& ADD FUNCTION??
 [M,dMdt] = Mass_Lin(t,Rocket);
 [Temp, a, p, rho] = stdAtmos(x(1));
 T = Thrust(t,Rocket);
-g = 9.81; %[m/s2] Gravity &&&&&&&&&&&&&&&&&&&& ADD FUNCTION??
+g = 9.81; %[m/s2] Gravity
 CD = drag(Rocket,0,x(2),nu,a);
 CD_AB = drag_shuriken(Rocket,theta,0,x(2),nu);
 

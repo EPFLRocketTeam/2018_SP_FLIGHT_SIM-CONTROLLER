@@ -3,4 +3,4 @@ Pressure_Ground 113000
 Humidity_Ground 1
 V_inf 5
 Rail_Length 4
-Rail_Angle 0
+Rail_Angle -2

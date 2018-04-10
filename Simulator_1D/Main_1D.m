@@ -9,8 +9,8 @@ Rocket = rocketReader('Rocket_Definition.txt');
 Environnement = environnementReader('Environnement_Definition.txt');
 
 % Initial Conditions
-x_0 = [2444,111.67]; % No speed, no height
-tspan = [15 26];
+x_0 = [0;0]; % No speed, no height
+tspan = [0 28];
 
 % Simulation
 Option = odeset('Events', @myEvent);
@@ -19,10 +19,13 @@ Option = odeset('Events', @myEvent);
 %--------------------------------------------------------------------------
 % Visualization
 %--------------------------------------------------------------------------
+pos=find(T>Rocket.Burn_Time);
 figure(1);
-plot(T,X(:,1),'r');hold on;
+plot(T,X(:,1),'b');hold on;grid on;
+plot(T(pos(1)),X(pos(1),1),'r*')
 figure(2);
-plot(X(:,1),X(:,2),'r');hold on;grid on;
+plot(X(:,1),X(:,2),'b');hold on;grid on;
+plot(X(pos(1),1),X(pos(1),2),'r*')
 
 %--------------------------------------------------------------------------
 % What consider?
