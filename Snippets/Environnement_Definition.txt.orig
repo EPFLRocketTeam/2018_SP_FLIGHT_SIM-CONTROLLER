@@ -1,0 +1,13 @@
+Temperature_Ground 303
+Pressure_Ground 113000
+Humidity_Ground 1
+<<<<<<< HEAD
+V_inf 1
+Rail_Length 5
+Rail_Angle 0
+Rail_Azimuth 0
+=======
+V_inf 0
+Rail_Length 4
+Rail_Angle -2
+>>>>>>> 43e4387d92e03d47614bd03d0763ff6318487151
