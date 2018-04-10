@@ -1,57 +1,91 @@
-function xdot = Rocket_Kinematic_2D(t,x,Rocket,Environnement,theta)
+function dxdt = Rocket_Kinematic_2D(t,x,Rocket,Environnement,theta)
 %   Contain Rocket Behaviour Equation
 %   2D simulator
 %   State Variable: x
-%   - x(1) = vertical position
-%   - x(2) = vertical velocity
-%   - x(3) = horizontal position
-%   - x(4) = horizontal velocity
+%   - x(1) = horizontal position
+%   - x(2) = horizontal velocity
+%   - x(3) = vertical position
+%   - x(4) = vertical velocity
 %   - x(5) = angle
 %   - x(6) = angular speed
 
 %--------------------------------------------------------------------------
-% Pre Simulation
+% Initialisation
 %--------------------------------------------------------------------------
+dxdt = zeros(6,1);
 
-% State Initialization
-xdot = zeros(6,1);
+% Parametres environnementaux
+nu = Environnement.Nu;              % Viscosite [Pas]
+V_inf = Environnement.V_inf;        % Vitesse du vent [m/s]
 
-% Environnemental Parameters
-nu = Environnement.Nu;
+% Appels des fonctions n?cessaires
+[M,dMdt] = Mass_Lin(t,Rocket);  % Masse de la fusee [kg,kg/s]
+[I_L,I_R] = Inertia(t,Rocket); % Inerties de la fusee [kgm^2,kg,m^2]
+[Temp, a, p, rho] = stdAtmos(x(3)); % Atmosphere [K,m/s,Pa,kg/m3]
+g = 9.81;                           % Gravite [m2/s]
 
-% Necessary function calls
-[M,dMdt] = Mass_Non_Lin(t,Rocket);  % Rocket Mass information
-[Temp, a, p, rho] = stdAtmos(x(1)); % Atmosphere information
-T = Thrust(t,Rocket);   % Motor thrust
-g = 9.81;               % Gravity []
-
-
-
-% Multiple Time Used Parameters
-V_Shift = 1e-15; % Avoid instabilities dut to atan(0/0) velocity shift
-V = sqrt((x(4)+(Environnement.V_inf)).^2+(x(2)).^2); % Total Air flow Speed
-beta = atan( (x(4)+Environnement.V_inf+V_Shift) / (x(2)) ); % Angle between vertical axe and Total Air flow Speed
-q = 1/2*rho*Rocket.Sm*V^2; % Dynamic pressure
-CD = drag(Rocket,0,V,nu,a);  % Drag coefficient
-CD_AB = drag_shuriken(Rocket,theta,0,V,nu); % Airbreak drag coefficient
-[CNa, Xp] = normalLift(Rocket,0,1.1,V/346,0,0); % Normal lift Coefficient
-[Calpha, CP] = barrowmanLift(Rocket,0,V/346,0); % No roll
-C1 = CorrectionMoment(Rocket,CNa,Xp,V);
-C2 = DampingMoment(Rocket,Calpha,CP,V);
+% D?calage de protection
+V_Shift = 1e-15; % Evite les instabilites telles que atan(0/0)
 
 %--------------------------------------------------------------------------
-% Behaviour Equations
+% Angle des rep?res p.r au referentiel (X,Y,Z)
 %--------------------------------------------------------------------------
-% Vertical Axis:
-xdot(1) = x(2);
-xdot(2) = (T-(CD+CD_AB)*q)*cos(x(5))/M - CNa*q*sin(x(5))/M*(x(5)-beta) - g - dMdt*x(2)/M;
+delta = x(5);   % Repere (D,E,F), D = X
+beta = atan( (x(2)+V_inf+V_Shift)/(x(4))); % Repere (U,V,W), U = X
 
-% Horizontal Axis:
-xdot(3) = x(4);
-xdot(4) = (T-(CD+CD_AB)*q)*sin(x(5))/M + CNa*q*cos(x(5))/M*(x(5)-beta) - dMdt*x(4)/M;
+% Angle d'attaque
+alpha = delta-beta;     % Angle d'attaque de la fusee
 
-% Rotational:
-xdot(5) = x(6);
-xdot(6) = (-C1*(x(5)-beta)-C2*(x(6))) / Rocket.rocket_I;
+%--------------------------------------------------------------------------
+% Forces exprimees dans leur repere respectif
+%--------------------------------------------------------------------------
+% Force de Gravite (Y,Z)
+G = [0;-g];
+
+% Force de Poussee (E,F)
+T = [0;Thrust(t,Rocket)];
+
+% Force de Trainee (V,W)
+V = sqrt((x(2)+V_inf).^2+x(4).^2);          % Flux d'air vu par la fusee
+CD_AB = drag_shuriken(Rocket,theta,abs(alpha),V,nu); % Coef. Trainee des A?rofreins
+CD = drag(Rocket,abs(alpha),V,nu,a);             % Coef. Trainee de la fus?e
+q = 1/2*rho*Rocket.Sm*V^2;                  % Pression dynamique
+Ft = [0;-q*(CD+CD_AB)];                     % Force de train?e
+
+% Force Normale (E,F)
+[CNa, Xp] = normalLift(Rocket,abs(alpha),1.1,V/a,0,0); % Normal lift Coefficient
+Fn = [q*CNa*alpha;0];        % Force Normale
+
+% Moment autour de X=D=U
+[Calpha, CP] = barrowmanLift(Rocket,abs(alpha),V/a,0); % Coef. Normaux des sections
+C1 = CorrectionMoment(t,Rocket,CNa,Xp,V); % Coef. Moment de correction
+C2 = DampingMoment(t,Rocket,Calpha,CP,V); % Coef. Moment amortis
+
+%--------------------------------------------------------------------------
+% Matrice de Rotation
+%--------------------------------------------------------------------------
+% (D,E,F) -> (X,Y,Z)
+Q_delta = [cos(delta),sin(delta);-sin(delta),cos(delta)]; 
+
+% (U,V,W) -> (X,Y,Z)
+Q_beta = [cos(beta),sin(beta);-sin(beta),cos(beta)];
+
+%--------------------------------------------------------------------------
+% Equations
+%--------------------------------------------------------------------------
+Xdot = [x(2);x(4)]; % Vecteur vitesse
+
+% Mouvement en translation
+Xdotdot = (Q_delta*(T+Fn)+Q_beta*Ft-dMdt*Xdot)/M+G;
+
+% Mouvement de rotation
+dxdt(5) = x(6);
+dxdt(6) = (-C1*alpha-C2*x(6))/I_L;
+
+% Envoi des valeurs
+dxdt(1) = x(2);
+dxdt(3) = x(4);
+dxdt(2) = Xdotdot(1);
+dxdt(4) = Xdotdot(2);
 end
 

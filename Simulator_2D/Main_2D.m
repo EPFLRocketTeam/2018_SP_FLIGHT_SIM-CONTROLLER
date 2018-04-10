@@ -21,30 +21,30 @@ Rail_Angle = Environnement.Rail_Angle;
 Rail_L = Environnement.Rail_Length;
 
 % Initial Conditions
-x_0 = [Rail_L*cos(Rail_Angle);X1(end,2)*cos(Rail_Angle);Rail_L*sin(Rail_Angle);X1(end,2)*sin(Rail_Angle);Rail_Angle;0]; % No speed, no height, no angle
+x_0 = [Rail_L*sin(Rail_Angle);X1(end,2)*sin(Rail_Angle);Rail_L*cos(Rail_Angle);X1(end,2)*cos(Rail_Angle);Rail_Angle;0]; % No speed, no height, no angle
 tspan = [T1(end) 28];
 
 % Simulation
 Option = odeset('Events', @myEventApogee);
-[T,X] = ode45(@(t,x) Rocket_Kinematic_2D(t,x,Rocket,Environnement,-190.5),tspan,x_0);
+[T,X] = ode45(@(t,x) Rocket_Kinematic_2D(t,x,Rocket,Environnement,-190.5),tspan,x_0,Option);
 
 %--------------------------------------------------------------------------
 % Visualization
 %--------------------------------------------------------------------------
 pos = find(T<Rocket.Burn_Time);
 figure(1);
-plot(X(:,3),X(:,1),'DisplayName','Trajectory');grid on;hold on;
-plot(X(pos(end),3),X(pos(end),1),'r*');
+plot(X(:,1),X(:,3),'DisplayName','Trajectory');grid on;hold on;
+plot(X(pos(end),1),X(pos(end),3),'r*');
 title('2D Rocket Trajectory');
 xlabel('Horizontal Position [m]');ylabel('Vertical Position [m]');
 
 figure(2);
-plot(T,X(:,1),'DisplayName','Altitude');grid on;
+plot(T,X(:,3),'DisplayName','Altitude');grid on;
 title('2D Rocket Altitude');
 xlabel('Time [s]');ylabel('Vertical Position [m]');
 
 figure(3);
-plot(T,X(:,3),'DisplayName','Drift');grid on;
+plot(T,X(:,1),'DisplayName','Drift');grid on;
 title('2D Rocket Drift');
 xlabel('Time [s]');ylabel('Horizontal Position [m]');
 

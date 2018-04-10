@@ -110,13 +110,14 @@ rfid = fopen(Rocket.motor_ID);
 
 % 2.1 Read Informations
 line_content = fgetl(rfid); % Read one line
-Info = textscan(line_content,'%s %f32 %f32 %f32 %f32 %f32 %s');
+Info = textscan(line_content,'%s %f32 %f32 %s %f32 %f32 %s');
 
-Rocket.motor_dia = Info{2};
-Rocket.motor_length = Info{3};
+Rocket.motor_dia = Info{2}/1000;
+Rocket.motor_length = Info{3}/1000;
 Rocket.motor_delay = Info{4};
 Rocket.propel_mass = Info{5};
 Rocket.motor_mass = Info{6};
+Rocket.casing_mass = Rocket.motor_mass-Rocket.propel_mass;
 
 % 2.2 Read Thrust Informations
 t = [0]; T = [0]; % Initialization

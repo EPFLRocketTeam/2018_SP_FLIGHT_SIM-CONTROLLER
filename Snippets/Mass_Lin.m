@@ -1,5 +1,5 @@
 function [mass,dmassdt] = Mass_Lin(t,Rocket)
-%	Return the tocket mass during burn time
+%	Return the rocket mass during burn time
 %   INPUT:
 %   - t         Time
 %   - Rocket    Structure Containing all datas
@@ -9,7 +9,7 @@ function [mass,dmassdt] = Mass_Lin(t,Rocket)
 
 % OUTPUT:
 if t > Rocket.Burn_Time
-    mass = Rocket.rocket_m;
+    mass = Rocket.rocket_m + Rocket.casing_mass;
     dmassdt = 0;
 else
     dmassdt = Rocket.propel_mass/Rocket.Burn_Time;
