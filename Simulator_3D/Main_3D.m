@@ -28,7 +28,7 @@ Option = odeset('Events', @(t,x) RailEvent(t,x, Environnement));
 %--------------------------------------------------------------------------
 
 % Rail vector
-C_rail = rotmat(Environnement.Rail_Angle, 2)*rotmat(Environnement.Rail_Azimuth, 3);
+C_rail = rotmat(Environnement.Rail_Angle, 2)*rotmat(-Environnement.Rail_Azimuth, 3);
 RV = C_rail*[0;0;1];
 
 % Initial Conditions

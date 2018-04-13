@@ -22,7 +22,7 @@ I_L_Grain = Grain_Mass*(Rocket.motor_length^2/12 + (R_e^2+R_i^2)/4);
 
 I_L = Rocket.rocket_I + I_L_Casing + I_L_Grain + ...
     (Grain_Mass+Rocket.casing_mass)*...
-    (Rocket.L-cm-Rocket.motor_length/2) % I + ... + Steiner
+    (Rocket.L-cm-Rocket.motor_length/2); % I + ... + Steiner
 
 % I_R:
 I_R = 0;
