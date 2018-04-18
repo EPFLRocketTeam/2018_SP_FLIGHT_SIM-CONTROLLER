@@ -9,6 +9,7 @@ W = s(11:13);
 
 % Rotation matrix from rocket coordinates to Earth coordinates
 C = quat2rotmat(Q');
+angle = rot2anglemat(C);
 
 % Rocket principle frame vectors expressed in earth coordinates
 YA = C*[1,0,0]'; % Yaw axis
@@ -21,8 +22,9 @@ YE = [0, 1, 0]';
 ZE = [0, 0, 1]';
 
 %% Rocket Inertia
-[Mass,dMdt] = Mass_Non_Lin(t,Rocket); % mass
-I = diag([Rocket.rocket_I, Rocket.rocket_I, 1]); % Inertia (TODO: Calculate variable inertia)
+[Mass,dMdt] = Mass_Lin(t,Rocket); % mass
+I_L = Inertia(t, Rocket);
+I = diag([I_L, I_L, 1]); % Inertia (TODO: Calculate variable inertia)
                                                  % (TODO: Include rotational inertia)
 
 %% Environment
@@ -39,16 +41,31 @@ T = Thrust(t,Rocket)*RA; % (TODO: Allow for thrust vectoring -> error)
 G = -g*Mass*ZE;
 
 % Aerodynamic corrective forces
-% relative wind
-Vrel = V - Environment.V_inf*XE; % (TODO: Allow for any wind direction)
-% angle of attack 
-Vcross = cross(RA, Vrel);
-alpha = atan2(norm(Vcross), dot(RA, Vrel));
-% Velocity magnitude and Mach number
-Vmag = norm(Vrel);
-M = Vmag/a;
+% Compute center of mass angle of attack
+Vcm = V - Environment.V_inf*XE; % (TODO: Allow for any wind direction)
+Vcm_mag = norm(Vcm);
+alpha_cm = acos(dot(RA, Vcm/norm(Vcm)));
+
+% Mach number
+M = Vcm_mag/a;
 % normal lift coefficient and center of pressure
-[CNa, Xcp] = normalLift(Rocket, alpha, 2.1, M, 2*acos(Q(4)), 1);
+[CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, M, angle(3), 1);
+% stability margin
+margin = (Xcp-CM(t, Rocket));
+
+% Compute apparent velocity of center of mass
+Wnorm = W/norm(W);
+if(isnan(Wnorm))
+    Wnorm  = zeros(3,1);
+end
+Vrel = Vcm + margin*sin(acos(dot(RA,Wnorm)))*(cross(RA, W));
+Vmag = norm(Vrel);
+Vnorm = Vrel/norm(Vrel);
+
+% angle of attack 
+Vcross = cross(RA, Vnorm);
+alpha = acos(dot(Vnorm, RA));
+
 % normal force
 NA = cross(RA, Vcross); % normal axis
 if norm(NA) == 0
@@ -73,8 +90,11 @@ F_tot = ...
 %% Moment estimation
 
 %Aerodynamic corrective moment
-margin = (Xcp-Rocket.rocket_cm);
-MN = N*margin; % (TODO: Allow cm to change with time)
+if(norm(Vcross) == 0)
+MN = zeros(3,1);    
+else
+MN = norm(N)*margin*Vcross/norm(Vcross); % (TODO: Allow cm to change with time)
+end
 
 M_tot = ...
     MN      ; % aerodynamic corrective moment
