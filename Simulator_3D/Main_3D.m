@@ -2,6 +2,10 @@
 
 % Initialize
 close all; clear all;
+addpath(genpath('../Declarations'),...
+        genpath('../Functions'),...
+        genpath('../Snippets'),...
+        genpath('../Simulator_1D'));
 
 % Rocket Definition
 Rocket = rocketReader('Rocket_Definition.txt');

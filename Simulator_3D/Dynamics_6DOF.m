@@ -44,7 +44,7 @@ G = -g*Mass*ZE;
 % Compute center of mass angle of attack
 Vcm = V - Environment.V_inf*XE; % (TODO: Allow for any wind direction)
 Vcm_mag = norm(Vcm);
-alpha_cm = acos(dot(RA, Vcm/norm(Vcm)));
+alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 
 % Mach number
 M = Vcm_mag/a;
@@ -64,7 +64,7 @@ Vnorm = Vrel/norm(Vrel);
 
 % angle of attack 
 Vcross = cross(RA, Vnorm);
-alpha = acos(dot(Vnorm, RA));
+alpha = atan2(norm(cross(RA, Vnorm)), dot(RA, Vnorm));
 
 % normal force
 NA = cross(RA, Vcross); % normal axis
