@@ -21,7 +21,7 @@ else
 end
 
 % Compute center of mass
-cm = (Rocket.rocket_cm*Rocket.rocket_m + ... 
+CM = (Rocket.rocket_cm*Rocket.rocket_m + ... 
     (M-Rocket.rocket_m)*(Rocket.L-Rocket.motor_length/2))/M;
 
 % Compute Inertia tensor
@@ -36,9 +36,10 @@ I_L_Grain = Grain_Mass*(Rocket.motor_length^2/12 + (R_e^2+R_i^2)/4);
 
 I_L = Rocket.rocket_I + I_L_Casing + I_L_Grain + ...
     (Grain_Mass+Rocket.casing_mass)*...
-    (Rocket.L-cm-Rocket.motor_length/2) % I + ... + Steiner
+    (Rocket.L-CM-Rocket.motor_length/2); % I + ... + Steiner
 % rotational inertia
 
+I = [I_L, 1];
 % TODO : rotational inertia and inertia moment derivative.
-
+dIdt = 0;
 end

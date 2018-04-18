@@ -22,9 +22,8 @@ YE = [0, 1, 0]';
 ZE = [0, 0, 1]';
 
 %% Rocket Inertia
-[Mass,dMdt] = Mass_Lin(t,Rocket); % mass
-I_L = Inertia(t, Rocket);
-I = diag([I_L, I_L, 1]); % Inertia (TODO: Calculate variable inertia)
+[Mass,dMdt, CM, I_eig, ~] = RocketInertia(t,Rocket, 1); % linear mass model
+I = diag([I_eig(1), I_eig(1), I_eig(2)]); % Inertia (TODO: Calculate variable inertia)
                                                  % (TODO: Include rotational inertia)
 
 %% Environment
@@ -51,9 +50,9 @@ M = Vcm_mag/a;
 % normal lift coefficient and center of pressure
 [CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, M, angle(3), 1);
 % stability margin
-margin = (Xcp-CM(t, Rocket));
+margin = (Xcp-CM);
 
-% Compute apparent velocity of center of mass
+% Compute Rocket angle of attack
 Wnorm = W/norm(W);
 if(isnan(Wnorm))
     Wnorm  = zeros(3,1);
@@ -65,6 +64,14 @@ Vnorm = Vrel/norm(Vrel);
 % angle of attack 
 Vcross = cross(RA, Vnorm);
 alpha = atan2(norm(cross(RA, Vnorm)), dot(RA, Vnorm));
+
+% wind coordinate transformation
+if(alpha ~= 0)
+    Cw = quat2rotmat([Vcross'/norm(Vcross)*sin(alpha/2), cos(alpha/2)]);
+    RW = C*Cw*[0;0;1];
+else
+    RW = RA;
+end
 
 % normal force
 NA = cross(RA, Vcross); % normal axis
@@ -78,7 +85,7 @@ end
 % Drag coefficient
 CD = drag(Rocket, alpha, Vmag, Environment.Nu, a); % (TODO: make air-viscosity adaptable to temperature)
 % Drag force
-D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RA; % (TODO: define drag in wind coordinate system)
+D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RW; 
 
 % Total forces
 F_tot = ...
@@ -93,7 +100,7 @@ F_tot = ...
 if(norm(Vcross) == 0)
 MN = zeros(3,1);    
 else
-MN = norm(N)*margin*Vcross/norm(Vcross); % (TODO: Allow cm to change with time)
+MN = norm(N)*margin*Vcross/norm(Vcross); 
 end
 
 M_tot = ...

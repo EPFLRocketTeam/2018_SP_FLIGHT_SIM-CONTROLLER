@@ -17,4 +17,4 @@ ab_x 2.00
 ab_w 0.1
 ab_h 0.1
 ab_n 3
-motor AT_M1850.txt
+motor AT_L1150.txt

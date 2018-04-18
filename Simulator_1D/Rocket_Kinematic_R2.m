@@ -1,4 +1,4 @@
-function xdot = Rocket_Kinematic(t,x,Rocket,Environnement,theta,Amplifier)
+function xdot = Rocket_Kinematic(t,x,Rocket,Environnement,AB_drag, theta)
 %   Contain Rocket Behaviour Equation
 %   1D simulator
 %   State Variable: x
@@ -17,7 +17,7 @@ nu = Environnement.Nu; %[m2/s] Viscosity, &&&&&&&&&&&& ADD FUNCTION??
 T = Thrust(t,Rocket);
 g = 9.81; %[m/s2] Gravity
 CD = drag(Rocket,0,x(2),nu,a);
-CD_AB = drag_shuriken(Rocket,theta,0,x(2),nu);
+CD_AB = AB_drag(Rocket,theta,0,x(2),nu);
 
 % Behaviour Equation:
 xdot(1) = x(2);
