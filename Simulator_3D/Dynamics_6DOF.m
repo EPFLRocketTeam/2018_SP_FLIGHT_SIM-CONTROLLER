@@ -22,9 +22,8 @@ YE = [0, 1, 0]';
 ZE = [0, 0, 1]';
 
 %% Rocket Inertia
-[Mass,dMdt, CM, I_eig, ~] = RocketInertia(t,Rocket, 1); % linear mass model
-I = diag([I_eig(1), I_eig(1), I_eig(2)]); % Inertia (TODO: Calculate variable inertia)
-                                                 % (TODO: Include rotational inertia)
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,Opt);
+I = diag([I_L, I_L, I_R]); % Inertia TODO: I_R in Mass_Properties
 
 %% Environment
 g = 9.81;               % Gravity [m/s2] 
@@ -37,7 +36,7 @@ g = 9.81;               % Gravity [m/s2]
 T = Thrust(t,Rocket)*RA; % (TODO: Allow for thrust vectoring -> error)
 
 % Gravity
-G = -g*Mass*ZE;
+G = -g*M*ZE;
 
 % Aerodynamic corrective forces
 % Compute center of mass angle of attack
@@ -46,11 +45,11 @@ Vcm_mag = norm(Vcm);
 alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 
 % Mach number
-M = Vcm_mag/a;
-% normal lift coefficient and center of pressure
-[CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, M, angle(3), 1);
-% stability margin
-margin = (Xcp-CM);
+Mach = Vcm_mag/a;
+% Normal lift coefficient and center of pressure
+[CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 1);
+% Stability margin
+margin = (Xcp-Cm);
 
 % Compute Rocket angle of attack
 Wnorm = W/norm(W);
@@ -61,7 +60,7 @@ Vrel = Vcm + margin*sin(acos(dot(RA,Wnorm)))*(cross(RA, W));
 Vmag = norm(Vrel);
 Vnorm = Vrel/norm(Vrel);
 
-% angle of attack 
+% Angle of attack 
 Vcross = cross(RA, Vnorm);
 alpha = atan2(norm(cross(RA, Vnorm)), dot(RA, Vnorm));
 
@@ -97,10 +96,12 @@ F_tot = ...
 %% Moment estimation
 
 %Aerodynamic corrective moment
+[Calpha, CP] = barrowmanLift(Rocket,alpha,Mach,angle(3)); %TODO: add roll
+C2 = DampingMoment(t,Rocket,Calpha,CP,Vmag);
 if(norm(Vcross) == 0)
 MN = zeros(3,1);    
 else
-MN = norm(N)*margin*Vcross/norm(Vcross); 
+MN = (norm(N)*margin+C2*dot(W,Vcross/norm(Vcross)))*Vcross/norm(Vcross); % (TODO: Allow cm to change with time)
 end
 
 M_tot = ...
@@ -110,7 +111,7 @@ M_tot = ...
 
 % Translational dynamics
 X_dot = V;
-V_dot = 1/Mass*(F_tot - V*dMdt);
+V_dot = 1/M*(F_tot - V*dMdt);
 
 % Rotational dynamics
 Q_dot = quat_evolve(Q, W);
