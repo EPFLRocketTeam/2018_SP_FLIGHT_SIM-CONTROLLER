@@ -21,11 +21,11 @@ Option = odeset('Events', @myEvent);
 %--------------------------------------------------------------------------
 pos=find(T>Rocket.Burn_Time);
 figure(1);
-plot(T,X(:,1),'b');hold on;grid on;
-plot(T(pos(1)),X(pos(1),1),'r*')
+plot(T,X(:,1));hold on;grid on;
+plot(T(pos(1)),X(pos(1),1),'r*');
 figure(2);
 plot(X(:,1),X(:,2),'b');hold on;grid on;
-plot(X(pos(1),1),X(pos(1),2),'r*')
+plot(X(pos(1),1),X(pos(1),2),'r*');
 
 %--------------------------------------------------------------------------
 % What consider?

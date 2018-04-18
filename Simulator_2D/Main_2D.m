@@ -48,7 +48,8 @@ plot(T,X(:,1),'DisplayName','Drift');grid on;
 title('2D Rocket Drift');
 xlabel('Time [s]');ylabel('Horizontal Position [m]');
 
-figure(4);
+figure(999);
+hold on;
 plot(T,X(:,5)/pi*180,'DisplayName','Angle');grid on;
 title('2D Rocket Angle');
 xlabel('Time [s]');ylabel('Angle from vertical [deg]');

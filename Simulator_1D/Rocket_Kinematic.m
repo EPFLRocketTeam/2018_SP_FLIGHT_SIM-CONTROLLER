@@ -12,7 +12,7 @@ xdot = zeros(2,1);
 nu = Environnement.Nu; %[m2/s] Viscosity, &&&&&&&&&&&& ADD FUNCTION??
 
 % Call Function:
-[M,dMdt] = Mass_Lin(t,Rocket);
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'Linear')
 [Temp, a, p, rho] = stdAtmos(x(1));
 T = Thrust(t,Rocket);
 g = 9.81; %[m/s2] Gravity

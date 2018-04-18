@@ -18,17 +18,16 @@ dxdt = zeros(6,1);
 nu = Environnement.Nu;              % Viscosite [Pas]
 V_inf = Environnement.V_inf;        % Vitesse du vent [m/s]
 
-% Appels des fonctions n?cessaires
-[M,dMdt] = Mass_Lin(t,Rocket);  % Masse de la fusee [kg,kg/s]
-[I_L,I_R] = Inertia(t,Rocket); % Inerties de la fusee [kgm^2,kg,m^2]
+% Appels des fonctions necessaires
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'Linear')
 [Temp, a, p, rho] = stdAtmos(x(3)); % Atmosphere [K,m/s,Pa,kg/m3]
 g = 9.81;                           % Gravite [m2/s]
 
-% D?calage de protection
+% Decalage de protection
 V_Shift = 1e-15; % Evite les instabilites telles que atan(0/0)
 
 %--------------------------------------------------------------------------
-% Angle des rep?res p.r au referentiel (X,Y,Z)
+% Angle des reperes p.r au referentiel (X,Y,Z)
 %--------------------------------------------------------------------------
 delta = x(5);   % Repere (D,E,F), D = X
 beta = atan( (x(2)+V_inf+V_Shift)/(x(4))); % Repere (U,V,W), U = X
@@ -80,7 +79,7 @@ Xdotdot = (Q_delta*(T+Fn)+Q_beta*Ft-dMdt*Xdot)/M+G;
 
 % Mouvement de rotation
 dxdt(5) = x(6);
-dxdt(6) = (-C1*alpha-C2*x(6))/I_L;
+dxdt(6) = (-C1*alpha-C2*x(6)-dI_Ldt*x(5))/I_L;
 
 % Envoi des valeurs
 dxdt(1) = x(2);
