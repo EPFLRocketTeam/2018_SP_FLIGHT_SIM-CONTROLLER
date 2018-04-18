@@ -23,24 +23,24 @@ tspan = [0 Rocket.Burn_Time];
 Amplifier = 1;
 [T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,theta(1),Amplifier),tspan,x_0);
 figure(1);
-plot(T,X(:,1),'g','DisplayName','Thrust Phase');hold on
+plot(T,X(:,1),'g','DisplayName','Thrust Phase');hold on,grid on;
 X_End_Burn = X(end,1);
 
 tspan = [0 28];
 Amplifier = 1.20;
 [T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,theta(1),Amplifier),tspan,x_0);
 figure(1);
-plot(T,X(:,1),'r','DisplayName','Thrust Phase');hold on
+plot(T,X(:,1),'r','DisplayName','Thrust Phase');hold on,grid on;
 
 Amplifier = 0.8;
 [T,X] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,theta(1),Amplifier),tspan,x_0);
 figure(1);
-plot(T,X(:,1),'b','DisplayName','Thrust Phase');hold on
+plot(T,X(:,1),'b','DisplayName','Thrust Phase');hold on,grid on;
 
 Amplifier = 1;
 [T_Nominal,X_Nominal] = ode45(@(t,x) Rocket_Kinematic(t,x,Rocket,Environnement,theta(1),Amplifier),tspan,x_0);
 figure(1);
-plot(T_Nominal,X_Nominal(:,1),'g','DisplayName','Thrust Phase');hold on
+plot(T_Nominal,X_Nominal(:,1),'g','DisplayName','Thrust Phase');hold on,grid on;
 
 %% Backward Simulation
 % Altitude of Interest
@@ -81,7 +81,7 @@ pos1 = 1:L_theta:L_theta*L_Alt;
 for k = 1:5
     figure(2);
     plot(Table(pos1+k-1,1),Table(pos1+k-1,2),'DisplayName',['Angle = ' num2str(theta(k))]);hold on;axis([1000 3100 0 250]);
-    legend show;
+    legend show;grid on;
 end
 
 
