@@ -73,9 +73,9 @@ dI_Ldt = dI_L_Grain+dMdt*(Rocket.L-Cm-Rocket.motor_length/2)^2+...
     dCmdt;
 
 % I_R:
-I_R = 0;
+I_R = 1;
 
 % dI_R/dt:
-dI_Rdt = 0;
+dI_Rdt = 1;
 end
 
