@@ -31,6 +31,10 @@ while ~feof(rfid)
         case 'V_inf'
             line_data_num = textscan(line_data, '%f');
             Environnement.V_inf = line_data_num{1}(1);
+           
+        case 'V_dir'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.V_dir = line_data_num{1};    
             
         case 'Rail_Length'
             line_data_num = textscan(line_data, '%f');

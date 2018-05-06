@@ -1,6 +1,9 @@
 function CD = drag(Rocket, alpha, Uinf, nu, a)
 % DRAG - Rocket drag calculation function based on Mandell's book "Topics
-% on advanced model Rocketry" (unless otherwise specified)
+% on advanced model Rocketry" (unless otherwise specified). 
+% LIMITATIONS:
+% - Isn't usable for very low speeds (<0.1m/s)
+% - Input velocity must be > 0
 % INPUTS:
 % - Rocket  : Rocket object
 % - alpha   : angle of attack [rad]
@@ -158,12 +161,24 @@ CDF_alpha = CDi + DCDi;
 % 5.3 Total drag at AoA (eq 148, p 417)
 CD_alpha = CDB_alpha + CDF_alpha;
 
+% -------------------------------------------------------------------------
+% 7. Drag of tumbeling body (c.f. OpenRocket Documentation section 3.5)
+% -------------------------------------------------------------------------
+fin_efficiency = [0.5, 1, 1.5, 1.41, 1.81, 1.73, 1.9, 1.85];
+CD_t_fin = 1.42*fin_efficiency(Rocket.fin_n);
+CD_t_body = 0.56;
+
+CD_t = (SE*CD_t_fin+CD_t_body*dm*(Rocket.stage_z(end)-Rocket.stage_z(2)))/Sm;
 
 % -------------------------------------------------------------------------
 % 6. Subsonic drag coefficient
 % -------------------------------------------------------------------------
 CD = CD0_FB + CD_alpha;
-
+% the calculated drag can't be more than the lateral drag of a tumbling
+% body so it is cut-off to that value if it is larger. 
+if CD > CD_t
+    CD = CD_t;
+end
 
 % -------------------------------------------------------------------------
 % 7. Compressible flow correction factor (for a sharp nose) (eq 214, p 482)

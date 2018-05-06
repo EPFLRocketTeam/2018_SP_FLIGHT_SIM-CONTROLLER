@@ -15,8 +15,4 @@ rocket_I 10.28
 rocket_cm 1.27
 pl_mass 4
 SCD 11.2312
-ab_x 2.00
-ab_w 0.1
-ab_h 0.1
-ab_n 3
-motor AT_M1850.txt
+motor AT_L1150.txt

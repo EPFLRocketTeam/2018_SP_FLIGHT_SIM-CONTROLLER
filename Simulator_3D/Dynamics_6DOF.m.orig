@@ -22,8 +22,14 @@ YE = [0, 1, 0]';
 ZE = [0, 0, 1]';
 
 %% Rocket Inertia
-[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,"NonLinear");
-I = C'*diag([I_L, I_L, I_R])*C; % Inertia TODO: I_R in Mass_Properties
+<<<<<<< HEAD
+[Mass,dMdt, CM, I_eig, ~] = RocketInertia(t,Rocket, 1); % linear mass model
+I = diag([I_eig(1), I_eig(1), I_eig(2)]); % Inertia (TODO: Calculate variable inertia)
+                                                 % (TODO: Include rotational inertia)
+=======
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,Opt);
+I = diag([I_L, I_L, I_R]); % Inertia TODO: I_R in Mass_Properties
+>>>>>>> 3103ef10991078263a5e1a5a0c1a88088cf29032
 
 %% Environment
 g = 9.81;               % Gravity [m/s2] 
@@ -40,20 +46,24 @@ G = -g*M*ZE;
 
 % Aerodynamic corrective forces
 % Compute center of mass angle of attack
-Vcm = V - Environment.V_inf*Environment.V_dir; 
+Vcm = V - Environment.V_inf*XE; % (TODO: Allow for any wind direction)
 Vcm_mag = norm(Vcm);
 alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 
 % Mach number
+<<<<<<< HEAD
+M = Vcm_mag/a;
+% normal lift coefficient and center of pressure
+[CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, M, angle(3), 1);
+% stability margin
+margin = (Xcp-CM);
+=======
 Mach = Vcm_mag/a;
 % Normal lift coefficient and center of pressure
-if V(3)<0 % correct for robert Galejs correction which overestimates force at apogee
-    [CNa, Xcp,CNa_bar,CP_bar] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 0);
-else
-    [CNa, Xcp,CNa_bar,CP_bar] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 1);
-end
+[CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 1);
 % Stability margin
 margin = (Xcp-Cm);
+>>>>>>> 3103ef10991078263a5e1a5a0c1a88088cf29032
 
 % Compute Rocket angle of attack
 Wnorm = W/norm(W);
@@ -62,24 +72,25 @@ if(isnan(Wnorm))
 end
 Vrel = Vcm + margin*sin(acos(dot(RA,Wnorm)))*(cross(RA, W));
 Vmag = norm(Vrel);
-Vnorm = normalizeVect(Vrel);
+Vnorm = Vrel/norm(Vrel);
 
 % Angle of attack 
 Vcross = cross(RA, Vnorm);
-Vcross_norm = normalizeVect(Vcross);
 alpha = atan2(norm(cross(RA, Vnorm)), dot(RA, Vnorm));
 
+<<<<<<< HEAD
 % wind coordinate transformation
-if(alpha == 0)
-    RW = RA;
-elseif(alpha == pi)
-    RW = -RA;
-else
-    Cw = quat2rotmat([Vcross_norm'*sin(alpha/2), cos(alpha/2)]);
+if(alpha ~= 0)
+    Cw = quat2rotmat([Vcross'/norm(Vcross)*sin(alpha/2), cos(alpha/2)]);
     RW = C*Cw*[0;0;1];
+else
+    RW = RA;
 end
 
 % normal force
+=======
+% Normal force
+>>>>>>> 3103ef10991078263a5e1a5a0c1a88088cf29032
 NA = cross(RA, Vcross); % normal axis
 if norm(NA) == 0
     N = [0, 0, 0]'; 
@@ -95,26 +106,29 @@ D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RW;
 
 % Total forces
 F_tot = ...
-    T +...  ;% Thrust
-    G +...  ;% gravity
-    N +... ;% normal force
+    T +...  % Thrust
+    G +...  % gravity
+    N +... % normal force
     D      ; % drag force
 
 %% Moment estimation
 
 %Aerodynamic corrective moment
-MN = norm(N)*margin*Vcross_norm; 
-
-% Aerodynamic damping moment
-W_pitch = W - dot(W,RA)*RA; % extract pitch and yaw angular velocity
-CDM = pitchDampingMoment(Rocket, rho, CNa_bar, CP_bar, dMdt, Cm, norm(W_pitch) , Vmag); 
-MD = -0.5*rho*CDM*Rocket.Sm*Vmag^2*normalizeVect(W_pitch);
+[Calpha, CP] = barrowmanLift(Rocket,alpha,Mach,angle(3)); %TODO: add roll
+C2 = DampingMoment(t,Rocket,Calpha,CP,Vmag);
+if(norm(Vcross) == 0)
+MN = zeros(3,1);    
+else
+<<<<<<< HEAD
+MN = norm(N)*margin*Vcross/norm(Vcross); 
+=======
+MN = (norm(N)*margin+C2*dot(W,Vcross/norm(Vcross)))*Vcross/norm(Vcross); % (TODO: Allow cm to change with time)
+>>>>>>> 3103ef10991078263a5e1a5a0c1a88088cf29032
+end
 
 M_tot = ...
-    MN...  ; % aerodynamic corrective moment
-   + MD ; % aerodynamic damping moment
-           
-           
+    MN      ; % aerodynamic corrective moment
+
 %% State derivatives
 
 % Translational dynamics

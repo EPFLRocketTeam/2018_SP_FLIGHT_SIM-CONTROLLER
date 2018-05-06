@@ -17,7 +17,7 @@ function [M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,Opt)
 %--------------------------------------------------------------------------
 % Mass
 %--------------------------------------------------------------------------
-if Opt == 'Linear'
+if strcmp(Opt, 'Linear')
     if t > Rocket.Burn_Time
         M = Rocket.rocket_m + Rocket.casing_mass;
         dMdt = 0;
@@ -25,7 +25,7 @@ if Opt == 'Linear'
         dMdt = Rocket.propel_mass/Rocket.Burn_Time;
         M = Rocket.rocket_m+Rocket.motor_mass-t*dMdt;
     end
-elseif Opt == 'NonLinear'
+elseif strcmp(Opt, 'NonLinear')
     if t>Rocket.Burn_Time
     M = Rocket.rocket_m+Rocket.motor_mass-Rocket.propel_mass;
     dMdt = 0;
@@ -76,6 +76,6 @@ dI_Ldt = dI_L_Grain+dMdt*(Rocket.L-Cm-Rocket.motor_length/2)^2+...
 I_R = 1;
 
 % dI_R/dt:
-dI_Rdt = 1;
+dI_Rdt = 0;
 end
 
