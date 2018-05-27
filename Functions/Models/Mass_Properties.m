@@ -45,7 +45,7 @@ end
 % Centre de masse
 Cm = (Rocket.rocket_cm*Rocket.rocket_m + ... 
     (M-Rocket.rocket_m)*(Rocket.L-Rocket.motor_length/2))/M;
-
+ 
 % Derivee centre de masse
 dCmdt = (dMdt*(Rocket.L-Rocket.motor_length/2)-dMdt*Cm)/M;
 
@@ -63,7 +63,7 @@ I_L_Grain = Grain_Mass*(Rocket.motor_length^2/12 + (R_e^2+R_i^2)/4);
 
 I_L = Rocket.rocket_I + I_L_Casing + I_L_Grain + ...
     (Grain_Mass+Rocket.casing_mass)*...
-    (Rocket.L-Cm-Rocket.motor_length/2)^2 % I + ... + Steiner
+    (Rocket.L-Cm-Rocket.motor_length/2)^2; % I + ... + Steiner
 
 % dI_L/dt:
 dI_L_Grain = dMdt*(Rocket.motor_length^2/12 + (R_e^2+R_i^2)/4);

@@ -1,4 +1,4 @@
-function [T, a, p, rho] = stdAtmos(alt)
+function [T, a, p, rho, Nu] = stdAtmos(alt,Environnement)
 % stdAtmos
 %
 % INPUT:    - alt   : altitude [m]
@@ -45,8 +45,12 @@ T = T0 + dTdh*alt/1000;
 p = p0*(1+dTdh/1000*alt/T0).^(-g0/R/dTdh*1000);
 
 % DENSITY MODEL
-rho = p./R./T;
+x = Environnement.Saturation_Vapor_Ratio*Environnement.Humidity_Ground;
+rho = p./R./T*(1+x)/(1+1.609*x);
 
 % SPEED OF SOUND
 a = sqrt(gamma*R*T);
+
+% VISCOSITY
+Nu = interp1(Environnement.T_Nu,Environnement.Viscosity,[T]);
 end

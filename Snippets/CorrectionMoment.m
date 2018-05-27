@@ -1,11 +1,11 @@
-function C1 = CorrectionMoment(t,Rocket,CNa,Xp,Velocity)
+function C1 = CorrectionMoment(t,Rocket,CNa,Xp,Velocity,Environnement,Altitude)
 % Give the corrective moment based on rocket geometry
 %
 
 %--------------------------------------------------------------------------
 % 1 Intrasic parameter
 %--------------------------------------------------------------------------
-rho = 1.22; % Air density at launch pad [kg/m3]
+[T, a, p, rho, Nu] = stdAtmos(Altitude,Environnement);
 [M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'Linear')
 
 %--------------------------------------------------------------------------

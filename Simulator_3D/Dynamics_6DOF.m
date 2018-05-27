@@ -1,4 +1,4 @@
-function S_dot = Dynamics_6DOF(t, s, Rocket, Environment)
+function S_dot = Dynamics_6DOF(t, s, Rocket, Environnement)
 
 X = s(1:3);
 V = s(4:6);
@@ -21,13 +21,13 @@ XE = [1, 0, 0]';
 YE = [0, 1, 0]';
 ZE = [0, 0, 1]';
 
-%% Rocket Inertia
-[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,Opt);
+%% Rocket Inerti
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'Linear');
 I = diag([I_L, I_L, I_R]); % Inertia TODO: I_R in Mass_Properties
 
-%% Environment
+%% Environnement
 g = 9.81;               % Gravity [m/s2] 
-[Temp, a, p, rho] = stdAtmos(X(3)); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
+[Temp, a, p, rho, Nu] = stdAtmos(X(3),Environnement); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
 
 %% Force estimations 
 
@@ -40,11 +40,11 @@ G = -g*M*ZE;
 
 % Aerodynamic corrective forces
 % Compute center of mass angle of attack
-Vcm = V - Environment.V_inf*XE; % (TODO: Allow for any wind direction)
+Vcm = V - Environnement.V_inf*XE; % (TODO: Allow for any wind direction)
 Vcm_mag = norm(Vcm);
 alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 
-% Mach number
+% Mach Number
 Mach = Vcm_mag/a;
 % Normal lift coefficient and center of pressure
 [CNa, Xcp] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 1);
@@ -74,7 +74,7 @@ end
 
 % Drag
 % Drag coefficient
-CD = drag(Rocket, alpha, Vmag, Environment.Nu, a); % (TODO: make air-viscosity adaptable to temperature)
+CD = drag(Rocket, alpha, Vmag, Nu, a); % (TODO: make air-viscosity adaptable to temperature)
 % Drag force
 D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RA; % (TODO: define drag in wind coordinate system)
 
@@ -89,7 +89,7 @@ F_tot = ...
 
 %Aerodynamic corrective moment
 [Calpha, CP] = barrowmanLift(Rocket,alpha,Mach,angle(3)); %TODO: add roll
-C2 = DampingMoment(t,Rocket,Calpha,CP,Vmag);
+C2 = DampingMoment(t,Rocket,Calpha,CP,Vmag,Environnement,X(3));
 if(norm(Vcross) == 0)
 MN = zeros(3,1);    
 else

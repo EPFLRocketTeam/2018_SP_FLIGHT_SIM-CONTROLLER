@@ -22,7 +22,7 @@ X0 = [0,0]'; % positioned at 0 height and 0 velocity
 tspan = [0, 5];
 
 % options
-Option = odeset('Events', @(t,x) RailEvent(t,x, Environnement));
+Option = odeset('Events', @(t,x) RailEvent(t,x,Environnement));
 
 % integration
 [T,X] = ode45(@(t,x) Dynamics_Rail_1DOF(t,x,Rocket,Environnement),tspan,X0, Option);

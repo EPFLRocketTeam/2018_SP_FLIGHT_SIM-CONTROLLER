@@ -47,15 +47,19 @@ while ~feof(rfid)
             display(['ERROR: In environnement definition, unknown line identifier: ' line_id]);
          
     end
+end  
     
 % -------------------------------------------------------------------------
 % 2. Intrinsic parameters
 % -------------------------------------------------------------------------
 % 2.1 Environnement Viscosity
 Tmp = xlsread('Viscosity.xlsx');
-T_Nu = Tmp(:,1);
-Viscosity = Tmp(:,2);
-Environnement.Nu = interp1(T_Nu,Viscosity,[Environnement.Temperature_Ground]);
-end   
+Environnement.T_Nu = Tmp(:,1);
+Environnement.Viscosity = Tmp(:,2);
+
+% 2.2 Humidity Changes
+p_ws = exp(77.345+0.0057*Environnement.Temperature_Ground-7235/Environnement.Temperature_Ground)/Environnement.Temperature_Ground^8.2;
+p_a = Environnement.Pressure_Ground;
+Environnement.Saturation_Vapor_Ratio = 0.62198*p_ws/(p_a-p_ws);
 end
 
