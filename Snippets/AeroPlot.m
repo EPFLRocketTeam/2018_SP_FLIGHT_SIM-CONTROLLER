@@ -19,10 +19,9 @@ if readRocketFile
    Rocket = rocketReader(rocketFile); 
 end
 
-V = linspace(0, 80, 10);
-alpha = linspace(0, pi/2/9, 4);
+V = logspace(0, 2, 10);
+alpha = linspace(0, pi/4, 5);
 r = linspace(0, 1, 10);
-theta = pi/2*r;
 nu = 1.5e-5;
 a = 346;
 
@@ -30,23 +29,19 @@ a = 346;
 % 2.0 Coefficient calculation
 % -------------------------------------------------------------------------
 
-CD = zeros(length(V), length(alpha), length(theta));
+CD = zeros(length(V), length(alpha));
 CN = zeros(1,length(alpha));
 XCP = zeros(1, length(alpha));
 
 for i = 1:length(V)
-    for j = 1:length(alpha)
-        for k = 1:length(theta)
-            CD_w = drag(Rocket, alpha(j), V(i), nu, a);
-            CD(i,j,k) = cos(alpha(j))*CD_w + ...
-                            drag_AB(Rocket, theta(k), alpha(j), V(i), nu);           
-        end 
+    for j = 1:length(alpha) 
+            CD(i,j) = drag(Rocket, alpha(j), V(i), nu, a);          
     end
 end
 
 for j = 1:length(alpha)
    [CN(j),XCP(j)]  = normalLift(Rocket, alpha(j), 1.1, 0, pi/2, 1);
-   CN(j) = CN(j) + sin(alpha(j))*CD_w;
+   CN(j) = CN(j);
 end
 % -------------------------------------------------------------------------
 % 3.0 Plot values
@@ -58,7 +53,7 @@ set(0,'DefaultAxesLineStyleOrder',{'-', '--', ':', '-.'});
 % 3.1 Drag coefficient
 figure; hold on;
 for i = 1:length(alpha)
-    plot(V, CD(:,i,1), 'DisplayName', ['\alpha = ' num2str(rad2deg(alpha(i)))],...
+    plot(V, CD(:,i,1), 'DisplayName', ['\alpha = ' num2str(rad2deg(alpha(i))) '^\circ'],...
         'LineWidth', 2);
 end
 legend show; grid on;

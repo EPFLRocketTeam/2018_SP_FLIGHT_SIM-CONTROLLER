@@ -71,30 +71,38 @@ while ~feof(rfid)
         case 'rocket_I'
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_I = line_data_num{1}(1);
-        
-        case 'ab_x'
-            line_data_num = textscan(line_data, '%f');
-            Rocket.ab_x = line_data_num{1}(1);
-            
-        case 'ab_w'
-            line_data_num = textscan(line_data, '%f');
-            Rocket.ab_w = line_data_num{1}(1);    
-        
-        case 'ab_h'
-            line_data_num = textscan(line_data, '%f');
-            Rocket.ab_h = line_data_num{1}(1);      
-            
-        case 'ab_n'
-            line_data_num = textscan(line_data, '%f');
-            Rocket.ab_n = line_data_num{1}(1); 
             
         case 'rocket_cm'
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_cm = line_data_num{1}(1);
             
+        case 'ab_x'
+            line_data_num = textscan(line_data, '%f');
+            Rocket.ab_x = line_data_num{1}(1);
+            
+        case 'ab_n'
+            line_data_num = textscan(line_data, '%f');
+            Rocket.ab_n = line_data_num{1}(1);
+            
         case 'motor'
             line_data_string = textscan(line_data,'%s');
             Rocket.motor_ID = line_data_string{1}{1};
+            
+        case 'pl_mass'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.pl_mass = line_data_num{1}(1);
+            
+        case 'para_main_SCD'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.para_main_SCD = line_data_num{1}(1);
+            
+        case 'para_drogue_SCD'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.para_drogue_SCD = line_data_num{1}(1);
+            
+        case 'para_main_event'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.para_main_event = line_data_num{1}(1); 
         otherwise
             display(['ERROR: In rocket definition, unknown line identifier: ' line_id]);
          
@@ -156,8 +164,6 @@ Rocket.fin_SE = (Rocket.fin_cr + Rocket.fin_ct )/2*Rocket.fin_s;
 Rocket.fin_df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.fin_cr/2, 'linear'); 
 % 4.6 Virtual fin planform area
 Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr; 
-% 4.7 Airbrake braking surface
-Rocket.ab_S = Rocket.ab_w*Rocket.ab_h;
 % 4.8 Rocket Length
 Rocket.L = Rocket.stage_z(end);
 % 4.9 Burn Time

@@ -3,9 +3,9 @@ function CD = drag_shuriken(Rocket, theta, alpha, Uinf, nu)
 % reference area for the shuriken airbrake design.
 % INPUTS : 
 % - Rocket  : Rocket object
-% - theta   : Airbrakes command input, -190 = closed, 1.65 =
+% - theta   : Airbrakes command input, -190 = closed, 1.165 =
 %             open [deg]
-% - alpha   : wind angle of attack [deg]
+% - alpha   : wind angle of attack [rad]
 % - Uinf    : Air free stream velocity [m/s]
 % - nu      : dynamic viscosity coefficient [m2/s]
 
