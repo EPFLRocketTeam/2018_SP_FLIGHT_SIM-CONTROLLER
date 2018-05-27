@@ -24,7 +24,7 @@ da_0 = 0;   % Rail condition
 [CNa, Xp] = normalLift(Rocket,0,1.1,Velocity/346,0,0);
 C1 = CorrectionMoment(0,Rocket,CNa,Xp,Velocity);
 C2 = DampingMoment(0,Rocket,Calpha,CP,Velocity);
-[I_L,I_R] = Inertia(6.5,Rocket)
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(6.5,Rocket,'Linear');
 
 % 1.1 Wind disturbance:
 Ms = C1*atan(V_inf/Velocity);

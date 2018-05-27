@@ -6,20 +6,19 @@ function xdot = Rail_Initial_State(t,x,Rocket,Environnement)
 xdot = zeros(2,1);
 
 % Environnemental Parameters
-nu = Environnement.Nu;
 alpha = Environnement.Rail_Angle;
 V_inf = Environnement.V_inf;
 
 % Necessary function calls
 [M,dMdt] = Mass_Non_Lin(t,Rocket);  % Rocket Mass information
-[Temp, a, p, rho] = stdAtmos(x(1)); % Atmosphere information
+[Temp, a, p, rho, Nu] = stdAtmos(x(1),Environnement); % Atmosphere information
 T = Thrust(t,Rocket);   % Motor thrust
 g = 9.81;               % Gravity []
 
 % Multiple Time Used Parameters
 V = sqrt(x(2)^2+2*x(2)*V_inf*sin(alpha)+V_inf^2); % Total Air flow Speed
 q = 1/2*rho*Rocket.Sm*V^2; % Dynamic pressure
-CD = drag(Rocket,0,V,nu,a);  % Drag coefficient
+CD = drag(Rocket,0,V,Nu,a);  % Drag coefficient
 
 % Equation
 if T < M*g

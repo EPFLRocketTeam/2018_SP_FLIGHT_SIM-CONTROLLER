@@ -45,7 +45,7 @@ end
 % Centre de masse
 Cm = (Rocket.rocket_cm*Rocket.rocket_m + ... 
     (M-Rocket.rocket_m)*(Rocket.L-Rocket.motor_length/2))/M;
-
+ 
 % Derivee centre de masse
 dCmdt = (dMdt*(Rocket.L-Rocket.motor_length/2)-dMdt*Cm)/M;
 

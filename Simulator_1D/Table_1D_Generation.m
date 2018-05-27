@@ -11,7 +11,7 @@ Environnement = environnementReader('Environnement_Definition.txt');
 % -------------------------------------------------------------------------
 % Angle Boundaries (Shuriken AB Table)
 % -------------------------------------------------------------------------
-theta = linspace(-190.5,1.165,5);
+theta = linspace(-190.5,1.165,10);
 
 % -------------------------------------------------------------------------
 % Simulation 1D
@@ -78,7 +78,7 @@ end
 
 %% Graph Check
 pos1 = 1:L_theta:L_theta*L_Alt;
-for k = 1:5
+for k = 1:10
     figure(2);
     plot(Table(pos1+k-1,1),Table(pos1+k-1,2),'DisplayName',['Angle = ' num2str(theta(k))]);hold on;axis([1000 3100 0 250]);
     legend show;grid on;
