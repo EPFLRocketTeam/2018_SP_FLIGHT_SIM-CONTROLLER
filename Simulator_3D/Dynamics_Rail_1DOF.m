@@ -8,7 +8,7 @@ v = s(2); % speed
 
 %% Environment
 g = 9.81;               % Gravity [m/s2] 
-[Temp, a, p, rho] = stdAtmos(x*sin(Environment.Rail_Angle)); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
+[Temp, a, p, rho] = stdAtmos(x*sin(Environment.Rail_Angle)+Environment.Start_Altitude); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
 
 %% Force estimation
 

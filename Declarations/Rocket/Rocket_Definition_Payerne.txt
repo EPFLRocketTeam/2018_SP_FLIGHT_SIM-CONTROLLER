@@ -14,5 +14,7 @@ rocket_m 16.567
 rocket_I 10.28
 rocket_cm 1.27
 pl_mass 4
-SCD 11.2312
+para_main_SCD 11.2312
+para_drogue_SCD 0.4299
+para_main_event 250
 motor AT_L1150.txt

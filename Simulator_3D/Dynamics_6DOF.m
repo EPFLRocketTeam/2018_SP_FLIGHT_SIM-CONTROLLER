@@ -5,6 +5,9 @@ V = s(4:6);
 Q = s(7:10);
 W = s(11:13);
 
+%% Check quaternion norm
+Q = normalizeVect(Q);
+
 %% Coordinate systems
 
 % Rotation matrix from rocket coordinates to Earth coordinates
@@ -27,7 +30,7 @@ I = C'*diag([I_L, I_L, I_R])*C; % Inertia TODO: I_R in Mass_Properties
 
 %% Environment
 g = 9.81;               % Gravity [m/s2] 
-[Temp, a, p, rho] = stdAtmos(X(3)); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
+[Temp, a, p, rho] = stdAtmos(X(3)+Environment.Start_Altitude); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
 
 %% Force estimations 
 
@@ -40,18 +43,18 @@ G = -g*M*ZE;
 
 % Aerodynamic corrective forces
 % Compute center of mass angle of attack
-Vcm = V - Environment.V_inf*Environment.V_dir; 
+Vcm = V -...
+         ... % Wind as computed by windmodel
+    windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+    Environment.Turb_model); 
+
 Vcm_mag = norm(Vcm);
 alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 
 % Mach number
 Mach = Vcm_mag/a;
 % Normal lift coefficient and center of pressure
-if V(3)<0 % correct for robert Galejs correction which overestimates force at apogee
-    [CNa, Xcp,CNa_bar,CP_bar] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 0);
-else
-    [CNa, Xcp,CNa_bar,CP_bar] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 1);
-end
+[CNa, Xcp,CNa_bar,CP_bar] = normalLift(Rocket, alpha_cm, 1.1, Mach, angle(3), 1);
 % Stability margin
 margin = (Xcp-Cm);
 
@@ -68,11 +71,12 @@ Vnorm = normalizeVect(Vrel);
 Vcross = cross(RA, Vnorm);
 Vcross_norm = normalizeVect(Vcross);
 alpha = atan2(norm(cross(RA, Vnorm)), dot(RA, Vnorm));
+delta = atan2(norm(cross(RA, ZE)), dot(RA, ZE));
 
 % wind coordinate transformation
-if(alpha == 0)
+if(abs(alpha)<1e-3)
     RW = RA;
-elseif(alpha == pi)
+elseif(abs(alpha-pi)<1e-3)
     RW = -RA;
 else
     Cw = quat2rotmat([Vcross_norm'*sin(alpha/2), cos(alpha/2)]);
@@ -90,6 +94,9 @@ end
 % Drag
 % Drag coefficient
 CD = drag(Rocket, alpha, Vmag, Environment.Nu, a); % (TODO: make air-viscosity adaptable to temperature)
+% if t>Rocket.Burn_Time
+%    CD = CD + drag_shuriken(Rocket, 1.16, alpha, Vmag, Environment.Nu); 
+% end
 % Drag force
 D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RW; 
 
@@ -123,7 +130,7 @@ V_dot = 1/M*(F_tot - V*dMdt);
 
 % Rotational dynamics
 Q_dot = quat_evolve(Q, W);
-W_dot = I\(M_tot); % (TODO: Add inertia variation with time)
+W_dot = I\(M_tot-cross(W,I*W)); % (TODO: Add inertia variation with time)
 
 % Return derivative vector
 S_dot = [X_dot;V_dot;Q_dot;W_dot];

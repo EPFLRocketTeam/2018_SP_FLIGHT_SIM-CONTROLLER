@@ -34,7 +34,15 @@ while ~feof(rfid)
            
         case 'V_dir'
             line_data_num = textscan(line_data, '%f');
-            Environnement.V_dir = line_data_num{1};    
+            Environnement.V_dir = line_data_num{1};  
+            
+        case 'Turb_I'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.Turb_I = line_data_num{1}(1);
+            
+        case 'Turb_model'
+            line_data_string = textscan(line_data,'%s');
+            Environnement.Turb_model = line_data_string{1}{1};
             
         case 'Rail_Length'
             line_data_num = textscan(line_data, '%f');
@@ -47,6 +55,18 @@ while ~feof(rfid)
         case 'Rail_Azimuth'
             line_data_num = textscan(line_data, '%f');
             Environnement.Rail_Azimuth = line_data_num{1}(1)/180*pi;
+            
+        case 'Start_Altitude'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.Start_Altitude = line_data_num{1}(1);
+        
+        case 'Start_Latitude'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.Start_Latitude = line_data_num{1}(1);
+            
+        case 'Start_Longitude'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.Start_Longitude = line_data_num{1}(1);    
         otherwise
             display(['ERROR: In environnement definition, unknown line identifier: ' line_id]);
          

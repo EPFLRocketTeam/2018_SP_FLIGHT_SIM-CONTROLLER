@@ -76,6 +76,14 @@ while ~feof(rfid)
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_cm = line_data_num{1}(1);
             
+        case 'ab_x'
+            line_data_num = textscan(line_data, '%f');
+            Rocket.ab_x = line_data_num{1}(1);
+            
+        case 'ab_n'
+            line_data_num = textscan(line_data, '%f');
+            Rocket.ab_n = line_data_num{1}(1);
+            
         case 'motor'
             line_data_string = textscan(line_data,'%s');
             Rocket.motor_ID = line_data_string{1}{1};
@@ -84,9 +92,17 @@ while ~feof(rfid)
             line_data_num = textscan(line_data,'%f');
             Rocket.pl_mass = line_data_num{1}(1);
             
-        case 'SCD'
+        case 'para_main_SCD'
             line_data_num = textscan(line_data,'%f');
-            Rocket.SCD = line_data_num{1}(1);
+            Rocket.para_main_SCD = line_data_num{1}(1);
+            
+        case 'para_drogue_SCD'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.para_drogue_SCD = line_data_num{1}(1);
+            
+        case 'para_main_event'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.para_main_event = line_data_num{1}(1); 
         otherwise
             display(['ERROR: In rocket definition, unknown line identifier: ' line_id]);
          

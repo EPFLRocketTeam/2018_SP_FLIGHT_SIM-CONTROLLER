@@ -6,9 +6,8 @@ function CD = drag_flaps(Rocket, phi, alpha, Uinf, nu)
 % 10^4 
 % INPUTS : 
 % - Rocket  : Rocket object
-% - theta   : Airbrakes command input, -190 = closed, 1.65 =
-%             open [deg]
-% - alpha   : wind angle of attack [deg]
+% - phi   : Airbrakes command input, 0 = closed, 60 = open [deg]
+% - alpha   : wind angle of attack [rad]
 % - Uinf    : Air free stream velocity [m/s]
 % - nu      : dynamic viscosity coefficient [m2/s]
 
@@ -18,7 +17,7 @@ CD0 = 1.17; % empirical drag coefficient for a flat plate in perpendicular air f
 w = 0.106; % width [m]
 b = 0.089; % flap length [m]
 S = w*b; % flap surface [m2]
-U = abs(Uinf*cosd(alpha));
+U = abs(Uinf*cos(alpha));
 Rex = Rocket.ab_x*U/nu;
 delta = 0.37*Rocket.ab_x/Rex^0.2;
 
