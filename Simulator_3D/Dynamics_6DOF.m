@@ -30,7 +30,7 @@ I = C'*diag([I_L, I_L, I_R])*C; % Inertia TODO: I_R in Mass_Properties
 
 %% Environment
 g = 9.81;               % Gravity [m/s2] 
-[Temp, a, p, rho] = stdAtmos(X(3)+Environment.Start_Altitude); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
+[Temp, a, p, rho, nu] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
 
 %% Force estimations 
 
@@ -93,9 +93,9 @@ end
 
 % Drag
 % Drag coefficient
-CD = drag(Rocket, alpha, Vmag, Environment.Nu, a); % (TODO: make air-viscosity adaptable to temperature)
+CD = drag(Rocket, alpha, Vmag, nu, a); % (TODO: make air-viscosity adaptable to temperature)
 % if t>Rocket.Burn_Time
-%    CD = CD + drag_shuriken(Rocket, 1.16, alpha, Vmag, Environment.Nu); 
+%    CD = CD + drag_shuriken(Rocket, 1.16, alpha, Vmag, nu); 
 % end
 % Drag force
 D = -0.5*rho*Rocket.Sm*CD*Vmag^2*RW; 

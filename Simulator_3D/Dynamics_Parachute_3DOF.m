@@ -4,7 +4,7 @@ X = s(1:3);
 V = s(4:6);
 
 % Atmospheric Data
-[~, ~, ~, rho] = stdAtmos(X(3)+Environment.Start_Altitude); % Atmosphere [K,m/s,Pa,kg/m3]
+[~, ~, ~, rho] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere [K,m/s,Pa,kg/m3]
 
 % Aerodynamic force
 Vrel = -V + ...

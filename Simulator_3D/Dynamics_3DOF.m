@@ -9,7 +9,7 @@ YE = [0, 1, 0]';
 ZE = [0, 0, 1]';
 
 % atmosphere
-[~, a, ~, rho] = stdAtmos(X(3)+Environment.Start_Altitude);
+[~, a, ~, rho, nu] = stdAtmos(X(3)+Environment.Start_Altitude, Environment);
 
 % mass
 M = Rocket.rocket_m;
@@ -24,7 +24,7 @@ V_rel = V -...
 G = -9.81*M*ZE;
 % Drag
 % Drag coefficient
-CD = drag(Rocket, 0, norm(V_rel), Environment.Nu, a); % (TODO: make air-viscosity adaptable to temperature)
+CD = drag(Rocket, 0, norm(V_rel), nu, a); % (TODO: make air-viscosity adaptable to temperature)
 % Drag force
 D = -0.5*rho*Rocket.Sm*CD*V_rel*norm(V_rel); 
 

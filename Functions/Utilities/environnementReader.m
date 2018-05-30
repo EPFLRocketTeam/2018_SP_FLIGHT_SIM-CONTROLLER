@@ -32,9 +32,9 @@ while ~feof(rfid)
             line_data_num = textscan(line_data, '%f');
             Environnement.V_inf = line_data_num{1}(1);
            
-        case 'V_dir'
+        case 'V_Azimuth'
             line_data_num = textscan(line_data, '%f');
-            Environnement.V_dir = line_data_num{1};  
+            Environnement.V_Azimuth = line_data_num{1};  
             
         case 'Turb_I'
             line_data_num = textscan(line_data, '%f');
@@ -85,5 +85,8 @@ Environnement.Viscosity = Tmp(:,2);
 p_ws = exp(77.345+0.0057*Environnement.Temperature_Ground-7235/Environnement.Temperature_Ground)/Environnement.Temperature_Ground^8.2;
 p_a = Environnement.Pressure_Ground;
 Environnement.Saturation_Vapor_Ratio = 0.62198*p_ws/(p_a-p_ws);
+
+% 2.3 Wind direction
+Environnement.V_dir = Environnement.V_inf*[cos(Environnement.V_Azimuth);sin(Environnement.V_Azimuth); 0];
 end
 
