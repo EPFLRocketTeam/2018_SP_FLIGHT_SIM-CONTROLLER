@@ -5,7 +5,6 @@ close all;
 close all; clear all;
 addpath(genpath('../Declarations'),...
         genpath('../Functions'),...
-        genpath('../Snippets'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
@@ -17,9 +16,9 @@ Environnement = environnementReader('Environnement_Definition.txt');
 H_target = 3048; N_H = 100; N_AB = 5; 
 
 % shuriken
-AB_span = [-190, -18.5];
+AB_span = [-190.5, -18.5];
 drag_func = @drag_shuriken;
-convert_func = @(x) interp1([-190, -18.5], [0, 172] , x, 'linear');
+convert_func = @(x) interp1([-190.5, -18.5], [0, 172] , x, 'linear');
 
 % flaps
 % AB_span = [0, 60];
