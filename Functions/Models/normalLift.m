@@ -10,7 +10,7 @@ function [CNa, Xp, CNa_barrowman, Xp_barrowman] = normalLift(Rocket, alpha, K, M
 % - theta       : Roll angle
 % - Galejs      : Flag indicating use of Galejs' correction or not [1 or 0]
 % OUTPUTS:
-% - CNa         : Normal lift coefficient derivative [1/rad]
+% - CNa        : Normal lift derivative versus delta coefficient derivative [1/rad]
 % - Xp          : Center of pressure
 % - CNa_barrowman: Normal lift coefficient derivatives of rocket components
 % according to barrowman theory [1/rad]

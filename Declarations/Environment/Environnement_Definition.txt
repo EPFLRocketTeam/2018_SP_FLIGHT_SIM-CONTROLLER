@@ -3,7 +3,7 @@ Pressure_Ground 113000
 Humidity_Ground 1
 Start_Altitude 1401
 Start_Latitude 32
-Start_Longitude -106 
+Start_Longitude -106
 V_inf 2
 V_Azimuth 0
 Turb_I 0.005
