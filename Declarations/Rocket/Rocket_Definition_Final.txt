@@ -1,0 +1,22 @@
+stages 4
+diameters 0 0.122 0.122 0.103
+stage_z 0 0.538 2.622 2.67
+fin_n 3
+fin_xt 2.382
+fin_s 0.11
+fin_cr 0.24
+fin_ct 0.12
+fin_xs 0.06
+fin_t 0.003
+lug_n 2
+lug_S 1.61e-4
+rocket_m 16.900
+rocket_I 10.85
+rocket_cm 1.28
+ab_x 1.68
+ab_n 3
+pl_mass 4
+para_main_SCD 11.2312
+para_drogue_SCD 0.4299
+para_main_event 250
+motor AT_M1850.txt

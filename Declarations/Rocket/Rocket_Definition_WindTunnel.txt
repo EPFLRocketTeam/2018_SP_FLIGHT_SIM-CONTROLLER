@@ -1,0 +1,18 @@
+stages 4
+diameters 0 0.1228 0.1228 0.103
+stage_z 0 0.5 2.594 2.643
+fin_n 3
+fin_xt 2.382
+fin_s 0.11
+fin_cr 0.24
+fin_ct 0.12
+fin_xs 0.06
+fin_t 0.003
+lug_n 2
+lug_S 1.61e-4
+rocket_m 16.900
+rocket_I 10.85
+rocket_cm 1.28
+ab_x 1.68
+ab_n 3
+motor AT_M1850.txt

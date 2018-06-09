@@ -7,6 +7,7 @@
 %   - Linear Differential Equation Homogeneous
 clear all; close all; clc;
 Rocket = rocketReader('Rocket_Definition.txt');
+Environnement = environnementReader('Environnement_Definition.txt');
 
 %--------------------------------------------------------------------------
 % 1 Equation: Id2a/dt2+C2da/dt+C1a = f1(t) without Roll (Decoupled Equ.)
@@ -22,9 +23,9 @@ a_0 = 0;    % Rail condition
 da_0 = 0;   % Rail condition
 [Calpha, CP] = barrowmanLift(Rocket,0,Velocity/346,0); % No roll
 [CNa, Xp] = normalLift(Rocket,0,1.1,Velocity/346,0,0);
-C1 = CorrectionMoment(0,Rocket,CNa,Xp,Velocity);
-C2 = DampingMoment(0,Rocket,Calpha,CP,Velocity);
-[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(6.5,Rocket,'Linear');
+C1 = CorrectionMoment(0,Rocket,CNa,Xp,Velocity,Environnement,0);
+C2 = DampingMoment(0,Rocket,Calpha,CP,Velocity,Environnement,0);
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(Rocket.Burn_Time,Rocket,'Linear');
 
 % 1.1 Wind disturbance:
 Ms = C1*atan(V_inf/Velocity);
@@ -55,7 +56,7 @@ end
 sol = a(t1);
 Amplitude1 = [Amplitude1 max([max(sol-Ms/C1) -min(sol-Ms/C1)])];
 figure (999);
-plot(t1,sol*180/pi,'DisplayName',['V_{inf} = ' num2str(V_inf)]);grid on;
+plot(t1,sol*180/pi,'DisplayName',['V_{inf} = ' num2str(V_inf)]);grid on;hold on;
 end
 legend show;
 % 1.4 Results:
