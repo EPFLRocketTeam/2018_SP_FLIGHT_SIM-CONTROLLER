@@ -46,10 +46,12 @@ S0 = [X0; V0; Q0'; W0];
 tspan = [T1(end), 100];
 
 % options
-Option = odeset('Events', @ApogeeEvent);
+Option = odeset('Events', @ApogeeEvent, 'RelTol', 1e-6, 'AbsTol', 1e-6);
 
 % integration
 [T2,S2, T2E, S2E, I2E] = ode45(@(t,s) Dynamics_6DOF(t,s,Rocket,Environnement),tspan,S0, Option);
+
+display(['Apogee : ' num2str(max(S2(:,3)))]);
 
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Drogue
