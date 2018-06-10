@@ -1,6 +1,6 @@
 %% Rocket Simulator 2D
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition.txt');
+Rocket = rocketReader('Rocket_Definition_Final.txt');
 Environnement = environnementReader('Environnement_Definition.txt');
 
 %--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ tspan = [T1(end) 28];
 
 % Simulation
 Option = odeset('Events', @myEventApogee);
-[T,X] = ode45(@(t,x) Rocket_Kinematic_2D(t,x,Rocket,Environnement,-190.5),tspan,x_0,Option);
+[T,X] = ode45(@(t,x) Rocket_Kinematic_2D_R2(t,x,Rocket,Environnement,-190.5),tspan,x_0,Option);
 
 % Visualization
 pos = find(T<Rocket.Burn_Time);

@@ -1,0 +1,13 @@
+Temperature_Ground 303
+Pressure_Ground 113000
+Humidity_Ground 1
+Start_Altitude 460
+Start_Latitude 46.81
+Start_Longitude 6.93
+V_inf 2
+V_Azimuth 0
+Turb_I 0.005
+Turb_model None
+Rail_Length 5
+Rail_Angle 0
+Rail_Azimuth 0

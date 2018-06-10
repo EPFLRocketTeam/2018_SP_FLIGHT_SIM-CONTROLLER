@@ -22,7 +22,7 @@ FileName = 'Data_Rocket_Shuriken.xlsx';
 V_Wind_Onset = 20; % Keep value only when V_wind > V_Wind_Onset
 Local_Mean = 40; % Number of data for local averaging 
 Offset_Estimation = 100; % Number of point to compute initial offset
-Dir = 1; % 1 = increasing speed, 0 = decreasing speed
+Dir = 0; % 1 = increasing speed, 0 = decreasing speed
 
 % Data Order:
 Pos_Wind_Speed = 4;
@@ -48,7 +48,7 @@ fc_rho = 20;
 [b_rho,a_rho] = butter(6,fc_rho/(fm/2));
 
 % Rocket 
-Rocket = rocketReader('Rocket_Definition_WindTunnel.txt');
+Rocket = rocketReader('Rocket_Definition_Final.txt');
 
 % Environnement 
 Environnement = environnementReader('Environnement_Definition.txt');
@@ -132,19 +132,19 @@ for i = ID_Angles_Attaque
     % Angle of Attack:
     AA = Current_Exp(1,Pos_Attack_Angle)/180*pi;
     AB = 0;
-    %-------------------------- DRAG FORCE ----------------------------
-    fFd = -fFz/cos(AA);
-    figure(1);
-    title('Drag Force Comparison');
-    plot(fV,fFd,'DisplayName',['WT - yaw: ' num2str(AA/pi*180) 'deg']);hold on;
-    legend show;
-    
-    V_model = linspace(20,80,30);Fd_model = [];
-    for i = 1:length(V_model)
-        Fd_model = [Fd_model drag(Rocket,AA,V_model(i),Nu,343)*0.5*rho*Rocket.Sm*V_model(i)^2];
-    end
-    plot(V_model,Fd_model,'LineStyle','none','Marker','*','DisplayName',['Matlab - yaw: ' num2str(AA/pi*180) 'deg']);
-    legend show;xlabel('Wind Speed [m/s]');ylabel('F_D [N]');
+%     %-------------------------- DRAG FORCE ----------------------------
+%     fFd = -fFz/cos(AA);
+%     figure(1);
+%     title('Drag Force Comparison');
+%     plot(fV,fFd,'DisplayName',['WT - yaw: ' num2str(AA/pi*180) 'deg']);hold on;
+%     legend show;
+%     
+%     V_model = linspace(20,80,30);Fd_model = [];
+%     for i = 1:length(V_model)
+%         Fd_model = [Fd_model drag(Rocket,AA,V_model(i),Nu,343)*0.5*rho*Rocket.Sm*V_model(i)^2];
+%     end
+%     plot(V_model,Fd_model,'LineStyle','none','Marker','*','DisplayName',['Matlab - yaw: ' num2str(AA/pi*180) 'deg']);
+%     legend show;xlabel('Wind Speed [m/s]');ylabel('F_D [N]');
     %-------------------------- NORMAL FORCE --------------------------
 %     fFn = -fFy-fFd*sin(AA);
 %     figure(2);
@@ -159,6 +159,19 @@ for i = ID_Angles_Attaque
 %     end
 %     plot(V_model,Fn_model,'LineStyle','none','Marker','*','DisplayName',['Pred. - \alpha: ' num2str(AA/pi*180) 'deg']);
 %     legend show;xlabel('Wind Speed [m/s]');ylabel('F_N [N]');
+
+     %-------------------------- Fy --------------------------
+    figure(100);
+    title('Fy Comparison');
+    plot(fV,-fFy,'DisplayName',['WT - Fy: ' num2str(AA/pi*180) 'deg']);hold on;
+    legend show;
+    V_model = linspace(20,80,30);Fy_model = [];
+    for i = 1:length(V_model)
+        [CNa, Xp] = normalLift(Rocket,AA,1.1,V_model(i)/346,0,1);
+        Fy_model = [Fy_model (CNa*AA+sin(AA)*drag(Rocket,AA,V_model(i),Nu,343))*0.5*rho*Rocket.Sm*V_model(i)^2];
+    end
+    plot(V_model,Fy_model,'LineStyle','none','Marker','*','DisplayName',['Matlab - Fy: ' num2str(AA/pi*180) 'deg']);
+    legend show;xlabel('Wind Speed [m/s]');ylabel('Fy [N]');
 end
 
 % -------------------------------------------------------------------------

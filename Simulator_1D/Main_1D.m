@@ -13,8 +13,8 @@ addpath(genpath('../Declarations'),...
 %--------------------------------------------------------------------------
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition.txt');
-Environnement = environnementReader('Environnement_Definition.txt');
+Rocket = rocketReader('Rocket_Definition_Payerne.txt');
+Environnement = environnementReader('Environnement_Definition_Payerne.txt');
 
 % Initial Conditions
 x_0 = [0;0]; % No speed, no height
