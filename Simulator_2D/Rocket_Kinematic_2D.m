@@ -18,8 +18,8 @@ dxdt = zeros(6,1);
 V_inf = Environnement.V_inf;        % Vitesse du vent [m/s]
 
 % Appels des fonctions necessaires
-[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'Linear');
-[Temp, a, p, rho, Nu] = stdAtmos(x(3),Environnement); % Atmosphere [K,m/s,Pa,kg/m3]
+[M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'NonLinear');
+[Temp, a, p, rho, Nu] = stdAtmos(x(3)+Environnement.Start_Altitude,Environnement); % Atmosphere [K,m/s,Pa,kg/m3]
 g = 9.81;                           % Gravite [m2/s]
 
 % Decalage de protection
@@ -29,7 +29,7 @@ V_Shift = 1e-15; % Evite les instabilites telles que atan(0/0)
 % Angle des reperes p.r au referentiel (X,Y,Z)
 %--------------------------------------------------------------------------
 delta = x(5);   % Repere (D,E,F), D = X
-beta = atan( (x(2)+V_inf+V_Shift)/(x(4))); % Repere (U,V,W), U = X
+beta = atan( (x(2)+V_inf)/(x(4))); % Repere (U,V,W), U = X
 
 % Angle d'attaque
 alpha = delta-beta;     % Angle d'attaque de la fusee
@@ -51,7 +51,7 @@ q = 1/2*rho*Rocket.Sm*V^2;                  % Pression dynamique
 Ft = [0;-q*(CD+CD_AB)];                     % Force de trainee
 
 % Force Normale (E,F)
-[CNa, Xp] = normalLift(Rocket,abs(alpha),1.1,V/a,0,0); % Normal lift Coefficient
+[CNa, Xp] = normalLift(Rocket,abs(alpha),1.1,V/a,0,1); % Normal lift Coefficient
 Fn = [q*CNa*alpha;0];        % Force Normale
 
 % Moment autour de X=D=U
