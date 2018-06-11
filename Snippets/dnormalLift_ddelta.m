@@ -1,4 +1,4 @@
-function [dCNa] = dnormalLift_ddelta(Rocket, alpha, K, M, theta, Galejs)
+function dCNa = dnormalLift_ddelta(Rocket, alpha, K, M, theta, Galejs)
 % NORMALLIFT computes the normal force intensity applied to the center of
 % pressure according to Barrowman's theory and corrections for extreme
 % aspect ratio bodies proposed by robert Galejs.
