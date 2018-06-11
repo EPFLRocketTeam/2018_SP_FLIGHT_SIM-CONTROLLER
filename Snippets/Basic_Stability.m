@@ -14,7 +14,7 @@ Environnement = environnementReader('Environnement_Definition.txt');
 %--------------------------------------------------------------------------
 Amplitude1 = [];
 t1 = linspace(0,40,1000);
-Velocity = 28.2;   % Rocket speed at rail tip
+Velocity = 250;   % Rocket speed at rail tip
 V_infi = [1:2:10];      % Wind speed
 
 for V_inf = V_infi
@@ -72,7 +72,7 @@ title('Amplitude vs Velocity at rail exit')
 Amplitude2 = [];
 t2 = linspace(0,30,1000);
 V_wind = 10; % Wind rafal speed [m/s]
-Velocity = 28.2;      % Rocket speed at rail tip
+Velocity = 250;      % Rocket speed at rail tip
 T_wind = [0.5 1 1.5]; % Wind rafal time [s]
 
 for t_wind = T_wind

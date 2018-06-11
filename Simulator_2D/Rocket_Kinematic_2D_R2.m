@@ -15,12 +15,12 @@ function dxdt = Rocket_Kinematic_2D_R2(t,x,Rocket,Environnement,theta)
 dxdt = zeros(6,1);
 
 % Parametres environnementaux
-nu = Environnement.Nu;              % Viscosite [Pas]
+% nu = Environnement.Nu;              % Viscosite [Pas]
 V_inf = Environnement.V_inf;        % Vitesse du vent [m/s]
 
 % Appels des fonctions necessaires
 [M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'NonLinear');
-[Temp, a, p, rho] = stdAtmos(x(3)); % Atmosphere [K,m/s,Pa,kg/m3]
+[Temp, a, p, rho, nu] = stdAtmos(x(3),Environnement); % Atmosphere [K,m/s,Pa,kg/m3]
 g = 9.81;                           % Gravite [m2/s]
 
 % Repere de base
@@ -70,8 +70,8 @@ Fn = [q*CNa*alpha;0];        % Force Normale
 
 % Moment autour de X=D=U
 [Calpha, CP] = barrowmanLift(Rocket,abs(alpha),V/a,0); % Coef. Normaux des sections
-C1 = CorrectionMoment(t,Rocket,CNa,Xp,V); % Coef. Moment de correction
-C2 = DampingMoment(t,Rocket,Calpha,CP,V); % Coef. Moment amortis
+C1 = CorrectionMoment(t,Rocket,CNa,Xp,V,Environnement,x(3)); % Coef. Moment de correction
+C2 = DampingMoment(t,Rocket,Calpha,CP,V,Environnement,x(3)); % Coef. Moment amortis
 
 %--------------------------------------------------------------------------
 % Equations
