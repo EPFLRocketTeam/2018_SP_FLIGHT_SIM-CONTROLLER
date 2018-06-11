@@ -1,0 +1,8 @@
+Margin      1
+Alpha       1
+Cn_alpha    1
+Cd          1
+Mass        1
+CM          1
+Il          1
+Ir          1
