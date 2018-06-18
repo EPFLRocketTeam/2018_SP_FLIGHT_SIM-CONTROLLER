@@ -111,6 +111,19 @@ while ~feof(rfid)
         case 'para_main_event'
             line_data_num = textscan(line_data,'%f');
             Rocket.para_main_event = line_data_num{1}(1); 
+            
+        case 'cp_fac'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.cp_fac = line_data_num{1}(1);
+        
+        case 'CNa_fac'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.CNa_fac = line_data_num{1}(1);
+            
+        case 'CD_fac'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.CD_fac = line_data_num{1}(1);
+                        
         otherwise
             display(['ERROR: In rocket definition, unknown line identifier: ' line_id]);
          

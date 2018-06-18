@@ -95,3 +95,5 @@ plot(sqrt(S5(:,1).^2 + S5(:,2).^2), S5(:,3));
 title 'Altitude vs. drift'
 xlabel 'Drift [m]'; ylabel 'Altitude [m]';
 daspect([1 1 1]);
+
+debug_hassan;

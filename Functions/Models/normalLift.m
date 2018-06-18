@@ -18,7 +18,9 @@ function [CNa, Xp, CNa_barrowman, Xp_barrowman] = normalLift(Rocket, alpha, K, M
 % according to barrowman theory [1/rad]
 
 [CNa_barrowman, Xp_barrowman] = barrowmanLift(Rocket, alpha, M, theta);
-
+% Fac for montecarlo simulation 
+Xp_barrowman = Xp_barrowman*Rocket.cp_fac;
+CNa_barrowman = CNa_barrowman*Rocket.CNa_fac;
 if Galejs
     [CNa_galejs, Xp_galejs] = robertGalejsLift(Rocket, alpha, K);
     CNa = sum([CNa_barrowman, CNa_galejs]);

@@ -15,10 +15,10 @@ SimOutputs = SimOutputReader('Simulation_outputs.txt');
 %% variable parameter definition
 
 % parameter name
-param_struct = {'Environment', 'Rocket'};
-param_name = {'V_inf', 'motor_fac'};
-param_mean = [0 1];
-param_std  = [5 0.05];
+param_struct = {'Rocket'};
+param_name = {'cp_fac'};
+param_mean = [1];
+param_std  = [0.1];
 
 % param_struct = {'Rocket'};
 % param_name = {'rocket_m'};
@@ -93,7 +93,7 @@ for i = 1:n_sim
     apogee_rec(i) = S2(end, 3);
     
     plot(T2, S2(:,3));
-    
+
     drawnow;
     
 end

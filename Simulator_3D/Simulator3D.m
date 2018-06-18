@@ -198,7 +198,7 @@ classdef Simulator3D < handle
 
             % Drag
             % Drag coefficient
-            CD = drag(obj.Rocket, alpha, Vmag, nu, a); 
+            CD = drag(obj.Rocket, alpha, Vmag, nu, a)*CD_frc; 
             if(t>obj.Rocket.Burn_Time)
                CD = CD + drag_shuriken(obj.Rocket, obj.Rocket.ab_phi, alpha, Vmag, nu); 
             end
@@ -401,7 +401,7 @@ classdef Simulator3D < handle
             Option = odeset('Events', @(T,X) MainEvent(T,X,obj.Rocket));
 
             % integration
-            [T3,S3, T3E, S3E, I3E] = ode45(@(t,s) Dynamics_Parachute_3DOF(t,s,obj.Rocket,obj.Environment, M, 0),tspan,S0, Option);
+            [T3,S3, T3E, S3E, I3E] = ode45(@(t,s) obj.Dynamics_Parachute_3DOF(t,s,obj.Rocket,obj.Environment, M, 0),tspan,S0, Option);
         
         end
         
@@ -423,7 +423,7 @@ classdef Simulator3D < handle
             Option = odeset('Events', @CrashEvent);
 
             % integration
-            [T4, S4, T4E, S4E, I4E] = ode45(@(t,s) Dynamics_Parachute_3DOF(t,s,obj.Rocket,obj.Environment, M, 1),tspan,S0, Option);
+            [T4, S4, T4E, S4E, I4E] = ode45(@(t,s) obj.Dynamics_Parachute_3DOF(t,s,obj.Rocket,obj.Environment, M, 1),tspan,S0, Option);
             
         end
         
@@ -442,7 +442,7 @@ classdef Simulator3D < handle
             Option = odeset('Events', @CrashEvent);
 
             % integration
-            [T5,S5, T5E, S5E, I5E] = ode45(@(t,s) Dynamics_3DOF(t,s,obj.Rocket,obj.Environment),tspan,S0, Option);
+            [T5,S5, T5E, S5E, I5E] = ode45(@(t,s) obj.Dynamics_3DOF(t,s,obj.Rocket,obj.Environment),tspan,S0, Option);
 
         end
     end

@@ -4,10 +4,10 @@ Humidity_Ground 1
 Start_Altitude 1382
 Start_Latitude 32.942380
 Start_Longitude -106.91428
-V_inf 4
+V_inf 0
 V_Azimuth 0
 Turb_I 0.005
-Turb_model None
+Turb_model Logarithmic
 Rail_Length 5
 Rail_Angle 0
 Rail_Azimuth 0
