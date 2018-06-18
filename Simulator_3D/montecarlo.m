@@ -20,6 +20,11 @@ param_name = {'V_inf', 'motor_fac'};
 param_mean = [0 1];
 param_std  = [5 0.05];
 
+% param_struct = {'Rocket'};
+% param_name = {'rocket_m'};
+% param_mean = [17.9];
+% param_std  = [2];
+
 %% simulation definition
 
 % number of simulations
@@ -62,12 +67,12 @@ for i = 1:n_sim
     % set variable field values
     for j = 1:n_param
         param_rec(i,j) = normrnd(param_mean(j), param_std(j));
-        if (param_struct{j} == 'Environment')  
+        if ( strcmp(param_struct{j},'Environment'))  
             Environment = setfield(Environment, param_name{j}, param_rec(i,j));
-        elseif (param_struct{j} == 'Rocket')
+        elseif (strcmp(param_struct{j},'Rocket'))
             Rocket = setfield(Rocket, param_name{j}, param_rec(i,j));
         else
-            error("Error: In montecarlo random parameter calculation, structure name must be either 'Environment' or 'Rocket'.")
+            error('Error: In montecarlo random parameter calculation, structure name must be either Environment or Rocket.')
         end
     end
     

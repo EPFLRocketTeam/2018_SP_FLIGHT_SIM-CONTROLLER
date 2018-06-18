@@ -10,7 +10,7 @@ V = s(4:6);
 Vrel = -V + ...
      ... % Wind as computed by windmodel
     windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
-    Environment.Turb_model);
+    Environment.Turb_model,X(3));
 
 if Main
     SCD = Rocket.para_main_SCD;

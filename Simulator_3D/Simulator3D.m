@@ -128,7 +128,7 @@ classdef Simulator3D < handle
             ZE = [0, 0, 1]';
 
             % Rocket Inertia
-            [M,dMdt,Cm,~,I_L,~,I_R,~] = Mass_Properties(t,obj.Rocket,"NonLinear");
+            [M,dMdt,Cm,~,I_L,~,I_R,~] = Mass_Properties(t,obj.Rocket,'NonLinear');
             I = C'*diag([I_L, I_L, I_R])*C; % Inertia TODO: I_R in Mass_Properties
 
             % Environment
@@ -150,7 +150,7 @@ classdef Simulator3D < handle
             Vcm = V -...
                      ... % Wind as computed by windmodel
                 windModel(t, obj.Environment.Turb_I,obj.Environment.V_inf*obj.Environment.V_dir,...
-                obj.Environment.Turb_model); 
+                obj.Environment.Turb_model,X(3)); 
 
             Vcm_mag = norm(Vcm);
             alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
@@ -268,7 +268,7 @@ classdef Simulator3D < handle
             Vrel = -V + ...
                  ... % Wind as computed by windmodel
                 windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
-                Environment.Turb_model);
+                Environment.Turb_model,X(3));
 
             if Main
                 SCD = Rocket.para_main_SCD;
@@ -310,7 +310,7 @@ classdef Simulator3D < handle
             V_rel = V -...
                  ... % Wind as computed by windmodel
                 windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
-                Environment.Turb_model);
+                Environment.Turb_model,X(3));
 
             % gravity
             % Gravity

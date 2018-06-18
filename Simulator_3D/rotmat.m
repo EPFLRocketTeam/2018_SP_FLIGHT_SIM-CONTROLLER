@@ -16,6 +16,6 @@ switch(ax)
                 -sin(a),cos(a),     0;
                       0,        0,  1];
     otherwise
-        error("Error: In ROTMAT, Axes number must be between 1 and 3.");
+        error('Error: In ROTMAT, Axes number must be between 1 and 3.');
 end
 end

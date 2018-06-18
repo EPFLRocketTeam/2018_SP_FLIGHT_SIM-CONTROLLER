@@ -1,4 +1,4 @@
-function U = windModel(t, I, V_inf, Model)
+function U = windModel(t, I, V_inf, Model, h_alt)
 % WINDMODEL computes wind based on specified Model. Wind can be constant or
 % turbulent. Available models are:
 % - None        : No wind change, wind is constant
@@ -44,7 +44,14 @@ else
             wind_ = [wind_, U];
         else
             U = interp1(t_wind_, wind_', t, 'linear')';
-        end    
+        end
+    elseif(strcmp(Model, 'Logarithmic'))
+
+            z0 = 0.0024; % [m]; % terrain roughness length [m] (desert)
+            h_ground = 1.5; %[m] measure windspeed 
+            U = V_inf*(log(h_alt/z0)/log(h_ground/z0));
+            
+            wind_ = [wind_, U]; 
     else
         error(['Error: windmodel ' Model 'is unknown.'...
             'Type help windModel to view available models.']);

@@ -17,7 +17,7 @@ M = Rocket.rocket_m;
 V_rel = V -...
      ... % Wind as computed by windmodel
     windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
-    Environment.Turb_model);
+    Environment.Turb_model,X(3));
 
 % gravity
 % Gravity

@@ -84,7 +84,7 @@ SsSm = 2.67*Rocket.stage_z(2)/dm + ...
     2/dm^2*sum((Rocket.diameters(2:end-1)+ Rocket.diameters(3:end)).*(Rocket.stage_z(3:end)-Rocket.stage_z(2:end-1)).*sqrt(1+((Rocket.diameters(2:end-1) - Rocket.diameters(3:end))./2./(Rocket.stage_z(3:end)-Rocket.stage_z(2:end-1))).^2)); 
 
 if Rocket.stage_z(2)/dm < 1.5
-    display("WARNING: In drag coefficient calculation, ogive cone ratio is out of bounds. Drag estimation cannot be trusted.");
+    display('WARNING: In drag coefficient calculation, ogive cone ratio is out of bounds. Drag estimation cannot be trusted.');
 end
 
 % 4.2 Body drag
@@ -189,7 +189,7 @@ if M>0.9 && M<=1.05
 elseif M > 1.05 && M <=2
     CD = CD*(1.27+0.53*exp(-5.2*(M-1.05)));
 elseif M > 2 && ~(M<=0.9)
-    display("WARNING: In drag calculation, Mach number exceeds validity range.");
+    display('WARNING: In drag calculation, Mach number exceeds validity range.');
 end
 
 end

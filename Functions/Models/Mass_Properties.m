@@ -37,7 +37,7 @@ elseif strcmp(Opt, 'NonLinear')
     dMdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
     end
 else
-    error("Opt parameter should be 'Linear' or 'Nonlinear'")
+    error('Opt parameter should be Linear or Nonlinear')
 end
 %--------------------------------------------------------------------------
 % Center of Mass
