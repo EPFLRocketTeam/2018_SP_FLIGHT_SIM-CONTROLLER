@@ -7,7 +7,7 @@ Start_Longitude -106.91428
 V_inf 5
 V_Azimuth 0
 Turb_I 0.005
-Turb_model Gaussian
+Turb_model None
 Rail_Length 5
 Rail_Angle 0
 Rail_Azimuth 0

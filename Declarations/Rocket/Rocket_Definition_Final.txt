@@ -15,9 +15,10 @@ rocket_I 11.07
 rocket_cm 1.28
 ab_x 1.68
 ab_n 3
-ab_phi 1.165
+ab_phi -190.5
 pl_mass 4
 para_main_SCD 11.2312
 para_drogue_SCD 0.4299
 para_main_event 250
 motor AT_M1850.txt
+motor_fac 0.9

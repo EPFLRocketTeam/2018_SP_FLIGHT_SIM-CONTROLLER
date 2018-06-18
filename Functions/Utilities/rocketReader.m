@@ -92,6 +92,10 @@ while ~feof(rfid)
             line_data_string = textscan(line_data,'%s');
             Rocket.motor_ID = line_data_string{1}{1};
             
+        case 'motor_fac'
+            line_data_num = textscan(line_data,'%f');
+            Rocket.motor_fac = line_data_num{1}(1);    
+            
         case 'pl_mass'
             line_data_num = textscan(line_data,'%f');
             Rocket.pl_mass = line_data_num{1}(1);
@@ -143,7 +147,7 @@ while ~feof(rfid)   % Test end of file
 end
 
 Rocket.Thrust_Time = t;
-Rocket.Thrust_Force = T;
+Rocket.Thrust_Force = T*Rocket.motor_fac;
 % -------------------------------------------------------------------------
 % 3. Checks
 % -------------------------------------------------------------------------

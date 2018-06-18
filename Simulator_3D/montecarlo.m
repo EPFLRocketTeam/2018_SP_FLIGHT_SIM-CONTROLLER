@@ -8,16 +8,17 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition.txt');
+Rocket = rocketReader('Rocket_Definition_Final.txt');
 Environment = environnementReader('Environnement_Definition.txt');
+SimOutputs = SimOutputReader('Simulation_outputs.txt');
 
 %% variable parameter definition
 
 % parameter name
-param_struct = {};
-param_name = {};
-param_mean = [];
-param_std  = [];
+param_struct = {'Environment', 'Rocket'};
+param_name = {'V_inf', 'motor_fac'};
+param_mean = [0 1];
+param_std  = [5 0.05];
 
 %% simulation definition
 
@@ -70,11 +71,23 @@ for i = 1:n_sim
         end
     end
     
-    [T, S] = Sim_3D(Rocket, Environment);
+    SimObj = Simulator3D(Rocket, Environment, SimOutputs);
     
-    apogee_rec(i) = S(end, 3);
+    %% ------------------------------------------------------------------------
+    % 6DOF Rail Simulation
+    %--------------------------------------------------------------------------
+
+    [T1, S1] = SimObj.RailSim();
+
+    %% ------------------------------------------------------------------------
+    % 6DOF Flight Simulation
+    %--------------------------------------------------------------------------
     
-    plot(T, S(:,3));
+    [T2, S2] = SimObj.FlightSim(T1(end), S1(end,2));
+    
+    apogee_rec(i) = S2(end, 3);
+    
+    plot(T2, S2(:,3));
     
     drawnow;
     
