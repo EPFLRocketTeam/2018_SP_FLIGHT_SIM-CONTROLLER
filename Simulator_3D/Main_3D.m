@@ -23,8 +23,9 @@ SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 %% ------------------------------------------------------------------------
 % 6DOF Flight Simulation
 %--------------------------------------------------------------------------
-
+tic();
 [T2, S2, T2E, S2E, I2E] = SimObj.FlightSim(T1(end), S1(end,2));
+toc()
 
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Drogue
@@ -74,7 +75,7 @@ zImage = zeros(2);
 colormap(Mcolor);
 surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
 title '3D trajectory representation'
-xlabel 'N [m]'; ylabel 'W [m]'; zlabel 'Altitude [m]';
+xlabel 'S [m]'; ylabel 'E [m]'; zlabel 'Altitude [m]';
 legend show;
 
 % PLOT 2 : time dependent altitude

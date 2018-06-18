@@ -199,6 +199,9 @@ classdef Simulator3D < handle
             % Drag
             % Drag coefficient
             CD = drag(obj.Rocket, alpha, Vmag, nu, a); 
+            if(t>obj.Rocket.Burn_Time)
+               CD = CD + drag_shuriken(obj.Rocket, obj.Rocket.ab_phi, alpha, Vmag, nu); 
+            end
             % Drag force
             D = -0.5*rho*obj.Rocket.Sm*CD*Vmag^2*RW; 
 

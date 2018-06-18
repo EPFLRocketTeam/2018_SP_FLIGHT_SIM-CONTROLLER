@@ -87,6 +87,6 @@ p_a = Environnement.Pressure_Ground;
 Environnement.Saturation_Vapor_Ratio = 0.62198*p_ws/(p_a-p_ws);
 
 % 2.3 Wind direction
-Environnement.V_dir = Environnement.V_inf*[cos(Environnement.V_Azimuth);sin(Environnement.V_Azimuth); 0];
+Environnement.V_dir = [cosd(Environnement.V_Azimuth);sind(Environnement.V_Azimuth); 0];
 end
 

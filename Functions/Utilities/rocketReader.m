@@ -84,6 +84,10 @@ while ~feof(rfid)
             line_data_num = textscan(line_data, '%f');
             Rocket.ab_n = line_data_num{1}(1);
             
+        case 'ab_phi'
+            line_data_num = textscan(line_data, '%f');
+            Rocket.ab_phi = line_data_num{1}(1);    
+            
         case 'motor'
             line_data_string = textscan(line_data,'%s');
             Rocket.motor_ID = line_data_string{1}{1};

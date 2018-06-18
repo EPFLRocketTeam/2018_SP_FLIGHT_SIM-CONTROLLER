@@ -1,4 +1,4 @@
-function [tab] = Table_1D_Generator_R2(Rocket, Environment, H_target, drag_func, convert_func, phi_span, N_H, N_AB)
+function [tab, path] = Table_1D_Generator_R2(Rocket, Environment, H_target, drag_func, convert_func, phi_span, N_H, N_AB, ax)
 % TABLE_1D_Generator_R2 computes the control table for a Rocket in given
 % Environment aiming target altitude H_target.
 % INPUTS:
@@ -12,6 +12,7 @@ function [tab] = Table_1D_Generator_R2(Rocket, Environment, H_target, drag_func,
 % - phi_span    : airbrake opening angle span
 % - N_H         : number of discretization points in altitude
 % - N_AB        : number of discretization points in airbrake aperture
+% - ax          : (opt) Define plot axes
     
 % -------------------------------------------------------------------------
 % Definitions
@@ -34,10 +35,17 @@ H_initial = interp1(t, x(:,1), Rocket.Burn_Time, 'linear');
 V_rail = interp1(x(:,1), x(:,2), x_rail, 'linear');
 display(['Velocity off rail: ' num2str(V_rail) ' m/s']);
 
-figure; hold on;
-set(gca, 'Fontsize', 16); xlabel 'h [m]'; ylabel 'v [m/s]';
-plot(x(:,1), x(:,2), 'k--', 'DisplayName', 'Nominal trajectory');
+if (nargin>8)
+   plotAxes = ax; 
+else
+    figure; 
+    plotAxes = gca;
+end
 
+hold(plotAxes, 'off');
+set(plotAxes, 'Fontsize', 16); xlabel(plotAxes, 'h [m]'); ylabel(plotAxes, 'v [m/s]');
+plot(plotAxes, x(:,1), x(:,2), 'k--', 'DisplayName', 'Nominal trajectory');
+hold(plotAxes, 'on');
 display('Sim: Boost OK ');
 
 % -------------------------------------------------------------------------
@@ -48,12 +56,13 @@ x0 = [H_target, 0];
 Brake_Results = {};
 for i = 1:N_AB
     [t,x] = Sim_1D(Rocket, Environment, tspan, x0, drag_func, theta_AB(i), 'Altitude', H_initial, 0);
-    plot(x(:,1), x(:,2), 'DisplayName', ['\phi = ' num2str(convert_func(theta_AB(i))) '^\circ']);
+    plot(plotAxes, x(:,1), x(:,2), 'DisplayName', ['\phi = ' num2str(convert_func(theta_AB(i))) '^\circ']);
     display(['Sim: Angle ' num2str(theta_AB(i)) ' OK']);
     Brake_Results{i} = x; 
 end
 
-lgd = legend('show');  
+lgd = legend(plotAxes, 'show');  
+title(plotAxes, 'Airbrake effect check');
 set(lgd, 'Location', 'SouthWest');
 
 % -------------------------------------------------------------------------
@@ -73,5 +82,12 @@ for i = 1:N_H
 end
 tab = [h_tab, v_tab, convert_func(theta_tab)];
 csvwrite(['1D_TAB_TARGET=' num2str(H_target)], tab);
+[filepath, name, ext] = fileparts(['1D_TAB_TARGET=' num2str(H_target)]);
+path = [filepath,name,ext];
 
+% -------------------------------------------------------------------------
+% Write .h file
+% -------------------------------------------------------------------------
+H_path = [filepath, 'lookup_table_shuriken.h'];
+writeAirbrakeTable(H_path, N_H*N_AB, N_AB, tab);
 end

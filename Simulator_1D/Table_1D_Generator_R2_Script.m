@@ -8,7 +8,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition.txt');
+Rocket = rocketReader('Rocket_Definition_Final.txt');
 Environnement = environnementReader('Environnement_Definition.txt');
 
 % Define table generation parameters
@@ -27,4 +27,4 @@ convert_func = @(x) interp1([-190.5, -18.5], [0, 172] , x, 'linear');
 
 % generate table
 
-Table_1D_Generator_R2(Rocket, Environnement, H_target, drag_func, convert_func, AB_span, N_H, N_AB);
+[tab, path] = Table_1D_Generator_R2(Rocket, Environnement, H_target, drag_func, convert_func, AB_span, N_H, N_AB);
