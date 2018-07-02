@@ -160,7 +160,7 @@ while ~feof(rfid)   % Test end of file
 end
 
 Rocket.Thrust_Time = t;
-Rocket.Thrust_Force = T*Rocket.motor_fac;
+Rocket.Thrust_Force = T;
 % -------------------------------------------------------------------------
 % 3. Checks
 % -------------------------------------------------------------------------

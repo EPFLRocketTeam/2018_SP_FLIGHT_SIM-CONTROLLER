@@ -28,7 +28,7 @@ param_std  = [0.1];
 %% simulation definition
 
 % number of simulations
-n_sim = 10;
+n_sim = 50;
 
 % apogee record
 apogee_rec = zeros(1, n_sim);
@@ -61,6 +61,9 @@ drawnow;
 %% run simulations
 
 fh = figure; hold on;
+load('nominalTrag')
+plot(nominalTrag(:,1), nominalTrag(:,4),'r','LineWidth',2 )
+title 'Effect of variance in center of pressure on Altitude'
 param_rec = zeros(n_sim, n_param);
 for i = 1:n_sim
     
@@ -92,8 +95,17 @@ for i = 1:n_sim
     
     apogee_rec(i) = S2(end, 3);
     
-    plot(T2, S2(:,3));
+    plot(T2, S2(:,3),'--g');
 
     drawnow;
     
 end
+%title 'Effect of variance in Cd on Altitude'
+xlabel 't [s]'; ylabel 'Altitude [m]';
+%%
+%Saving Results 
+resMC.param_name= param_name;
+resMC.param_std= param_std;
+resMC.apogee =apogee_rec;
+resMC.para = param_rec';
+save(param_name{1},'resMC')

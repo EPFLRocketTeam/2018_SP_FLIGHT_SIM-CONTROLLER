@@ -87,7 +87,7 @@ classdef Simulator3D < handle
             CD = drag(obj.Rocket, 0, v,Nu, a); % (TODO: make air-viscosity adaptable to temperature)
             D = -0.5*rho*obj.Rocket.Sm*CD*v^2; % (TODO: define drag in wind coordinate system)
 
-            F_tot = G + T + D;
+            F_tot = G + T*obj.Rocket.motor_fac + D;
 
             % State derivatives
 
@@ -198,7 +198,7 @@ classdef Simulator3D < handle
 
             % Drag
             % Drag coefficient
-            CD = drag(obj.Rocket, alpha, Vmag, nu, a)*CD_frc; 
+            CD = drag(obj.Rocket, alpha, Vmag, nu, a)*obj.Rocket.CD_fac; 
             if(t>obj.Rocket.Burn_Time)
                CD = CD + drag_shuriken(obj.Rocket, obj.Rocket.ab_phi, alpha, Vmag, nu); 
             end
@@ -207,7 +207,7 @@ classdef Simulator3D < handle
 
             % Total forces
             F_tot = ...
-                T +...  ;% Thrust
+                T*obj.Rocket.motor_fac +...  ;% Thrust
                 G +...  ;% gravity
                 N +... ;% normal force
                 D      ; % drag force
