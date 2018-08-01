@@ -41,6 +41,8 @@ else
             zi = 1000*Z0^(0.18);
             
             
+            %TODO: complete model!!!!
+            
             wind_ = [wind_, U];
         else
             U = interp1(t_wind_, wind_', t, 'linear')';
