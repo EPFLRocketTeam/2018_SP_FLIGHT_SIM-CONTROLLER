@@ -5,12 +5,14 @@ function [Calpha, CP] = barrowmanLift(Rocket, alpha, M, theta)
     Aref = pi*Rocket.diameters(2)^2/4;
     
     % cone
-    if alpha == 0
-        CNa_cone = 2;
-    else
-        CNa_cone = 2*sin(alpha)/alpha;
+    if strcmp(Rocket.cone_mode, 'on')
+        if alpha == 0
+            CNa_cone = 2;
+        else
+            CNa_cone = 2*sin(alpha)/alpha;
+        end    
+    CP_cone = 2/3*Rocket.stage_z(2);   
     end
-    CP_cone = 2/3*Rocket.stage_z(2);
     
     % stages
     CNa_stage = zeros(1, Rocket.stages-2);
@@ -40,6 +42,12 @@ function [Calpha, CP] = barrowmanLift(Rocket, alpha, M, theta)
     CP_fins = Rocket.fin_xt + Rocket.fin_xs/3*(Rocket.fin_cr+2*Rocket.fin_ct)/(Rocket.fin_cr+Rocket.fin_ct) + 1/6*((Rocket.fin_cr+Rocket.fin_ct)-(Rocket.fin_cr*Rocket.fin_ct)/(Rocket.fin_cr+Rocket.fin_ct));
     
     % Output
-    Calpha = [CNa_cone, CNa_stage, CNa_fins]; 
-    CP = [CP_cone, CP_stage, CP_fins]; CP(find(isnan(CP))) = 0;
+    Calpha = [CNa_stage, CNa_fins]; 
+    CP = [CP_stage, CP_fins]; 
+    if strcmp(Rocket.cone_mode, 'on')
+        Calpha = [CNa_cone, Calpha]; 
+        CP = [CP_cone, CP]; 
+    end    
+    
+    CP(find(isnan(CP))) = 0;
 end

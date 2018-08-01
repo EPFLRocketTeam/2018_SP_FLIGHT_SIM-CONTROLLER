@@ -43,21 +43,41 @@ SimObj = Simulator3D(Rocket_USA, Environment_USA, SimOutputs);
 [T4, S4] = SimObj.MainParaSim(T3(end), S3(end,1:3)', S3(end, 4:6)');
 
 %% Generate data
-time = [T1;T2(2:end);T3(2:end);T4(2:end)];
-altitude = [S1(:,1);S2(2:end,3);S3(2:end,3);S4(2:end,3)]+Environment_USA.Start_Altitude;
+T0 = [0 3 5]';
+H0 = [0 0 0]';
+V0 = [0 0 0]';
+
+% time = [T0; T0(end)+T1(2:end); T0(end)+T2(2:end); T0(end)+T3(2:end); T0(end)+T4(2:end)];
+% altitude = [H0; S1(2:end,1);S2(2:end,3);S3(2:end,3);S4(2:end,3)]+Environment_USA.Start_Altitude;
+% pressure = zeros(size(altitude));
+% for i = 1:length(altitude)
+%    [~, ~, pressure(i), ~, ~] = stdAtmos(altitude(i),Environment_USA);
+% end
+% velocity = [V0; S1(2:end,2);S2(2:end,6);S3(2:end,6);S4(2:end,6)];
+% acceleration = diff(velocity)./diff(time);
+
+time = [T0; T0(end)+T1(2:end); T0(end)+T2(2:end)];
+altitude = [H0; S1(2:end,1);S2(2:end,3)]+Environment_USA.Start_Altitude;
 pressure = zeros(size(altitude));
 for i = 1:length(altitude)
    [~, ~, pressure(i), ~, ~] = stdAtmos(altitude(i),Environment_USA);
 end
-velocity = [S1(:,2);S2(2:end,6);S3(2:end,6);S4(2:end,6)];
+velocity = [V0; S1(2:end,2);S2(2:end,6)];
 acceleration = diff(velocity)./diff(time);
 
 %% Sample simulation
-t = (0:0.05:time(end))';
+t = (0:0.01:time(end))';
 altitude_s = interp1(time, altitude, t, 'linear', 'extrap');
 pressure_s = interp1(time, pressure, t, 'linear', 'extrap');
 acceleration_s = interp1(time(1:end-1), acceleration, t, 'linear', 'extrap');
 velocity_s = interp1(time, velocity, t, 'linear', 'extrap');
+
+%% Add noise to samples
+n_samples = length(t);
+altitude_s = normrnd(altitude_s, 0.08986928);
+pressure_s = normrnd(pressure_s, 0.00101296);
+acceleration_s = normrnd(acceleration_s, 0.08);
+velocity_s = normrnd(velocity_s, 0.05);
 
 %% Create file
 
@@ -92,12 +112,19 @@ title 'Altitude'; xlabel 't [s]'; ylabel 'h [m]';
 
 figure;
 plot(t, velocity_s);
-title 'Velocity'; xlabel 't [s]'; ylabel 'v [m]';
+title 'Velocity'; xlabel 't [s]'; ylabel 'v [m/s]';
 
 figure;
 plot(t, acceleration_s);
-title 'Acceleration'; xlabel 't [s]'; ylabel 'a [m]';
+title 'Acceleration'; xlabel 't [s]'; ylabel 'a [m/s2]';
 
 figure;
 plot(t, pressure_s);
 title 'Pressure'; xlabel 't [s]'; ylabel 'P [Pa]';
+
+figure;
+plot(altitude_s-altitude_s(1), velocity_s);
+title 'Speed vs. altitude'; xlabel 'h [m]'; ylabel 'v [m/s]';
+
+%% write csv with data
+csvwrite('SimDataUSA.csv', [t*1000 altitude_s pressure_s acceleration_s/9.81 velocity_s]);

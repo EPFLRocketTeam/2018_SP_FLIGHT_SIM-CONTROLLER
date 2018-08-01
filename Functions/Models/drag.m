@@ -79,9 +79,14 @@ Cf_turb_F = Cf_turb_F-B_F/Rc;
 
 % 4.1 Wetted area ratio
 % 4.1.1 ogive cone (eq 171c, p 439)
-% 4.1.2 boattail cone (eq 172a, p 441)    
-SsSm = 2.67*Rocket.stage_z(2)/dm + ...
-    2/dm^2*sum((Rocket.diameters(2:end-1)+ Rocket.diameters(3:end)).*(Rocket.stage_z(3:end)-Rocket.stage_z(2:end-1)).*sqrt(1+((Rocket.diameters(2:end-1) - Rocket.diameters(3:end))./2./(Rocket.stage_z(3:end)-Rocket.stage_z(2:end-1))).^2)); 
+% 4.1.2 boattail cone (eq 172a, p 441)
+SsSm = 2/dm^2*sum((Rocket.diameters(2:end-1)+ Rocket.diameters(3:end)).*...
+    (Rocket.stage_z(3:end)-Rocket.stage_z(2:end-1)).*...
+    sqrt(1+((Rocket.diameters(2:end-1) - Rocket.diameters(3:end))./2./...
+    (Rocket.stage_z(3:end)-Rocket.stage_z(2:end-1))).^2)); 
+if strcmp(Rocket.cone_mode, 'on')
+    SsSm = SsSm + 2.67*Rocket.stage_z(2)/dm;
+end
 
 if Rocket.stage_z(2)/dm < 1.5
     display('WARNING: In drag coefficient calculation, ogive cone ratio is out of bounds. Drag estimation cannot be trusted.');
@@ -117,6 +122,10 @@ CD_l = Rocket.lug_n*5.75*Rocket.lug_S/Sm;
 % 4.5 Fin and Body drag at 0 AoA (eq 158, p 430) plus launch lug drag
 CD0_FB = CD0_B + CD0_F + CD_l;
 
+% 4.6 Drag for nosecone failure
+if strcmp(Rocket.cone_mode, 'off')
+   CD0_FB = CD0_FB + 1 - CDf_B; 
+end
 
 % -------------------------------------------------------------------------
 % 5. Drag at AoA

@@ -1,8 +1,10 @@
 function [Calpha2, Xp] = robertGalejsLift(Rocket, alpha, K)
     
     % cone
-    Ap_cone = 0.5*Rocket.stage_z(2)*Rocket.diameters(2);
-    Xp_cone = 2/3*Rocket.stage_z(2);
+    if strcmp(Rocket.cone_mode, 'on')
+        Ap_cone = 0.5*Rocket.stage_z(2)*Rocket.diameters(2);
+        Xp_cone = 2/3*Rocket.stage_z(2);
+    end
 
     % stages
     Ap_stage = zeros(1, Rocket.stages-2);
@@ -13,6 +15,11 @@ function [Calpha2, Xp] = robertGalejsLift(Rocket, alpha, K)
     end
     
     % Output
-    Calpha2 = 4/pi/Rocket.diameters(2)^2*K*[Ap_cone, Ap_stage]*alpha;
-    Xp = [Xp_cone, Xp_stage];
+    Ap = Ap_stage;
+    Xp = Xp_stage;
+    if strcmp(Rocket.cone_mode, 'on')
+        Ap = [Ap_cone, Ap];
+        Xp = [Xp_cone, Xp];
+    end
+    Calpha2 = 4/pi/Rocket.diameters(2)^2*K*Ap*alpha;
 end 

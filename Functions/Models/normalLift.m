@@ -7,7 +7,7 @@ function [CNa, Xp, CNa_barrowman, Xp_barrowman] = normalLift(Rocket, alpha, K, M
 % - alpha       : angle of attack [rad]
 % - K           : Robert Galejs' correction factor
 % - M           : Mach number
-% - theta       : Roll angle
+% - theta       : Roll angle [rad]
 % - Galejs      : Flag indicating use of Galejs' correction or not [1 or 0]
 % OUTPUTS:
 % - CNa        : Normal lift derivative versus delta coefficient derivative [1/rad]

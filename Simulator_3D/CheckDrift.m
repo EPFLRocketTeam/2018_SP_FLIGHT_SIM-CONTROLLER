@@ -10,8 +10,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_2D'));
     
 % load definitions
-Rocket_Payerne = rocketReader('Rocket_Definition_Payerne.txt');
-Environment_Payerne = environnementReader('Environnement_Definition_Payerne.txt');
+Rocket_Payerne = rocketReader('Rocket_Definition_Final.txt');
+Environment_Payerne = environnementReader('Environnement_Definition.txt');
 SimOutputs = SimOutputReader('Simulation_outputs.txt');
 
 % Parameter

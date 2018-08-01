@@ -28,6 +28,10 @@ while ~feof(rfid)
             line_data_num = textscan(line_data, '%f');
             Rocket.stage_z = line_data_num{1}';
             
+        case 'cone_mode'
+            line_data_string = textscan(line_data,'%s');
+            Rocket.cone_mode = line_data_string{1}{1};    
+            
         case 'fin_n'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_n = line_data_num{1}(1);
@@ -167,6 +171,10 @@ Rocket.Thrust_Force = T;
 
 if checkStages(Rocket)
     error('ERROR: Reading rocket definition file.')
+end
+
+if ~(strcmp(Rocket.cone_mode, 'on') || strcmp(Rocket.cone_mode, 'off'))
+    error(['ERROR: Cone mode parameter ' Rocket.cone_mode ' unknown.']);
 end
 
 % -------------------------------------------------------------------------

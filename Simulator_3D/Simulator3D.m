@@ -7,16 +7,18 @@ classdef Simulator3D < handle
       SimAuxResults; 
    end
 
-   properties(Access = protected)
+   properties(Access = public)
       Rocket
       Environment
       SimOutput  
    end
    
    properties(Access = private)
+      firstSimFlag = 1;
       tmp_Margin
       tmp_Alpha
       tmp_Cn_alpha
+      tmp_Xcp
       tmp_Cd
       tmp_Mass
       tmp_CM
@@ -40,16 +42,18 @@ classdef Simulator3D < handle
                 error(['ERROR: In Simulator3D constructor, either no arguments '...
                     'or 3 arguments can be given. You gave ' num2str(nargin) '.']);
            end
-           
+ 
            % Initialise Auxiliary results structure
            obj.SimAuxResults.Margin = [];
            obj.SimAuxResults.Alpha = [];
            obj.SimAuxResults.Cn_alpha = [];
+           obj.SimAuxResults.Xcp = [];
            obj.SimAuxResults.Cd = [];
            obj.SimAuxResults.Mass = [];
            obj.SimAuxResults.CM = [];
            obj.SimAuxResults.Il = [];
-           obj.SimAuxResults.Ir = [];
+           obj.SimAuxResults.Ir = []; 
+           
        end
        
    end
@@ -200,7 +204,7 @@ classdef Simulator3D < handle
             % Drag coefficient
             CD = drag(obj.Rocket, alpha, Vmag, nu, a)*obj.Rocket.CD_fac; 
             if(t>obj.Rocket.Burn_Time)
-               CD = CD + drag_shuriken(obj.Rocket, obj.Rocket.ab_phi, alpha, Vmag, nu); 
+              CD = CD + drag_shuriken(obj.Rocket, obj.Rocket.ab_phi, alpha, Vmag, nu); 
             end
             % Drag force
             D = -0.5*rho*obj.Rocket.Sm*CD*Vmag^2*RW; 
@@ -227,7 +231,6 @@ classdef Simulator3D < handle
                 MN...  ; % aerodynamic corrective moment
                + MD ; % aerodynamic damping moment
 
-
             % State derivatives
 
             % Translational dynamics
@@ -245,6 +248,7 @@ classdef Simulator3D < handle
             obj.tmp_Margin = margin/obj.Rocket.dm;
             obj.tmp_Alpha = alpha;
             obj.tmp_Cn_alpha = CNa;
+            obj.tmp_Xcp = Xcp;
             obj.tmp_Cd = CD;
             obj.tmp_Mass = M;
             obj.tmp_CM = Cm;
@@ -328,6 +332,49 @@ classdef Simulator3D < handle
             S_dot = [X_dot; V_dot];
 
         end
+        
+        % --------------------------- 
+        % 3DOF Payload descent Equations
+        % ---------------------------
+        
+        function S_dot = Payload_Dynamics_3DOF(obj, t, s, Rocket, Environment)
+
+            X = s(1:3);
+            V = s(4:6);
+
+            % Earth coordinate vectors expressed in earth's frame
+            XE = [1, 0, 0]';
+            YE = [0, 1, 0]';
+            ZE = [0, 0, 1]';
+
+            % atmosphere
+            [~, a, ~, rho, nu] = stdAtmos(X(3)+Environment.Start_Altitude, Environment);
+
+            % mass
+            M = Rocket.pl_mass;
+
+            V_rel = V -...
+                 ... % Wind as computed by windmodel
+                windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+                Environment.Turb_model);
+
+            % gravity
+            % Gravity
+            G = -9.81*M*ZE;
+            % Drag
+            % Drag coefficient
+            SCD = 2.56e-2; 
+            % Drag force
+            D = -0.5*rho*SCD*V_rel*norm(V_rel); 
+
+            % Translational dynamics
+            X_dot = V;
+            V_dot = 1/M*(D + G);
+
+            S_dot = [X_dot; V_dot];
+
+        end
+        
    end     
    
 % -------------------------------------------------------------------------  
@@ -357,18 +404,33 @@ classdef Simulator3D < handle
         % --------------------------- 
         % Flight Simulation
         % ---------------------------
-        function [T2, S2, T2E, S2E, I2E] = FlightSim(obj, T0, V)
+        function [T2, S2, T2E, S2E, I2E] = FlightSim(obj, tspan, arg2, arg3, arg4, arg5)
             
-           % Rail vector
-            C_rail = rotmat(obj.Environment.Rail_Angle, 2)*rotmat(-obj.Environment.Rail_Azimuth, 3);
-            RV = C_rail*[0;0;1];
+            if (nargin == 3)
+                % Compute initial conditions based on rail output values
+                V = arg2;
+                
+                % Rail vector
+                C_rail = rotmat(obj.Environment.Rail_Angle, 2)*rotmat(-obj.Environment.Rail_Azimuth, 3);
+                RV = C_rail*[0;0;1];
 
-            % Initial Conditions
-            X0 = RV*obj.Environment.Rail_Length; % spatial position of cm
-            V0 = RV*V; % Initial velocity of cm
-            Q0 = rot2quat(C_rail); % Initial attitude
-            W0 = [0;0;0]; % Initial angular rotation in rocket principle coordinates
-            S0 = [X0; V0; Q0'; W0];
+                % Initial Conditions
+                X0 = RV*obj.Environment.Rail_Length; % spatial position of cm
+                V0 = RV*V; % Initial velocity of cm
+                Q0 = rot2quat(C_rail); % Initial attitude
+                W0 = [0;0;0]; % Initial angular rotation in rocket principle coordinates
+                S0 = [X0; V0; Q0'; W0];
+            elseif (nargin == 6)
+                % Set initial conditions based on the exact initial value
+                % of the state vector.
+                X0 = arg2;
+                V0 = arg3;
+                Q0 = arg4;
+                W0 = arg5;
+                S0 = [X0; V0; Q0; W0];
+            else
+               error('ERROR: In Flight Simulator, function accepts either 3 or 6 arguments.') 
+            end
 
             % time span
             tspan = [T0, 100];
@@ -382,6 +444,7 @@ classdef Simulator3D < handle
             [T2,S2, T2E, S2E, I2E] = ode45(@(t,s) obj.Dynamics_6DOF(t,s),tspan,S0, Option);
             
         end
+        
         
         % --------------------------- 
         % Drogue Parachute Simulation
@@ -445,6 +508,25 @@ classdef Simulator3D < handle
             [T5,S5, T5E, S5E, I5E] = ode45(@(t,s) obj.Dynamics_3DOF(t,s,obj.Rocket,obj.Environment),tspan,S0, Option);
 
         end
+        
+        % --------------------------- 
+        % Payload Impact Simulation
+        % ---------------------------
+        function [T6, S6, T6E, S6E, I6E] = PayloadCrashSim(obj, T0, X0, V0)
+            
+            % Initial Conditions
+            S0 = [X0; V0];
+
+            % time span
+            tspan = [T0, 100];
+
+            % options
+            Option = odeset('Events', @CrashEvent);
+
+            % integration
+            [T6,S6, T6E, S6E, I6E] = ode45(@(t,s) obj.Payload_Dynamics_3DOF(t,s,obj.Rocket,obj.Environment),tspan,S0, Option);
+
+        end
     end
     
 % -------------------------------------------------------------------------  
@@ -456,8 +538,10 @@ methods(Access = private)
         % keep simulation running
         status = 0;
 
-        if isempty(flag) || strcmp(flag, 'init')
+        if isempty(flag) || (strcmp(flag, 'init') && obj.firstSimFlag)
 
+            obj.firstSimFlag = 0;
+            
             if obj.SimOutput.Margin
                 obj.SimAuxResults.Margin = [obj.SimAuxResults.Margin, obj.tmp_Margin];
             end 
@@ -466,6 +550,9 @@ methods(Access = private)
             end 
             if obj.SimOutput.Cn_alpha
                 obj.SimAuxResults.Cn_alpha = [obj.SimAuxResults.Cn_alpha, obj.tmp_Cn_alpha];
+            end 
+            if obj.SimOutput.Xcp
+                obj.SimAuxResults.Xcp = [obj.SimAuxResults.Xcp, obj.tmp_Xcp];
             end 
             if obj.SimOutput.Cd
                 obj.SimAuxResults.Cd = [obj.SimAuxResults.Cd, obj.tmp_Cd];
