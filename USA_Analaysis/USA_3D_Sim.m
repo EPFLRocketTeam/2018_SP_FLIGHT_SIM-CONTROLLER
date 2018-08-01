@@ -23,15 +23,24 @@ SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 display(['Launch rail departure velocity : ' num2str(S1(end,2))]);
 
 %% ------------------------------------------------------------------------
-% 6DOF Flight Simulation
+% 6DOF Boost Simulation
+%--------------------------------------------------------------------------
+[T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Thrust_Time(end)], S1(end,2));
+
+%% ------------------------------------------------------------------------
+% 6DOF Boost Simulation
 %--------------------------------------------------------------------------
 
-[T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], S1(end, 2));
+SimObj.Rocket.cone_mode = 'off';
+SimObj.Rocket.rocket_m = SimObj.Rocket.rocket_m-2.1;
+SimObj.Rocket.rocket_cm = 1.44;
+SimObj.Rocket.rocket_I = 5.68;
 
-[T2_2, S2_2, T2_2E, S2_2E, I2_2E] = SimObj.FlightSim([T2_1(end) 40], S2_1(end, 1:3)', S2_1(end, 4:6)', S2_1(end, 7:10)', S2_1(end, 11:13)');
+[T2_2, S2_2, T2_2E, S2_2E, I2_2E] = SimObj.FlightSim([T2_1(end) 40], S2_1(end,1:3)', S2_1(end,4:6)', S2_1(end,7:10)', S2_1(end,11:13)');
 
 T2 = [T2_1; T2_2(2:end)];
-S2 = [S2_1; S2_2(2:end, :)];
+S2 = [S2_1;S2_2(2:end, :)];
+
 display(['Apogee AGL : ' num2str(S2(end,3))]);
 display(['Max speed : ' num2str(max(S2(:,6)))]);
 display(['Max acceleration : ' num2str(max(diff(S2(:,6))./diff(T2)))]);
@@ -194,7 +203,3 @@ plot(T2, SimObj.SimAuxResults.Margin, 'DisplayName', 'Margin');
 ylabel 'Margin [calibers]';
 title 'Dynamic Stability Margin'
 legend show;
-
-% plot 7 : norm of quaternion
-figure;
-plot(T2, sqrt(sum(S2(:, 7:10).^2, 2)));

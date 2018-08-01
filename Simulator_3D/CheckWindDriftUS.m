@@ -18,7 +18,7 @@ h2 = figure(2); ax2 = gca; hold(ax2, 'on');
 
 X_Para = [];
 X_NoPara = [];
-V = 0:2:6;
+V = -6:2:6;
 
 for v = V
 
@@ -66,29 +66,29 @@ end
 %% Plot map
 axes(ax1);
 daspect([1 1 1]); pbaspect([0.5, 0.5, 1]); view(30, 50);
-[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', ceil(diff(xlim)/3.4), 'Width', ceil(diff(ylim)/3.4));
+% [XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', ceil(diff(xlim)/3.4), 'Width', ceil(diff(ylim)/3.4));
 xImage = [xlim',xlim'];
 yImage = [ylim;ylim];
 zImage = zeros(2);
-colormap(Mcolor);
-surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
-title('Sensibilité au vent, parachute déployé');
-xlabel('S [m]'); ylabel 'E [m]'; zlabel 'Altitude [m]';
-legend show;
-set(ax1, 'Fontsize', 14)
+% colormap(Mcolor);
+% surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
+% title('Sensibilité au vent, parachute déployé');
+% xlabel('S [m]'); ylabel 'E [m]'; zlabel 'Altitude [m]';
+% legend show;
+% set(ax1, 'Fontsize', 14)
 
 axes(ax2);
 daspect([1 1 1]); pbaspect([0.5, 0.5, 1]); view(30, 50);
-[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', ceil(diff(xlim)/3.4), 'Width', ceil(diff(ylim)/3.4));
+% [XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', ceil(diff(xlim)/3.4), 'Width', ceil(diff(ylim)/3.4));
 xImage = [xlim',xlim'];
 yImage = [ylim;ylim];
 zImage = zeros(2);
-colormap(Mcolor);
-surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
-title('Sensibilité au vent, parachute non-déployé');
-xlabel('S [m]'); ylabel 'E [m]'; zlabel 'Altitude [m]';
-legend show;
-set(ax2, 'Fontsize', 14);
+% colormap(Mcolor);
+% surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
+% title('Sensibilité au vent, parachute non-déployé');
+% xlabel('S [m]'); ylabel 'E [m]'; zlabel 'Altitude [m]';
+% legend show;
+% set(ax2, 'Fontsize', 14);
 
 figure(3); hold on;
 plot(V, X_Para, 'DisplayName', 'Drift avec parachute');
@@ -97,3 +97,4 @@ title('Drift en fonction du vent')
 xlabel('V [m/s]'); ylabel('Drift [m]');
 l = legend('show'); set(l, 'Location', 'NorthWest');
 set(gca, 'Fontsize', 14);
+grid on;

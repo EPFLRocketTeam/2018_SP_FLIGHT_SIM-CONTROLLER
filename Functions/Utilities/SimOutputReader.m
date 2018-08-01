@@ -27,6 +27,10 @@ while ~feof(rfid)
         case 'Cn_alpha'
             line_data_num = textscan(line_data, '%f');
             SimOutput.Cn_alpha = line_data_num{1}(1);
+            
+        case 'Xcp'
+            line_data_num = textscan(line_data, '%f');
+            SimOutput.Xcp = line_data_num{1}(1);    
         
         case 'Cd'
             line_data_num = textscan(line_data, '%f');
