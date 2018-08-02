@@ -432,9 +432,6 @@ classdef Simulator3D < handle
                error('ERROR: In Flight Simulator, function accepts either 3 or 6 arguments.') 
             end
 
-            % time span
-            tspan = [T0, 100];
-
             % options
             Option = odeset('Events', @ApogeeEvent, 'RelTol', 1e-6, 'AbsTol', 1e-6,...
                             'OutputFcn', @(T,S,flag) obj.FlightOutputFunc(T,S,flag),...
