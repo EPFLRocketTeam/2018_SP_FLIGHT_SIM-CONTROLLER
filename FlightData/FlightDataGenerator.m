@@ -28,7 +28,7 @@ SimObj = Simulator3D(Rocket_USA, Environment_USA, SimOutputs);
 % 6DOF Flight Simulation
 %--------------------------------------------------------------------------
 
-[T2, S2] = SimObj.FlightSim(T1(end), S1(end,2));
+[T2, S2] = SimObj.FlightSim([T1(end) 40], S1(end,2));
 
 % ------------------------------------------------------------------------
 % 3DOF Recovery Drogue

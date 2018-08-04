@@ -1,7 +1,9 @@
 function q = rot2quat(C)
 % ROT2QUAT computes the quaternion representation of the attitude based on
-% the rotation matrix between the earth and rocket coordinate system.
+% the rotation matrix rotating the earth coordinate system to the rocket
+% coordinate system.
 
+q = zeros(4,1);
 T = trace(C);
 qsq = [1+2*C(1,1)-T, 1+2*C(2,2)-T, 1+2*C(3,3)-T, 1+T]/4;
 [x,i] = max(qsq);
