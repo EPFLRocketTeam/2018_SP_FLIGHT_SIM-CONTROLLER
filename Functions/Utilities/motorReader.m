@@ -1,5 +1,6 @@
-function [t,T,prop_Mass,total_Mass] = motorReader(motorFilePath)
-%   motorReader extract the motor data
+function [t,T,Info] = motorReader(motorFilePath)
+% MOTORREADER extracts the raw motor data from RASP formated text file 
+% named 'motorFilePath'.
 
 % -------------------------------------------------------------------------
 % 1. Read Motor
