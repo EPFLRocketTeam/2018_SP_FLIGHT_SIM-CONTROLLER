@@ -1,7 +1,15 @@
 %% Rocket Simulator 2D
+
+% Initialize
+close all; clear all;
+addpath(genpath('../Declarations'),...
+        genpath('../Functions'),...
+        genpath('../Snippets'),...
+        genpath('../Simulator_1D'));
+    
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition_Final.txt');
-Environnement = environnementReader('Environnement_Definition.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Mat_III.txt');
+Environnement = environnementReader('Environment/Environnement_Payerne.txt');
 
 %--------------------------------------------------------------------------
 % Rail Simulation

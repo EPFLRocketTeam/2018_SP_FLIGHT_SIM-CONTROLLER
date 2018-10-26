@@ -8,12 +8,12 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition_Final.txt');
-Environnement = environnementReader('Environnement_Definition.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Mat_III.txt');
+Environnement = environnementReader('Environment/Environnement_Definition_Payerne.txt');
 
 % Define table generation parameters
 
-H_target = 3048; N_H = 100; N_AB = 5; 
+H_target = 570; N_H = 100; N_AB = 5; 
 
 % shuriken
 AB_span = [-190.5, -18.5];
