@@ -15,6 +15,8 @@ mach1 = OpenRocketData(:,5);
 [apogee1,i_apo1] = max(altitude1);
 t_apo1 = time1(i_apo1);
 
+%% For csv : 
+
 %% Plot data
 
 figure;
