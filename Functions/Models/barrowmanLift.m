@@ -14,7 +14,7 @@ function [Calpha, CP] = barrowmanLift(Rocket, alpha, M, theta)
     CP_cone = 2/3*Rocket.stage_z(2);   
     end
     
-    % stages
+    % body
     CNa_stage = zeros(1, Rocket.stages-2);
     CP_stage = zeros(1, Rocket.stages-2);
     for i = 1:(Rocket.stages-2)

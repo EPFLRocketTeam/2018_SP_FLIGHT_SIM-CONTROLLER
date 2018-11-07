@@ -18,7 +18,10 @@ function [M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,Opt)
 % Mass
 %--------------------------------------------------------------------------
 if strcmp(Opt, 'Linear')
-    if t > Rocket.Burn_Time
+    if t == 0
+        dMdt = Rocket.propel_mass/Rocket.Burn_Time;
+        M = Rocket.rocket_m;       
+    elseif t > Rocket.Burn_Time
         M = Rocket.rocket_m + Rocket.casing_mass;
         dMdt = 0;
     else
@@ -26,15 +29,18 @@ if strcmp(Opt, 'Linear')
         M = Rocket.rocket_m+Rocket.motor_mass-t*dMdt;
     end
 elseif strcmp(Opt, 'NonLinear')
-    if t>Rocket.Burn_Time
-    M = Rocket.rocket_m+Rocket.motor_mass-Rocket.propel_mass;
-    dMdt = 0;
+    if t == 0
+        dMdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
+        M = Rocket.rocket_m;
+    elseif t>Rocket.Burn_Time
+        M = Rocket.rocket_m+Rocket.motor_mass-Rocket.propel_mass;
+        dMdt = 0;
     else
-    tt = linspace(0,t,500);
-    Current_Impulse = trapz(tt,Thrust(tt,Rocket));
-    M = Rocket.rocket_m + Rocket.motor_mass - ... 
+        tt = linspace(0,t,500);
+        Current_Impulse = trapz(tt,Thrust(tt,Rocket));
+        M = Rocket.rocket_m + Rocket.motor_mass - ... 
         Rocket.Thrust2dMass_Ratio*Current_Impulse;
-    dMdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
+        dMdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
     end
 else
     error('Opt parameter should be Linear or Nonlinear')

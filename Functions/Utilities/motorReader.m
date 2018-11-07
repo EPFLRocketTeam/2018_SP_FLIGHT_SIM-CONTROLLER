@@ -10,7 +10,7 @@ rfid = fopen(motorFilePath);
 
 % 1.1 Read Informations
 line_content = fgetl(rfid); % Read one line
-Info = textscan(line_content,'%s %f32 %f32 %f32 %f32 %f32 %s');
+Info = textscan(line_content,'%s %f32 %f32 %s %f32 %f32 %s');
 
 % 1.2 Read Thrust Informations
 t = []; T = []; % Initialization
