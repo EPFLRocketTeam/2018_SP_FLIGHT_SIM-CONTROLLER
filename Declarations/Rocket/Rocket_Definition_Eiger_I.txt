@@ -15,7 +15,7 @@ rocket_I 13
 rocket_cm 1.45
 ab_x 2.05
 ab_n 3
-ab_phi -190.5
+ab_phi -216
 pl_mass 4
 para_main_SCD 11.2312
 para_drogue_SCD 0.4299

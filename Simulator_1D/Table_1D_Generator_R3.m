@@ -1,4 +1,4 @@
-function [tab, path] = Table_1D_Generator_R3(Rocket, Environment, H_target, drag_func, convert_func, phi_span, N_H, N_AB, ax)
+function [tab, path] = Table_1D_Generator_R3(Rocket, Environment, H_target, drag_func, convert_func, phi_span, N_H, N_AB, thrust_err, ab_err, ax)
 % TABLE_1D_Generator_R2 computes the control table for a Rocket in given
 % Environment aiming target altitude H_target.
 % INPUTS:
@@ -28,14 +28,14 @@ x_rail = Environment.Rail_Length;
 tspan = [0, 30];
 x0 = [0,0];
 Option = odeset('Events', @myEvent);
-[t,x,t1,x1,t2,x2] = Sim_1D_R3(Rocket, Environment, tspan, x0, drag_func, theta_AB(1),...
+[t,x,t1,x1,t2,x2] = Sim_1D_R3(Rocket, Environment, tspan, x0, drag_func, theta_AB(1), thrust_err, 0,...
     'Velocity', 0, -1);
 % get altitude and time value for beginning of burn phase
-H_initial = interp1(t, x(:,1), Rocket.Burn_Time, 'linear');
-V_rail = interp1(x(:,1), x(:,2), x_rail, 'linear');
+H_initial = interp1(t1, x1(:,1), Rocket.Burn_Time, 'linear');
+V_rail = interp1(x1(:,1), x1(:,2), x_rail, 'linear');
 display(['Velocity off rail: ' num2str(V_rail) ' m/s']);
 
-if (nargin>8)
+if (nargin>10)
    plotAxes = ax; 
 else
     figure; 
@@ -44,9 +44,9 @@ end
 
 hold(plotAxes, 'on');
 set(plotAxes, 'Fontsize', 16); xlabel(plotAxes, 'h [m]'); ylabel(plotAxes, 'v [m/s]');
-plot(plotAxes, x(:,1), x(:,2), 'k--', 'DisplayName', 'Nominal trajectory');
-plot(plotAxes, x1(:,1), x1(:,2), 'k-', 'DisplayName', '+10% trajectory');
-plot(plotAxes, x2(:,1), x2(:,2), 'k-', 'DisplayName', '-10% trajectory');
+plot(plotAxes, x(:,1), x(:,2), 'k--', 'DisplayName', ['+' num2str(thrust_err*100) '% thrust trajectory']);
+plot(plotAxes, x1(:,1), x1(:,2), 'k-', 'DisplayName', 'Nominal trajectory');
+plot(plotAxes, x2(:,1), x2(:,2), 'k--', 'DisplayName', ['-' num2str(thrust_err*100) '% thrust trajectory']);
 hold(plotAxes, 'on');
 display('Sim: Boost OK ');
 
@@ -57,24 +57,22 @@ tspan = [100 0];
 x0 = [H_target, 0];
 Brake_Results = {};
 for i = 1:N_AB
-    [t,x,t1,x1,t2,x2] = Sim_1D_R3(Rocket, Environment, tspan, x0, drag_func, theta_AB(i), 'Altitude', H_initial, 0);
-    if i==N_AB
-        max(x1(:,2))-max(x(:,2))
-        plot(plotAxes, x1(:,1), x1(:,2)-(max(x1(:,2))-max(x(:,2))), 'DisplayName', ['\phi +10% = ' num2str(convert_func(theta_AB(i))) '^\circ']);
-    end
-    if i==N_AB-1
-        plot(plotAxes, x(:,1), x(:,2), 'DisplayName', ['\phi = ' num2str(convert_func(theta_AB(i))) '^\circ']);
-    end
+    [t,x,t1,x1,t2,x2] = Sim_1D_R3(Rocket, Environment, tspan, x0, drag_func, theta_AB(i), thrust_err, ab_err, 'Altitude', H_initial, 0);
+    plot(plotAxes, x1(:,1), x1(:,2), 'DisplayName', ['\phi = ' num2str(convert_func(theta_AB(i))) '^\circ']);
+%     if i==N_AB
+%         plot(plotAxes, x1(:,1), x1(:,2)-(max(x1(:,2))-max(x(:,2))), 'DisplayName', ['\phi +10% = ' num2str(convert_func(theta_AB(i))) '^\circ']);
+%     end
+%     if i==N_AB-1
+%         plot(plotAxes, x(:,1), x(:,2), 'DisplayName', ['\phi = ' num2str(convert_func(theta_AB(i))) '^\circ']);
+%     end
     display(['Sim: Angle ' num2str(theta_AB(i)) ' OK']);
     Brake_Results{i} = x; 
 end
 
 lgd = legend(plotAxes, 'show');  
-title(plotAxes, 'Airbrake effect check');
+title(plotAxes, 'Airbrakes Effect');
 set(lgd, 'Location', 'SouthWest');
 
-figure;
-plot(t,x(:,1));
 % -------------------------------------------------------------------------
 % Table generation
 % -------------------------------------------------------------------------
