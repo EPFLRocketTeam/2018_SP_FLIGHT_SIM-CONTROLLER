@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Final.txt');
-Environnement = environnementReader('Environment/Environnement_Definition_Payerne.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R03.txt');
+Environnement = environnementReader('Environment/Environnement_Definition_USA.txt');
 
 % Define table generation parameters
 

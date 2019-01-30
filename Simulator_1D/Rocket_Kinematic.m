@@ -10,11 +10,11 @@ xdot = zeros(2,1);
 
 % Call Function:
 [M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,'Linear');
-<<<<<<< HEAD
-[Temp, a, p, rho] = stdAtmos(x(1));
-=======
+% <<<<<<< HEAD
+% [Temp, a, p, rho] = stdAtmos(x(1));
+% =======
 [Temp, a, p, rho, Nu] = stdAtmos(x(1),Environnement);
->>>>>>> origin/master
+% >>>>>>> origin/master
 T = Thrust(t,Rocket);
 g = 9.81; %[m/s2] Gravity
 CD = drag(Rocket,0,x(2),Nu,a)
