@@ -9,12 +9,12 @@ addpath(genpath('../Declarations'),...
         genpath('../Snippets'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R03.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R04.txt');
 Environnement = environnementReader('Environment/Environnement_Definition_USA.txt');
 
 % Define table generation parameters
 
-H_target = 2900; N_H = 100; N_AB = 5; 
+H_target = 3000; N_H = 100; N_AB = 5; 
 
 % shuriken
 AB_span = [-216, -18.5];

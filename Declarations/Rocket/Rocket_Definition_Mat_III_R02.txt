@@ -20,7 +20,7 @@ pl_mass 0
 para_main_SCD 11.2312
 para_drogue_SCD 0.4299
 para_main_event 250
-motor AT_M685.txt
+motor AT_K550.txt
 motor_fac 1
 cone_mode on
 cp_fac 1
