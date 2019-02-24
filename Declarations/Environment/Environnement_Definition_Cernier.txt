@@ -8,6 +8,6 @@ V_inf 10
 V_Azimuth 160
 Turb_I 0.005
 Turb_model None
-Rail_Length 3.5
+Rail_Length 4
 Rail_Angle 0
 Rail_Azimuth 0
