@@ -17,9 +17,9 @@ Environnement = environnementReader('Environment/Environnement_Definition_USA.tx
 H_target = 3048; N_H = 100; N_AB = 5; 
 
 % shuriken
-AB_span = [-216, -18.5];
+AB_span = [-232, -18];
 drag_func = @drag_shuriken;
-convert_func = @(x) interp1(AB_span, [0, 197.5] , x, 'linear');
+convert_func = @(x) interp1(AB_span, [0, 214] , x, 'linear');
 
 % flaps
 % AB_span = [0, 60];
@@ -28,7 +28,7 @@ convert_func = @(x) interp1(AB_span, [0, 197.5] , x, 'linear');
 
 % thrust and drag error rate [0,1]
 
-thrust_err = 0.04;
+thrust_err = 0.052;
 ab_err = 0;
 
 % generate table
