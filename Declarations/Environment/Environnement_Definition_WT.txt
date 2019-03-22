@@ -1,0 +1,3 @@
+Temperature_Ground 292
+Pressure_Ground 96685
+Humidity_Ground 1
