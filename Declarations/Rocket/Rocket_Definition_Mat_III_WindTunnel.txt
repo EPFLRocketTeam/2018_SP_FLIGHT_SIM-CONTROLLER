@@ -1,0 +1,28 @@
+stages 4
+diameters 0 0.125 0.125 0.102
+stage_z 0 0.505 2.355 2.405
+fin_n 3
+fin_xt 2.09
+fin_s 0.128
+fin_cr 0.236
+fin_ct 0.118
+fin_xs 0.06
+fin_t 0.003
+lug_n 2 
+lug_S 1.32e-4
+rocket_m 11.40
+rocket_I 10.07
+rocket_cm 1.275
+ab_x 1.390
+ab_n 3
+ab_phi -190.5
+pl_mass 0
+para_main_SCD 11.2312
+para_drogue_SCD 0.4299
+para_main_event 250
+motor AT_K550.txt
+motor_fac 1
+cone_mode on
+cp_fac 1
+CNa_fac 1
+CD_fac 1

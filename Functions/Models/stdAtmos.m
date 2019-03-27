@@ -41,7 +41,7 @@ g0 = 9.80665; %[m/sec^2]
 dTdh = -6.5; %[?K/km] temperature variation in troposphere
 
 % TEMPERATURE MODEL
-T = T0 + dTdh*alt/1000;
+T = T0 + dTdh*alt/1000;             % for a better approximation because of radiosonde data: T=T0 +dTdh*(alt-alt0)/1000 with T0: floor temperature that you will enter in the simulator; dTdh=-9.5 (because of the required data) alt0: alt0 from sea level of the flight place
 
 % PRESSURE MODEL
 p = p0*(1+dTdh/1000*alt/T0).^(-g0/R/dTdh*1000);

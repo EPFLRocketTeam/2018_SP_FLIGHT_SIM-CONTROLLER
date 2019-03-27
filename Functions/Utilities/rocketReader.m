@@ -194,7 +194,7 @@ end
 % -------------------------------------------------------------------------
 
 % 4.1 Maximum body diameter
-Rocket.dm = Rocket.diameters(find(Rocket.diameters == max(Rocket.diameters), 1, 'first')); 
+Rocket.dm = Rocket.diameters(find(Rocket.diameters == max(Rocket.diameters), 1, 'first'));
 % 4.2 Fin cord
 Rocket.fin_c = (Rocket.fin_cr + Rocket.fin_ct)/2; 
 % 4.3 Maximum cross-sectional body area

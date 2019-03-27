@@ -23,7 +23,7 @@ function [tab, path] = Table_1D_Generator_R3(Rocket, Environment, H_target, drag
 x_rail = Environment.Rail_Length;
 
 % -------------------------------------------------------------------------
-% Forward simulation; x1 and x2 for ±10% of thrust error
+% Forward simulation; x1 and x2 for ï¿½10% of thrust error
 % -------------------------------------------------------------------------
 tspan = [0, 30];
 x0 = [0,0];

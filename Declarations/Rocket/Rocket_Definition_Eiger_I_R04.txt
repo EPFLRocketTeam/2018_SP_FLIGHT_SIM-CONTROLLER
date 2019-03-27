@@ -1,0 +1,28 @@
+stages 4
+diameters 0 0.155 0.155 0.135
+stage_z 0 0.300 2.90 2.95
+fin_n 3
+fin_xt 2.61
+fin_s 0.2
+fin_cr 0.28
+fin_ct 0.125
+fin_xs 0.107
+fin_t 0.004
+lug_n 2
+lug_S 1.61e-4
+rocket_m 22.75
+rocket_I 13
+rocket_cm 1.47
+ab_x 2.05
+ab_n 3
+ab_phi -216
+pl_mass 4
+para_main_SCD 11.2312
+para_drogue_SCD 0.4299
+para_main_event 250
+motor CS_M1800.txt
+motor_fac 1
+cone_mode on
+cp_fac 1
+CNa_fac 1
+CD_fac 1
