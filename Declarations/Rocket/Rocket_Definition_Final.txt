@@ -1,6 +1,6 @@
 stages 4
 diameters 0 0.122 0.122 0.103
-stage_z 0 0.538 2.622 2.67
+stage_z 0 0.645 2.622 2.67
 fin_n 3
 fin_xt 2.382
 fin_s 0.11

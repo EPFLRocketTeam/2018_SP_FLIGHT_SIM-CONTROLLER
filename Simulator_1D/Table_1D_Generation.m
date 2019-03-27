@@ -5,8 +5,8 @@ close all;clc
 % -------------------------------------------------------------------------
 % Environnement % Rocket Definitions
 % -------------------------------------------------------------------------
-Rocket = rocketReader('Rocket_Definition.txt');
-Environnement = environnementReader('Environnement_Definition.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Mat_III_2.txt');
+Environnement = environnementReader('Environment/Environnement_Definition_Cernier.txt');
 
 % -------------------------------------------------------------------------
 % Angle Boundaries (Shuriken AB Table)

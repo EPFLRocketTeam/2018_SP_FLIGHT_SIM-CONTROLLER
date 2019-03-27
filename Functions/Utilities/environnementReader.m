@@ -77,7 +77,7 @@ end
 % 2. Intrinsic parameters
 % -------------------------------------------------------------------------
 % 2.1 Environnement Viscosity
-Tmp = xlsread('Viscosity.xlsx');
+Tmp = xlsread('Snippets/Viscosity.xlsx');
 Environnement.T_Nu = Tmp(:,1);
 Environnement.Viscosity = Tmp(:,2);
 

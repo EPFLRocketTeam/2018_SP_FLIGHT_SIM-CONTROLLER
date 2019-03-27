@@ -23,7 +23,7 @@ function [tab, path] = Table_1D_Generator_R2(Rocket, Environment, H_target, drag
 x_rail = Environment.Rail_Length;
 
 % -------------------------------------------------------------------------
-% Forward simulaiton
+% Forward simulation
 % -------------------------------------------------------------------------
 tspan = [0, 30];
 x0 = [0,0];
