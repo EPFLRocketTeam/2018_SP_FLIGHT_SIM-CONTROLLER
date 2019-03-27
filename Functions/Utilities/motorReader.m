@@ -1,5 +1,6 @@
-function [t,T,prop_Mass,total_Mass] = motorReader(motorFilePath)
-%   motorReader extract the motor data
+function [t,T,Info] = motorReader(motorFilePath)
+% MOTORREADER extracts the raw motor data from RASP formated text file 
+% named 'motorFilePath'.
 
 % -------------------------------------------------------------------------
 % 1. Read Motor
@@ -9,7 +10,7 @@ rfid = fopen(motorFilePath);
 
 % 1.1 Read Informations
 line_content = fgetl(rfid); % Read one line
-Info = textscan(line_content,'%s %f32 %f32 %f32 %f32 %f32 %s');
+Info = textscan(line_content,'%s %f32 %f32 %s %f32 %f32 %s');
 
 % 1.2 Read Thrust Informations
 t = []; T = []; % Initialization
