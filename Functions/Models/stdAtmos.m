@@ -1,12 +1,14 @@
-function [T, a, p, rho, Nu] = stdAtmos(alt,Environnement) %rajouter alt0 et T0
+function [T, a, p, rho, Nu] = stdAtmos(alt,Env)
 % stdAtmos
 %
 % INPUT:    - alt   : altitude [m]
+%           - Env   : Environment Structure
 %
-% OUPTUT:   - T     : local standard temperature [?K]
+% OUPTUT:   - T     : local standard temperature [K]
 %           - a     : local speed of sound [m/s]
 %           - p     : local standard pressure [Pa]
 %           - rho   : local standard density [kg/m^3]
+%           - Nu    : local kinematic viscosity of air [m^2/s]
 %
 % ASSUMPTIONS:
 % - hydrostatic approximation of atmosphere
@@ -45,12 +47,12 @@ T = T0 + dTdh*alt/1000;             % for a better approximation because of radi
 p = p0*(1+dTdh/1000*alt/T0).^(-g0/R/dTdh*1000);
 
 % DENSITY MODEL
-x = Environnement.Saturation_Vapor_Ratio*Environnement.Humidity_Ground;
+x = Env.Saturation_Vapor_Ratio*Env.Humidity_Ground;
 rho = p./R./T*(1+x)/(1+1.609*x);
 
 % SPEED OF SOUND
 a = sqrt(gamma*R*T);
 
 % VISCOSITY
-Nu = interp1(Environnement.T_Nu,Environnement.Viscosity,[T]);
+Nu = interp1(Env.T_Nu,Env.Viscosity,[T]);
 end

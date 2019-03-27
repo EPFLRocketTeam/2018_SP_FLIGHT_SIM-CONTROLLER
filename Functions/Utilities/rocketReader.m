@@ -16,114 +16,150 @@ while ~feof(rfid)
     [line_id, line_data] = strtok(line_content);
     switch line_id
         
+        % Integer number indicating how many stages (diameter changes) the
+        % rocket has. Typically, a straight rocket will have only 3 stages:
+        % tip, cone base and tail. A rocket with a boattail has one
+        % additional stage.
         case 'stages'
             line_data_num = textscan(line_data, '%f');
             Rocket.stages = line_data_num{1}(1);
             
+        % List containing as many numbers as defined by the 'stages' 
+        % parameter. Each number indicates the diameter at that stage     
         case 'diameters'
             line_data_num = textscan(line_data, '%f');
             Rocket.diameters = line_data_num{1}';
             
+        % List containing as many numbers as defined by the 'stages' 
+        % parameter. Each number indicates the position from the rocket's
+        % tip of the diameter change
         case 'stage_z'
             line_data_num = textscan(line_data, '%f');
             Rocket.stage_z = line_data_num{1}';
-            
+        
+        % Indicates if the aerodynamics are computed with or without the 
+        % cone. 'cone_mode' = 'on' indicates the cone is on the rocket, 
+        % 'cone_mode = off' indicates the cone is removed from the rocket
         case 'cone_mode'
             line_data_string = textscan(line_data,'%s');
             Rocket.cone_mode = line_data_string{1}{1};    
             
+        % Integer referring to the number of fins    
         case 'fin_n'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_n = line_data_num{1}(1);
-            
+        
+        % distance of the fin's leading edge root from the rocket's tip    
         case 'fin_xt'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_xt = line_data_num{1}(1);
-            
+        
+        % fin span    
         case 'fin_s'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_s = line_data_num{1}(1);
-            
+        
+        % fin root chord    
         case 'fin_cr'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_cr = line_data_num{1}(1);    
-            
+        
+        % fin tip chord    
         case 'fin_ct'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_ct = line_data_num{1}(1);
-            
+        
+        % fin thickness    
         case 'fin_t'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_t = line_data_num{1}(1);
             
+        % axial distance between the fin's leading edge root and tip        
         case 'fin_xs'
             line_data_num = textscan(line_data, '%f');
             Rocket.fin_xs = line_data_num{1}(1);
-            
+        
+        % number of lugs    
         case 'lug_n'
             line_data_num = textscan(line_data, '%f');
             Rocket.lug_n = line_data_num{1}(1);    
-            
+        
+        % exposed lug surface    
         case 'lug_S'
             line_data_num = textscan(line_data, '%f');
             Rocket.lug_S = line_data_num{1}(1);
-            
+        
+        % rocket empty mass    
         case 'rocket_m'
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_m = line_data_num{1}(1);
-            
+        
+        % rocket empty inertia    
         case 'rocket_I'
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_I = line_data_num{1}(1);
-            
+        
+        % rocket center of mass    
         case 'rocket_cm'
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_cm = line_data_num{1}(1);
-            
+        
+        % position of airbrakes from rocket's tip    
         case 'ab_x'
             line_data_num = textscan(line_data, '%f');
             Rocket.ab_x = line_data_num{1}(1);
-            
+        
+        % number of airbrake fins    
         case 'ab_n'
             line_data_num = textscan(line_data, '%f');
             Rocket.ab_n = line_data_num{1}(1);
-            
+        
+        % airbrake openeing angle    
         case 'ab_phi'
             line_data_num = textscan(line_data, '%f');
             Rocket.ab_phi = line_data_num{1}(1);    
-            
+        
+        % motor file name (with extension)    
         case 'motor'
             line_data_string = textscan(line_data,'%s');
             Rocket.motor_ID = line_data_string{1}{1};
-            
+        
+        % motor thrust multiplication factor    
         case 'motor_fac'
             line_data_num = textscan(line_data,'%f');
             Rocket.motor_fac = line_data_num{1}(1);    
-            
+        
+        % payload mass    
         case 'pl_mass'
             line_data_num = textscan(line_data,'%f');
             Rocket.pl_mass = line_data_num{1}(1);
-            
+        
+        % main parachute S*CD (area times drag coefficient)     
         case 'para_main_SCD'
             line_data_num = textscan(line_data,'%f');
             Rocket.para_main_SCD = line_data_num{1}(1);
             
+        % drogue parachute S*CD (area times drag coefficient)    
         case 'para_drogue_SCD'
             line_data_num = textscan(line_data,'%f');
             Rocket.para_drogue_SCD = line_data_num{1}(1);
-            
+           
+        % main parachute deployment event altitude    
         case 'para_main_event'
             line_data_num = textscan(line_data,'%f');
             Rocket.para_main_event = line_data_num{1}(1); 
-            
+        
+        % error factor on center of pressure position     
         case 'cp_fac'
             line_data_num = textscan(line_data,'%f');
             Rocket.cp_fac = line_data_num{1}(1);
         
+        % error factor on normal lift coefficient derivative
         case 'CNa_fac'
             line_data_num = textscan(line_data,'%f');
             Rocket.CNa_fac = line_data_num{1}(1);
-            
+        
+        % error factor on drag coefficient    
         case 'CD_fac'
             line_data_num = textscan(line_data,'%f');
             Rocket.CD_fac = line_data_num{1}(1);
@@ -139,32 +175,8 @@ end
 % 2. Read Motor
 % -------------------------------------------------------------------------
 
-rfid = fopen(Rocket.motor_ID);
+Rocket = motor2RocketReader(Rocket.motor_ID, Rocket);
 
-% 2.1 Read Informations
-line_content = fgetl(rfid); % Read one line
-Info = textscan(line_content,'%s %f32 %f32 %s %f32 %f32 %s');
-
-Rocket.motor_dia = Info{2}/1000;
-Rocket.motor_length = Info{3}/1000;
-Rocket.motor_delay = Info{4};
-Rocket.propel_mass = Info{5};
-Rocket.motor_mass = Info{6};
-Rocket.casing_mass = Rocket.motor_mass-Rocket.propel_mass;
-
-% 2.2 Read Thrust Informations
-t = [0]; T = [0]; % Initialization
-
-while ~feof(rfid)   % Test end of file
-    
-    line_content = fgetl(rfid); % Read one line
-    Tmp = textscan(line_content,'%f32 %f32');
-    t = [t Tmp{1}];
-    T = [T Tmp{2}];
-end
-
-Rocket.Thrust_Time = t;
-Rocket.Thrust_Force = T;
 % -------------------------------------------------------------------------
 % 3. Checks
 % -------------------------------------------------------------------------
@@ -195,22 +207,9 @@ Rocket.fin_df = interp1(Rocket.stage_z, Rocket.diameters, Rocket.fin_xt+Rocket.f
 Rocket.fin_SF = Rocket.fin_SE + 1/2*Rocket.fin_df*Rocket.fin_cr; 
 % 4.8 Rocket Length
 Rocket.L = Rocket.stage_z(end);
-% 4.9 Burn Time
-Rocket.Burn_Time = t(end);
 
 % -------------------------------------------------------------------------
-% 5. Mass variation
-% -------------------------------------------------------------------------
-% 5.1 Total Impulse
-tt = linspace(0,Rocket.Burn_Time,2000);
-TT = Thrust(tt,Rocket);
-A_T = trapz(tt,TT); % Area under Thrust Curve
-
-% 5.2 Total Mass
-Rocket.Thrust2dMass_Ratio = Rocket.propel_mass/A_T;
-
-% -------------------------------------------------------------------------
-% 6. Sub-routines
+% 5. Sub-routines
 % -------------------------------------------------------------------------
 
 function flag = checkStages(Rocket)

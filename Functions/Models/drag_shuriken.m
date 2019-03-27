@@ -3,8 +3,7 @@ function CD = drag_shuriken(Rocket, theta, alpha, Uinf, nu)
 % reference area for the shuriken airbrake design.
 % INPUTS : 
 % - Rocket  : Rocket object
-% - theta   : Airbrakes command input, -190.5 = closed, 1.162 =
-%             open [deg]
+% - theta   : Airbrakes command input, -232 = closed, 0.9 = open [deg]
 % - alpha   : wind angle of attack [rad]
 % - Uinf    : Air free stream velocity [m/s]
 % - nu      : dynamic viscosity coefficient [m2/s]
@@ -33,7 +32,7 @@ function [f, h] = surface(theta)
 % SURFACE computes the surface and height of a shuriken's wing in function of the
 % angle of opening
 % INPUTS : 
-% - theta : Airbrakes command input, -216 = closed, 1.7 = open [deg]
+% - theta : Airbrakes command input, -232 = closed, 0.9 = open [deg]
 %           
 % OUTPUTS :  
 % - f     : surface of the wing with an opening of theta
@@ -48,19 +47,19 @@ function [f, h] = surface(theta)
 % ==================== Parameters measured with CATIA =====================
 
     % angles in degrees
-    angle_tab = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70];
+    angle_tab = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 66, 73];
     
     % corresponding surfaces in m^2
-    surface_tab = [0, 1.1, 2.23, 3.38, 4.56, 5.76, 6.98, 8.22, 9.48, 10.75, 12.03, 13.32, 14.61, 15.9, 17.19]*1e-4; 
+    surface_tab = [0, 1.77, 2.85, 4.038, 5.27, 6.534, 7.825, 9.139, 10.47, 11.83, 13.19, 14.57, 15.95, 17.62, 19.56]*1e-4; 
     
     % height in m
-    h_tab = [0, 3.76, 7.45, 11.04, 14.5, 17.81, 20.95, 23.88, 26.58, 29.03, 31.2, 33.09, 34.64, 35.87, 36.76]*1e-3; 
+    h_tab = [0, 3.91, 7.758, 11.517, 15.16, 18.658, 21.982, 25.104, 27.995, 30.628, 32.979, 35.023, 36.741, 38.564, 39.561]*1e-3; 
     
 % ===================== Interpolation and conversions =====================
 
-    % converting the motor angle theta (range [-216, 1.7]) to the 
-    % opening angle of the wing(range [0, 70])
-    angle = (theta + 216)*70./217.7;
+    % converting the motor angle theta (range [-232, 0.9]) to the 
+    % opening angle of the wing(range [0, 73])
+    angle = (theta + 232)*73./232.9;
     
     % interpolated surface in function of angle 
     f = interp1(angle_tab, surface_tab, angle, 'pchip');

@@ -6,7 +6,7 @@ addpath('Data');
 
 %% For csv : time[s],altitude[ft],acc[m/s^2],stability margin [calib],mach
 
-OpenRocketData = csvread('Data/Eiger_I_USA_M1450_3225m.csv',17,0);
+OpenRocketData = csvread('Eiger_I_data.csv',17,0);
 time1 = OpenRocketData(:,1);
 altitude1 = OpenRocketData(:,2);
 acc1 = OpenRocketData(:,3);
