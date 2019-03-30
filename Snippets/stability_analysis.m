@@ -17,9 +17,9 @@ close all
 % P = 2.3;
 X_F = 2.74;
 % % Rocket length
-L_r = SimObj.Rocket.stage_z(end)ithub
+L_r = SimObj.Rocket.stage_z(end)
 % % Reference diameter
-d = d
+% d = 
 % % Normal coefficients
 C_N_alpha = 12.3;
 C_N_alpha_F = 10.7;
