@@ -50,4 +50,5 @@ C_mq_fin = 2*C_N_alpha_F*(X_F-P)^2/L_r^2
 C_mq_thrust = 4*m_p/t_b*(L_r-P)^2/(rho*V0*L_r)
 C_mq = C_mq_fin + C_mq_thrust
 Margin = SimObj.SimAuxResults.Margin(1)
-Damping = 0.25*L_r/V0*sqrt(85600*d*L_r/SimObj.SimAuxResults.Ir(1))*C_mq/sqrt(C_m_alpha)
+[~, ~, p] = stdAtmos(S1(end,1),Environment)
+Damping = 0.25*L_r/V0*sqrt(p*d*L_r/SimObj.SimAuxResults.Ir(1))*C_mq/sqrt(C_m_alpha)
