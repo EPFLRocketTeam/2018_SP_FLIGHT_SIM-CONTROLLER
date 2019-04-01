@@ -78,3 +78,7 @@ C_mq_thrust = 4*m_p/t_b*(L_r-P)^2/(rho*V0*L_r)
 C_mq = C_mq_fin + C_mq_thrust
 p = 0.5*rho*V0^2
 Damping = 0.25*L_r/V0*sqrt(p*A*L_r/Il)*C_mq/sqrt(C_m_alpha)
+
+%% Display
+display(['Margin : ' num2str(Margin)]);
+display(['Damping ratio : ' num2str(Damping)]);
