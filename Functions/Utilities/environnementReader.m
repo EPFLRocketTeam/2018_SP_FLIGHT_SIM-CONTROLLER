@@ -67,6 +67,11 @@ while ~feof(rfid)
         case 'Start_Longitude'
             line_data_num = textscan(line_data, '%f');
             Environnement.Start_Longitude = line_data_num{1}(1);    
+            
+        case 'dTdh'
+            line_data_num = textscan(line_data, '%f');
+            Environnement.dTdh = line_data_num{1}(1);  
+            
         otherwise
             display(['ERROR: In environnement definition, unknown line identifier: ' line_id]);
          
