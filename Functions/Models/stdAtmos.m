@@ -12,14 +12,15 @@ function [T, a, p, rho, Nu] = stdAtmos(alt,Env)
 %
 % ASSUMPTIONS:
 % - hydrostatic approximation of atmosphere
-% - linear temperature variation with altitude
+% - linear temperature variation with altitude with a slope of -9.5°C/km-->
+% comes from result of radiosonde data
 % - homogenous composition
 %
 % LIMITATIONS:
 % - troposphere: 10km
 %
-% AUTOR:    ERIC BRUNNER
-% LAST UPDATE: 05/03/2017
+% AUTOR:    ERIC BRUNNER ET PAUL GERMANN
+% LAST UPDATE: 01/04/2019
 
 % CHECK ALTITUDE RANGE
 if alt > 1e4
@@ -29,22 +30,17 @@ end
 % CONSTANTS
 R = 287.04; %[M^2/?K/sec^2] real gas constant of air
 gamma = 1.4; %[-] specific heat coefficient of air
-% MEAN SEA LEVEL CONDITIONS
-p0 = 101325; %[Pa]
-rho0 = 1.225; %[kg/m^3]
-T0 = 288.15; %[?K]
-a0 = 340.294; %[m/sec]
-g0 = 9.80665; %[m/sec^2]
+a0 = 340.294; %[m/sec] sound speed at sea level
+g0 = 9.80665; %[m/sec^2] gravity at sea level
 
-% DATA
-% stations
-dTdh = -6.5; %[?K/km] temperature variation in troposphere
+%GRAVITY EXPRESSION: ACCELERATION DUE TO GRAVITY (IEC 60193)
+%g=9.7803*(1+0.0053*(sin(Environnement.Start_Latitude))^2)-3*10^(-6)*alt;
 
 % TEMPERATURE MODEL
-T = T0 + dTdh*alt/1000;             % for a better approximation because of radiosonde data: T=T0 +dTdh*(alt-alt0)/1000 with T0: floor temperature that you will enter in the simulator; dTdh=-9.5 (because of the required data) alt0: alt0 from sea level of the flight place
+T = Environnement.Temperature_Ground + Environnement.dTdh*(alt-Environnement.Start_Altitude)/1000; %en [K]
 
 % PRESSURE MODEL
-p = p0*(1+dTdh/1000*alt/T0).^(-g0/R/dTdh*1000);
+p = p0*(1+Environnement.dTdh/1000*alt/T0).^(-g0/R/Environnement.dTdh*1000);
 
 % DENSITY MODEL
 x = Env.Saturation_Vapor_Ratio*Env.Humidity_Ground;
