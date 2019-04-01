@@ -4,6 +4,7 @@ Humidity_Ground 1
 Start_Altitude 460
 Start_Latitude 46.838505
 Start_Longitude 6.900026
+dTdh -9.5
 V_inf 2
 V_Azimuth 0
 Turb_I 0.005
