@@ -30,6 +30,9 @@ end
 % CONSTANTS
 R = 287.04; %[M^2/?K/sec^2] real gas constant of air
 gamma = 1.4; %[-] specific heat coefficient of air
+% MEAN SEA LEVEL CONDITIONS
+p0 = 101325; %[Pa]
+T0 = 288.15; %[K]
 a0 = 340.294; %[m/sec] sound speed at sea level
 g0 = 9.80665; %[m/sec^2] gravity at sea level
 
@@ -37,10 +40,10 @@ g0 = 9.80665; %[m/sec^2] gravity at sea level
 %g=9.7803*(1+0.0053*(sin(Environnement.Start_Latitude))^2)-3*10^(-6)*alt;
 
 % TEMPERATURE MODEL
-T = Environnement.Temperature_Ground + Environnement.dTdh*(alt-Environnement.Start_Altitude)/1000; %en [K]
+T = Env.Temperature_Ground + Env.dTdh*(alt-Env.Start_Altitude)/1000; %en [K]
 
 % PRESSURE MODEL
-p = p0*(1+Environnement.dTdh/1000*alt/T0).^(-g0/R/Environnement.dTdh*1000);
+p = p0*(1+Env.dTdh/1000*alt/T0).^(-g0/R/Env.dTdh*1000);
 
 % DENSITY MODEL
 x = Env.Saturation_Vapor_Ratio*Env.Humidity_Ground;
