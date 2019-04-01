@@ -29,7 +29,7 @@
 % W = SimObj.SimAuxResults.CM(1)
 % P = SimObj.SimAuxResults.Xcp(1)
 % to
-% SimObj.SimAuxResults.Il(index)
+% Il = SimObj.SimAuxResults.Il(index)
 % W = SimObj.SimAuxResults.CM(index)
 % P = SimObj.SimAuxResults.Xcp(index)
 
