@@ -8,7 +8,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R05.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R06_QR.txt');
 Environment = environnementReader('Environment/Environnement_Definition_USA.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
@@ -35,8 +35,16 @@ display(['Launch rail departure velocity : ' num2str(S1(end,2))]);
 T2 = [T2_1; T2_2(2:end)];
 S2 = [S2_1; S2_2(2:end, :)];
 display(['Apogee AGL : ' num2str(S2(end,3))]);
-display(['Max speed : ' num2str(max(S2(:,6)))]);
-display(['Max acceleration : ' num2str(max(diff(S2(:,6))./diff(T2)))]);
+display(['Apogee AGL @t = ' num2str(T2(end))]);
+[maxi,index] = max(S2(:,6));
+display(['Max speed : ' num2str(maxi)]);
+display(['Max speed @t = ' num2str(T2(index))]);
+[~,a] = stdAtmos(S2(index,3),Environment);
+display(['Max Mach number : ' num2str(maxi/a)]);
+[maxi,index] = max(diff(S2(:,6))./diff(T2));
+display(['Max acceleration : ' num2str(maxi)]);
+display(['Max g : ' num2str(maxi/9.81)]);
+display(['Max g @t = ' num2str(T2(index))]);
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Drogue
 %--------------------------------------------------------------------------
@@ -48,6 +56,8 @@ display(['Max acceleration : ' num2str(max(diff(S2(:,6))./diff(T2)))]);
 %--------------------------------------------------------------------------
 
 [T4, S4, T4E, S4E, I4E] = SimObj.MainParaSim(T3(end), S3(end,1:3)', S3(end, 4:6)');
+
+display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' min ' num2str(mod(T4(end),60)) ' s']);
 
 %% ------------------------------------------------------------------------
 % 3DOF Crash Simulation
@@ -73,10 +83,10 @@ end
 %quiver3(S2(:,1), S2(:,2), S2(:,3), direcv(:,1), direcv(:,2), direcv(:,3));
 
 % plot trajectory of CM
-plot3(S2(:,1), S2(:,2), S2(:,3), 'DisplayName', 'Ascent');
-plot3(S3(:,1), S3(:,2), S3(:,3), 'DisplayName', 'Drogue Descent');
-plot3(S4(:,1), S4(:,2), S4(:,3), 'DisplayName', 'Main Descent');
-plot3(S5(:,1), S5(:,2), S5(:,3), 'DisplayName', 'Ballistic Descent')
+plot3(S2(:,1), S2(:,2), S2(:,3), 'DisplayName', 'Ascent','LineWidth',2);
+plot3(S3(:,1), S3(:,2), S3(:,3), 'DisplayName', 'Drogue Descent','LineWidth',2);
+plot3(S4(:,1), S4(:,2), S4(:,3), 'DisplayName', 'Main Descent','LineWidth',2);
+plot3(S5(:,1), S5(:,2), S5(:,3), 'DisplayName', 'Ballistic Descent','LineWidth',2)
 daspect([1 1 1]); pbaspect([1, 1, 1]); view(45, 45);
 [XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', ceil(diff(xlim)/3.4), 'Width', ceil(diff(ylim)/3.4));
 xImage = [xlim',xlim'];
