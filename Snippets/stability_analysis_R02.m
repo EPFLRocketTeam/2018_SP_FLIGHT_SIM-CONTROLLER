@@ -7,11 +7,12 @@
 % Formules tirées des documents ci-dessus et des fichiers Main_3D et
 % Simulator3D.
 
-clear all; close all;
+clear all; close all; clc;
 addpath(genpath('../Declarations'),...
         genpath('../Functions'),...
         genpath('../Snippets'),...
-        genpath('../Simulator_1D'));
+        genpath('../Simulator_1D'),...
+        genpath('../Simulator_3D'));
 
 % Rocket Definition
 Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R06_QR.txt');
@@ -82,8 +83,14 @@ Il = SimObj.SimAuxResults.Il(1);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display(['CG - Nominal case : ' num2str(Rocket.rocket_cm)]);
+display(['Il initial - Nominal case : ' num2str(Rocket.rocket_I)]);
+display(['rho - Nominal case : ' num2str(rho)]);
+display(['Speed - Nominal case : ' num2str(norm(V))]);
+display(['CN_alpha - Nominal case : ' num2str(Calpha(end))]);
 display(['Stability - Nominal case : ' num2str((P-W)/d)]);
 display(['Damping ratio - Nominal case : ' num2str(epsilon)]);
+
 
 %% ========================================================================
 % Max speed
@@ -142,8 +149,14 @@ Il = SimObj.SimAuxResults.Il(index);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display(['CG - Max speed : ' num2str(Rocket.rocket_cm)]);
+display(['Il initial - Max speed : ' num2str(Rocket.rocket_I)]);
+display(['rho - Max speed : ' num2str(rho)]);
+display(['Speed - Max speed : ' num2str(norm(V))]);
+display(['CN_alpha - Max speed : ' num2str(Calpha(end))]);
 display(['Stability - Max speed case : ' num2str((P-W)/d)]);
 display(['Damping ratio - Max speed case : ' num2str(epsilon)]);
+
 
 %% ========================================================================
 % Worst case
@@ -215,7 +228,83 @@ Il = SimObj.SimAuxResults.Il(1);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display(['CG - Worst case : ' num2str(Rocket.rocket_cm)]);
+display(['Il initial - Worst case : ' num2str(Rocket.rocket_I)]);
+display(['rho - Worst case : ' num2str(rho)]);
+display(['Speed - Worst case : ' num2str(norm(V))]);
+display(['CN_alpha - Worst case : ' num2str(Calpha(end))]);
 display(['Stability - Worst case : ' num2str((P-W)/d)]);
 display(['Damping ratio - Worst case : ' num2str(epsilon)]);
+
+
+%% ========================================================================
+% Worst case Max speed
+% =========================================================================
+
+[maxi,index] = max(S2_1(:,6));
+
+% Max speed
+X = S2_1(index, 1:3);
+V = S2_1(index, 4:6);
+% Local speed of sound and density of air
+[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2_1(index, 3), Environment);
+% CHANGE DENSITY
+rho = rho * 0.95;
+% Mach number
+M = norm(V) / a;
+
+C = quat2rotmat(normalizeVect(S2_1(index, 7:10)'));
+
+RA = C*[0,0,1]'; % Roll Axis
+Vcm = V -...
+          ... % Wind as computed by windmodel
+windModel(T2_1(index), Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+Environment.Turb_model,X(3))';
+alpha = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
+angle = rot2anglemat(C);
+theta = angle(3);
+
+[Calpha, CP] = barrowmanLift(Rocket, alpha, M, theta);
+% CHANGE CN_alpha FOR THE FINS
+Calpha(end) = Calpha(end)*0.9;
+
+CNa2A = 0;
+W = SimObj.SimAuxResults.CM(index);
+for i = 1:length(Calpha)
+    CNa2A = CNa2A + Calpha(i) * (CP(i) - W)^2;
+end
+d = max(Rocket.diameters);
+Ar = pi/4*d^2;
+
+C2A = rho * norm(V) * Ar / 2 * CNa2A;
+
+[~,dMdt] = Mass_Non_Lin(T2_1(index), Rocket);
+Lne = Rocket.stage_z(end);
+
+C2R = dMdt * (Lne - W)^2;
+
+% C2A Aerodynamic Damping Moment Coefficient
+% C2R Propulsive Damping Moment Coefficient
+% C2 Damping Moment Coefficient
+C2 = C2A + C2R;
+
+CNa = sum(Calpha);
+P = SimObj.SimAuxResults.Xcp(index);
+
+C1 = rho / 2 * norm(V)^2 * Ar * CNa * (P - W);
+
+Il = SimObj.SimAuxResults.Il(index);
+
+% Damping ratio
+epsilon = C2 / (2 * sqrt(C1 * Il));
+
+display(['CG - Worst case Max speed : ' num2str(Rocket.rocket_cm)]);
+display(['Il initial - Worst case Max speed : ' num2str(Rocket.rocket_I)]);
+display(['rho - Worst case Max speed : ' num2str(rho)]);
+display(['Speed - Worst case Max speed : ' num2str(norm(V))]);
+display(['CN_alpha - Worst case Max speed : ' num2str(Calpha(end))]);
+display(['Stability - Worst case Max speed case : ' num2str((P-W)/d)]);
+display(['Damping ratio - Worst case Max speed case : ' num2str(epsilon)]);
+
 
 warning('on','all')

@@ -1,5 +1,5 @@
-Temperature_Ground 316
-Pressure_Ground 86000
+Temperature_Ground 308
+Pressure_Ground 85600
 Humidity_Ground 0.15
 Start_Altitude 1382
 Start_Latitude 32.942380
