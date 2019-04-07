@@ -39,6 +39,11 @@ SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 
 [T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], S1(end, 2));
 
+[T2_2, S2_2, T2_2E, S2_2E, I2_2E] = SimObj.FlightSim([T2_1(end) 40], S2_1(end, 1:3)', S2_1(end, 4:6)', S2_1(end, 7:10)', S2_1(end, 11:13)');
+
+T2 = [T2_1; T2_2(2:end)];
+S2 = [S2_1; S2_2(2:end, :)];
+
 % -------------------------------------------------------------------------
 % Results
 % -------------------------------------------------------------------------
@@ -46,7 +51,7 @@ SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 % Speed off rail
 V = S1(end, 2);
 % Local speed of sound and density of air
-[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2_1(1, 3), Environment);
+[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(1, 3), Environment);
 % Mach number
 M = V / a;
 alpha = 0;
@@ -96,22 +101,22 @@ display(['Damping ratio - Nominal case : ' num2str(epsilon)]);
 % Max speed
 % =========================================================================
 
-[maxi,index] = max(S2_1(:,6));
+[maxi,index] = max(S2(:,6));
 
 % Max speed
-X = S2_1(index, 1:3);
-V = S2_1(index, 4:6);
+X = S2(index, 1:3);
+V = S2(index, 4:6);
 % Local speed of sound and density of air
-[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2_1(index, 3), Environment);
+[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(index, 3), Environment);
 % Mach number
 M = norm(V) / a;
 
-C = quat2rotmat(normalizeVect(S2_1(index, 7:10)'));
+C = quat2rotmat(normalizeVect(S2(index, 7:10)'));
 
 RA = C*[0,0,1]'; % Roll Axis
 Vcm = V -...
           ... % Wind as computed by windmodel
-windModel(T2_1(index), Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+windModel(T2(index), Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
 Environment.Turb_model,X(3))';
 alpha = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 angle = rot2anglemat(C);
@@ -129,7 +134,7 @@ Ar = pi/4*d^2;
 
 C2A = rho * norm(V) * Ar / 2 * CNa2A;
 
-[~,dMdt] = Mass_Non_Lin(T2_1(index), Rocket);
+[~,dMdt] = Mass_Non_Lin(T2(index), Rocket);
 Lne = Rocket.stage_z(end);
 
 C2R = dMdt * (Lne - W)^2;
@@ -157,6 +162,11 @@ display(['CN_alpha - Max speed : ' num2str(Calpha(end))]);
 display(['Stability - Max speed case : ' num2str((P-W)/d)]);
 display(['Damping ratio - Max speed case : ' num2str(epsilon)]);
 
+%% ========================================================================
+% Extra values
+% =========================================================================
+
+display(['Apogee : ' num2str(S2(end, 3))]);
 
 %% ========================================================================
 % Worst case
@@ -165,6 +175,8 @@ display(['Damping ratio - Max speed case : ' num2str(epsilon)]);
 % ROCKET CHANGES
 Rocket.rocket_cm = Rocket.rocket_cm * 1.05;
 Rocket.rocket_I = Rocket.rocket_I * 1.05;
+% Speed off rail
+V = 20;
 
 SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 
@@ -178,16 +190,19 @@ SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 % 6DOF Flight Simulation
 %--------------------------------------------------------------------------
 
-[T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], S1(end, 2));
+[T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], V);
+
+[T2_2, S2_2, T2_2E, S2_2E, I2_2E] = SimObj.FlightSim([T2_1(end) 40], S2_1(end, 1:3)', S2_1(end, 4:6)', S2_1(end, 7:10)', S2_1(end, 11:13)');
+
+T2 = [T2_1; T2_2(2:end)];
+S2 = [S2_1; S2_2(2:end, :)];
 
 % -------------------------------------------------------------------------
 % Results
 % -------------------------------------------------------------------------
 
-% Speed off rail
-V = S1(end, 2);
 % Local speed of sound and density of air
-[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2_1(1, 3), Environment);
+[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(1, 3), Environment);
 % CHANGE DENSITY
 rho = rho * 0.95;
 % Mach number
@@ -241,24 +256,24 @@ display(['Damping ratio - Worst case : ' num2str(epsilon)]);
 % Worst case Max speed
 % =========================================================================
 
-[maxi,index] = max(S2_1(:,6));
+[maxi,index] = max(S2(:,6));
 
 % Max speed
-X = S2_1(index, 1:3);
-V = S2_1(index, 4:6);
+X = S2(index, 1:3);
+V = S2(index, 4:6);
 % Local speed of sound and density of air
-[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2_1(index, 3), Environment);
+[~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(index, 3), Environment);
 % CHANGE DENSITY
 rho = rho * 0.95;
 % Mach number
 M = norm(V) / a;
 
-C = quat2rotmat(normalizeVect(S2_1(index, 7:10)'));
+C = quat2rotmat(normalizeVect(S2(index, 7:10)'));
 
 RA = C*[0,0,1]'; % Roll Axis
 Vcm = V -...
           ... % Wind as computed by windmodel
-windModel(T2_1(index), Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+windModel(T2(index), Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
 Environment.Turb_model,X(3))';
 alpha = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
 angle = rot2anglemat(C);
@@ -278,7 +293,7 @@ Ar = pi/4*d^2;
 
 C2A = rho * norm(V) * Ar / 2 * CNa2A;
 
-[~,dMdt] = Mass_Non_Lin(T2_1(index), Rocket);
+[~,dMdt] = Mass_Non_Lin(T2(index), Rocket);
 Lne = Rocket.stage_z(end);
 
 C2R = dMdt * (Lne - W)^2;
@@ -305,6 +320,12 @@ display(['Speed - Worst case Max speed : ' num2str(norm(V))]);
 display(['CN_alpha - Worst case Max speed : ' num2str(Calpha(end))]);
 display(['Stability - Worst case Max speed case : ' num2str((P-W)/d)]);
 display(['Damping ratio - Worst case Max speed case : ' num2str(epsilon)]);
+
+%% ========================================================================
+% Extra values
+% =========================================================================
+
+display(['Apogee : ' num2str(S2(end, 3))]);
 
 
 warning('on','all')
