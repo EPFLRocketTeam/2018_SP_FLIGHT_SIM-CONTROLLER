@@ -6,7 +6,7 @@ Rocket = rocketReader('Rocket_Definition_Mat_III_WindTunnel.txt');
 Environnement = environnementReader('Environnement_Definition_WT.txt');
 
     
-alpha = 0/180*pi; % Angle de la fusée
+alpha = 9.5/180*pi; % Angle de la fusée
 V_inf = 80; % Vitesse du vent
 gamma = 1.4;
 r = 287; % Constante des gaz parfaits ajustée pour l'air
@@ -22,7 +22,7 @@ phi_effect = interp1([0, 36000], [-190, 1.65], phi_set, 'linear');
 
 C_Dab = []; C_D = []; F_Dab = []; F_D = []; C_Na = []; F_N = []; F_y = []; F_z = [];
 for v=[20,30,40,50,60,70,80]
-    v
+    M = v/a; % Nombre de Mach
     c_Dab = drag_shuriken(Rocket, phi_effect, alpha, v, nu);
     C_Dab = [C_Dab ; c_Dab];
     c_D = drag(Rocket, alpha, v, nu, a);
@@ -31,7 +31,7 @@ for v=[20,30,40,50,60,70,80]
     F_Dab = [F_Dab ; f_Dab];
     f_D = 0.5*c_D*rho*pi*Rocket.dm^2/4*v^2;
     F_D = [F_D ; f_D];
-    c_Na = drag(Rocket, alpha, v, nu, a);
+    c_Na = normalLift(Rocket, alpha, K, M, 0, 1);
     C_Na = [C_Na ; c_Na];
     f_N = 0.5*c_Na*alpha*rho*pi*Rocket.dm^2/4*v^2;
     F_N = [F_N ; f_N];
