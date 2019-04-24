@@ -15,7 +15,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_3D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R06_QR.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R07.txt');
 Environment = environnementReader('Environment/Environnement_Definition_USA.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
@@ -88,9 +88,9 @@ Il = SimObj.SimAuxResults.Il(1);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
-display(['CG - Nominal case : ' num2str(Rocket.rocket_cm)]);
-display(['Il initial - Nominal case : ' num2str(Rocket.rocket_I)]);
-display(['rho - Nominal case : ' num2str(rho)]);
+% display(['CG - Nominal case : ' num2str(Rocket.rocket_cm)]);
+% display(['Il initial - Nominal case : ' num2str(Rocket.rocket_I)]);
+% display(['Rho - Nominal case : ' num2str(rho)]);
 display(['Speed - Nominal case : ' num2str(norm(V))]);
 display(['CN_alpha - Nominal case : ' num2str(Calpha(end))]);
 display(['Stability - Nominal case : ' num2str((P-W)/d)]);
@@ -154,9 +154,9 @@ Il = SimObj.SimAuxResults.Il(index);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
-display(['CG - Max speed : ' num2str(Rocket.rocket_cm)]);
-display(['Il initial - Max speed : ' num2str(Rocket.rocket_I)]);
-display(['rho - Max speed : ' num2str(rho)]);
+% display(['CG - Max speed : ' num2str(Rocket.rocket_cm)]);
+% display(['Il initial - Max speed : ' num2str(Rocket.rocket_I)]);
+% display(['Rho - Max speed : ' num2str(rho)]);
 display(['Speed - Max speed : ' num2str(norm(V))]);
 display(['CN_alpha - Max speed : ' num2str(Calpha(end))]);
 display(['Stability - Max speed case : ' num2str((P-W)/d)]);
@@ -243,9 +243,9 @@ Il = SimObj.SimAuxResults.Il(1);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
-display(['CG - Worst case : ' num2str(Rocket.rocket_cm)]);
-display(['Il initial - Worst case : ' num2str(Rocket.rocket_I)]);
-display(['rho - Worst case : ' num2str(rho)]);
+% display(['CG - Worst case : ' num2str(Rocket.rocket_cm)]);
+% display(['Il initial - Worst case : ' num2str(Rocket.rocket_I)]);
+% display(['Rho - Worst case : ' num2str(rho)]);
 display(['Speed - Worst case : ' num2str(norm(V))]);
 display(['CN_alpha - Worst case : ' num2str(Calpha(end))]);
 display(['Stability - Worst case : ' num2str((P-W)/d)]);
@@ -313,9 +313,9 @@ Il = SimObj.SimAuxResults.Il(index);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
-display(['CG - Worst case Max speed : ' num2str(Rocket.rocket_cm)]);
-display(['Il initial - Worst case Max speed : ' num2str(Rocket.rocket_I)]);
-display(['rho - Worst case Max speed : ' num2str(rho)]);
+% display(['CG - Worst case Max speed : ' num2str(Rocket.rocket_cm)]);
+% display(['Il initial - Worst case Max speed : ' num2str(Rocket.rocket_I)]);
+% display(['Rho - Worst case Max speed : ' num2str(rho)]);
 display(['Speed - Worst case Max speed : ' num2str(norm(V))]);
 display(['CN_alpha - Worst case Max speed : ' num2str(Calpha(end))]);
 display(['Stability - Worst case Max speed case : ' num2str((P-W)/d)]);
