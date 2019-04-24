@@ -173,8 +173,8 @@ display(['Apogee : ' num2str(S2(end, 3))]);
 % =========================================================================
 
 % ROCKET CHANGES
-Rocket.rocket_cm = Rocket.rocket_cm * 1.05;
-Rocket.rocket_I = Rocket.rocket_I * 1.05;
+Rocket.rocket_cm = Rocket.rocket_cm * 1.1;
+Rocket.rocket_I = Rocket.rocket_I * 1.1;
 % Speed off rail
 V = 20;
 
@@ -204,7 +204,7 @@ S2 = [S2_1; S2_2(2:end, :)];
 % Local speed of sound and density of air
 [~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(1, 3), Environment);
 % CHANGE DENSITY
-rho = rho * 0.95;
+rho = rho * 0.9;
 % Mach number
 M = V / a;
 alpha = 0;
@@ -264,7 +264,7 @@ V = S2(index, 4:6);
 % Local speed of sound and density of air
 [~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(index, 3), Environment);
 % CHANGE DENSITY
-rho = rho * 0.95;
+rho = rho * 0.9;
 % Mach number
 M = norm(V) / a;
 
