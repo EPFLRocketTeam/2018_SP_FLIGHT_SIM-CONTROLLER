@@ -24,6 +24,7 @@ classdef Simulator3D < handle
       tmp_CM
       tmp_Il
       tmp_Ir
+      tmp_Delta
    end
    
 % -------------------------------------------------------------------------  
@@ -52,8 +53,8 @@ classdef Simulator3D < handle
            obj.SimAuxResults.Mass = [];
            obj.SimAuxResults.CM = [];
            obj.SimAuxResults.Il = [];
-           obj.SimAuxResults.Ir = []; 
-           
+           obj.SimAuxResults.Ir = [];
+           obj.SimAuxResults.Delta = [];
        end
        
    end
@@ -254,6 +255,7 @@ classdef Simulator3D < handle
             obj.tmp_CM = Cm;
             obj.tmp_Il = I_L;
             obj.tmp_Ir = I_R;
+            obj.tmp_Delta = delta;
         end
         
         % --------------------------- 
@@ -567,7 +569,10 @@ methods(Access = private)
             end 
             if obj.SimOutput.Ir
                 obj.SimAuxResults.Ir = [obj.SimAuxResults.Ir, obj.tmp_Ir];
-            end 
+            end
+            if obj.SimOutput.Delta
+                obj.SimAuxResults.Delta = [obj.SimAuxResults.Delta, obj.tmp_Delta];
+            end
             
         end
         
