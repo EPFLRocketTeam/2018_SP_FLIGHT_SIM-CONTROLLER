@@ -1,6 +1,6 @@
 stages 4
-diameters 0 0.155 0.155 0.135
-stage_z 0 0.242 2.98 3.03
+diameters 0 0.156 0.156 0.135
+stage_z 0 0.26 2.98 3.06
 fin_n 3
 fin_xt 2.64
 fin_s 0.2
@@ -9,10 +9,10 @@ fin_ct 0.125
 fin_xs 0.107
 fin_t 0.004
 lug_n 2
-lug_S 1.41e-4
-rocket_m 23.093
+lug_S 1.81e-4
+rocket_m 23.11
 rocket_I 11.26
-rocket_cm 1.66
+rocket_cm 1.51
 ab_x 2.05
 ab_n 3
 ab_phi -232

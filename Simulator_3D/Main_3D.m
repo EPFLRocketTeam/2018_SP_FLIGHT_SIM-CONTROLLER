@@ -8,7 +8,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R06_QR.txt');
+Rocket = rocketReader('Rocket_Definition_Eiger_I_R07.txt');
 Environment = environnementReader('Environment/Environnement_Definition_USA.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
@@ -21,6 +21,7 @@ SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 [T1, S1] = SimObj.RailSim();
 
 display(['Launch rail departure velocity : ' num2str(S1(end,2))]);
+display(['Launch rail departure time : ' num2str(T1(end))]);
 
 %% ------------------------------------------------------------------------
 % 6DOF Flight Simulation
@@ -39,7 +40,13 @@ display(['Apogee AGL @t = ' num2str(T2(end))]);
 [maxi,index] = max(S2(:,6));
 display(['Max speed : ' num2str(maxi)]);
 display(['Max speed @t = ' num2str(T2(index))]);
-[~,a] = stdAtmos(S2(index,3),Environment);
+[~,a,~,rho,nu] = stdAtmos(S2(index,3),Environment);
+Fd = 0.5*SimObj.SimAuxResults.Cd(index)*rho*pi*Rocket.dm^2/4*maxi^2;
+display(['Max drag force = ' num2str(Fd)]);
+display(['Max drag force along rocket axis = ' num2str(Fd*cos(SimObj.SimAuxResults.Delta(index)))]);
+C_Dab = drag_shuriken(Rocket, 0, SimObj.SimAuxResults.Delta(index), maxi, nu);
+F_Dab = 0.5*C_Dab*rho*pi*Rocket.dm^2/4*maxi^2;
+display(['AB drag force at max speed = ' num2str(F_Dab)]);
 display(['Max Mach number : ' num2str(maxi/a)]);
 [maxi,index] = max(diff(S2(:,6))./diff(T2));
 display(['Max acceleration : ' num2str(maxi)]);
@@ -75,7 +82,7 @@ C = quat2rotmat(S2(:, 7:10));
 angle = rot2anglemat(C);
 
 % plot rocket orientation
-figure; hold on;
+figure('Name','3D Trajectory Representation'); hold on;
 direcv = zeros(length(C),3);
 for i  = 1:length(C)
     direcv(i,:) = C(:,:,i)*[0;0;1];
@@ -99,7 +106,7 @@ xlabel 'S [m]'; ylabel 'E [m]'; zlabel 'Altitude [m]';
 legend show;
 
 % PLOT 2 : time dependent altitude
-figure; hold on;
+figure('Name','Time dependent altitude'); hold on;
 plot(T2, S2(:,3));
 plot(T3, S3(:,3));
 plot(T4, S4(:,3));
@@ -108,7 +115,7 @@ title 'Altitude vs. time'
 xlabel 't [s]'; ylabel 'Altitude [m]';
 
 % PLOT 3 : Altitude vs. drift
-figure; hold on;
+figure('Name','Altitude vs Drift')'; hold on;
 plot(sqrt(S2(:,1).^2 + S2(:,2).^2), S2(:,3));
 %quiver(sqrt(S2(:,1).^2 + S2(:,2).^2), S2(:,3), sqrt(direcv(:,1).^2 + direcv(:,2).^2), direcv(:,3));
 plot(sqrt(S3(:,1).^2 + S3(:,2).^2), S3(:,3));
@@ -119,7 +126,7 @@ xlabel 'Drift [m]'; ylabel 'Altitude [m]';
 daspect([1 1 1]);
 
 % PLOT 4 : Aerodynamic properties
-figure; hold on;
+figure('Name','Aerodynamic properties'); hold on;
 % Plot Margin
 subplot(3,2,1);
 plot(T2, SimObj.SimAuxResults.Margin)
@@ -157,7 +164,7 @@ screensize = get( groot, 'Screensize' );
 set(gcf,'Position',[screensize(1:2), screensize(3)*0.5,screensize(4)]);
 
 % PLOT 5 : Mass properties
-figure; hold on;
+figure('Name','Mass properties'); hold on;
 % Plot mass vs. time
 subplot(2,2,1);
 plot(T2, SimObj.SimAuxResults.Mass)
@@ -195,7 +202,7 @@ set(gcf,'Position',[screensize(3)*0.5, screensize(2),...
     screensize(3)*0.5,screensize(3)*0.5]);            
 
 % PLOT 6 : Margin plot
-figure; hold on;
+figure('Name','Dynamic stability margin'); hold on;
 title 'Stability margin'
 yyaxis left;
 plot(T2, SimObj.SimAuxResults.CM, 'DisplayName', 'X_{CM}');
@@ -208,5 +215,5 @@ title 'Dynamic Stability Margin'
 legend show;
 
 % plot 7 : norm of quaternion
-figure;
+figure('Name','Norm of quaternion'); hold on;
 plot(T2, sqrt(sum(S2(:, 7:10).^2, 2)));
