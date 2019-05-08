@@ -19,7 +19,7 @@ function [T, a, p, rho, Nu] = stdAtmos(alt,Env)
 % LIMITATIONS:
 % - troposphere: 10km
 %
-% AUTOR:    ERIC BRUNNER ET PAUL GERMANN
+% AUTHOR: ERIC BRUNNER ET PAUL GERMANN
 % LAST UPDATE: 01/04/2019
 
 % CHECK ALTITUDE RANGE
