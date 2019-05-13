@@ -168,6 +168,14 @@ display(['Damping ratio - Max speed case : ' num2str(epsilon)]);
 
 display(['Apogee : ' num2str(S2(end, 3))]);
 
+Stability = (SimObj.SimAuxResults.Xcp - SimObj.SimAuxResults.CM)./d;
+% Cut values near apogee, when the rocket's speed is below 50 m/s
+% (arbitrary, value chosen from analysis)
+Stability = Stability(1:length(S2_1) + find(S2_2(:,6) < 50,1));
+
+display(['Min Static Margin : ' num2str(min(Stability))]);
+display(['Max Static Margin : ' num2str(max(Stability))]);
+
 %% ========================================================================
 % Worst case
 % =========================================================================
@@ -327,5 +335,14 @@ display(['Damping ratio - Worst case Max speed case : ' num2str(epsilon)]);
 
 display(['Apogee : ' num2str(S2(end, 3))]);
 
+Stability = (SimObj.SimAuxResults.Xcp - SimObj.SimAuxResults.CM)./d;
+% Cut values near apogee, when the rocket's speed is below 50 m/s
+% (arbitrary, value chosen from analysis)
+Stability = Stability(1:length(S2_1) + find(S2_2(:,6) < 50,1));
+
+display(['Min Static Margin : ' num2str(min(Stability))]);
+display(['Max Static Margin : ' num2str(max(Stability))]);
+
+%% End
 
 warning('on','all')

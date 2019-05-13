@@ -34,6 +34,7 @@ Option = odeset('Events', @myEvent);
 H_initial = interp1(t1, x1(:,1), Rocket.Burn_Time, 'linear');
 V_rail = interp1(x1(:,1), x1(:,2), x_rail, 'linear');
 display(['Velocity off rail: ' num2str(V_rail) ' m/s']);
+display(['Time off rail: ' num2str(t1(end)) ' s']);
 
 if (nargin>10)
    plotAxes = ax; 
@@ -44,9 +45,9 @@ end
 
 hold(plotAxes, 'on');
 set(plotAxes, 'Fontsize', 16); xlabel(plotAxes, 'altitude [m]'); ylabel(plotAxes, 'speed [m/s]');
-plot(plotAxes, x(:,1), x(:,2), 'k--', 'DisplayName', ['+' num2str(13) '% apogee trajectory'],'LineWidth', 1.5);
+plot(plotAxes, x(:,1), x(:,2), 'k--', 'DisplayName', ['+' num2str(thrust_err*100) '% apogee trajectory'],'LineWidth', 1.5);
 plot(plotAxes, x1(:,1), x1(:,2), 'k-', 'DisplayName', 'Nominal trajectory','LineWidth', 1.5);
-%plot(plotAxes, x2(:,1), x2(:,2), 'k--', 'DisplayName', ['-' num2str(thrust_err*100) '% thrust trajectory'],'LineWidth', 1);
+%plot(plotAxes, x2(:,1), x2(:,2), 'k--', 'DisplayName', ['-' num2str(thrust_err*100) '% thrust trajectory'],'LineWidth', 1.5);
 hold(plotAxes, 'on');
 display('Sim: Boost OK ');
 

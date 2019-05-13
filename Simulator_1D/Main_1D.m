@@ -13,7 +13,7 @@ addpath(genpath('../Declarations'),...
 %--------------------------------------------------------------------------
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition_Eiger_I_R03.txt');
+Rocket = rocketReader('Rocket_Definition_Eiger_I_Final.txt');
 Environnement = environnementReader('Environnement_Definition_USA.txt');
 
 % Initial Conditions

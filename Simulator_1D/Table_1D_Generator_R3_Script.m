@@ -9,7 +9,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Snippets'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Final.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_Final.txt');
 Environnement = environnementReader('Environment/Environnement_Definition_USA.txt');
 
 % Define table generation parameters
