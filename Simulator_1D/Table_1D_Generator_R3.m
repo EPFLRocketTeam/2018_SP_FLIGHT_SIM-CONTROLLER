@@ -90,13 +90,16 @@ for i = 1:N_H
     end
 end
 tab = [h_tab, v_tab, convert_func(theta_tab)];
-csvwrite(['1D_TAB_TARGET=' num2str(H_target)], tab);
-[filepath, name, ext] = fileparts(['1D_TAB_TARGET=' num2str(H_target)]);
+CSVFileName = ['Simulator_1D/1D_TAB_TARGET=' num2str(H_target) '.csv'];
+csvwrite(CSVFileName, tab);
+[filepath, name, ext] = fileparts(CSVFileName);
 path = [filepath,name,ext];
 
 % -------------------------------------------------------------------------
 % Write .h file
 % -------------------------------------------------------------------------
-H_path = [filepath, 'lookup_table_shuriken.h'];
+DateTime = string(datetime('now','TimeZone','Europe/London','Locale','en_US','Format','yyyy-MM-dd_HH-mm-ss'));
+Filename = sprintf('lookup_table_shuriken_%s.h', DateTime);
+H_path = fullfile(filepath, Filename);
 writeAirbrakeTable(H_path, N_H*N_AB, N_AB, tab);
 end

@@ -13,7 +13,7 @@ xdot = zeros(2,1);
 [M,dMdt] = Mass_Properties(t,Rocket,'NonLinear');
 [~, a, ~, rho, nu] = stdAtmos(x(1) + Environnement.Start_Altitude, Environnement);
 T = thrust_err*Thrust(t,Rocket);
-g = 9.81; %[m/s2] Gravity
+g = 9.80665; %[m/s2] Gravity
 CD = drag(Rocket,0,x(2),nu,a);
 CD_AB = ab_err*AB_drag(Rocket,theta,0,x(2),nu);
 

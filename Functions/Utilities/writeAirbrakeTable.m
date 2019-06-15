@@ -7,8 +7,7 @@ function writeAirbrakeTable(path, length, N_AB, table)
 % - table   : table data
 
 % get file path and create .h file
-[filepath, name, ~] = fileparts(path);
-fileId = fopen([filepath, name, '.h'], 'w');
+fileId = fopen(path, 'w');
 
 % write header
 fprintf(fileId, '#ifndef SHURIKEN_LOOKUP_TABLE \n');
