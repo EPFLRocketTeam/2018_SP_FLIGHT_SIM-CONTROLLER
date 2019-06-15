@@ -34,7 +34,7 @@ Option = odeset('Events', @myEvent);
 H_initial = interp1(t1, x1(:,1), Rocket.Burn_Time, 'linear');
 V_rail = interp1(x1(:,1), x1(:,2), x_rail, 'linear');
 display(['Velocity off rail: ' num2str(V_rail) ' m/s']);
-display(['Time off rail: ' num2str(t1(end)) ' s']);
+display(['Time to apogee: ' num2str(t1(end)) ' s']);
 
 if (nargin>10)
    plotAxes = ax; 
