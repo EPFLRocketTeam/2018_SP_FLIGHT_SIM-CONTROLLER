@@ -76,6 +76,11 @@ display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' m
 % Analyse results
 %--------------------------------------------------------------------------
 
+PlotShowAns = input('Show plots ? [Y/N]\n','s');
+if ~strcmp(PlotShowAns,{'Y','y','Yes','yes'})
+    return
+end
+
 % PLOT 1 : 3D rocket trajectory
 
 C = quat2rotmat(S2(:, 7:10));
