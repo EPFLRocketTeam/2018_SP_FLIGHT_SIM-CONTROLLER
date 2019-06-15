@@ -13,7 +13,7 @@ addpath(genpath('../Declarations'),...
 %--------------------------------------------------------------------------
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition_Eiger_I_Final.txt');
+Rocket = rocketReader('Rocket_Definition_Mat_III_R03_Cernier_230319.txt');
 Environnement = environnementReader('Environnement_Definition_USA.txt');
 
 % Initial Conditions
@@ -23,6 +23,8 @@ tspan = [0 28];
 % Simulation
 Option = odeset('Events', @myEvent);
 [T,X] = ode45(@(t,x) Rocket_Kinematic_R2(t,x,Rocket,Environnement,@drag_shuriken, -190.5),tspan,x_0,Option);
+
+display(['Apogee = ' num2str(max(X(:,1)))]);
 
 %--------------------------------------------------------------------------
 % Visualization

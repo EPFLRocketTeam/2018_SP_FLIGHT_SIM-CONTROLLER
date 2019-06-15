@@ -18,7 +18,7 @@ t = []; T = []; % Initialization
 while ~feof(rfid)   % Test end of file
     
     line_content = fgetl(rfid); % Read one line
-    Tmp = textscan(line_content,'%f32 %f32');
+    Tmp = textscan(line_content,'%f %f');
     t = [t Tmp{1}];
     T = [T Tmp{2}];
 end

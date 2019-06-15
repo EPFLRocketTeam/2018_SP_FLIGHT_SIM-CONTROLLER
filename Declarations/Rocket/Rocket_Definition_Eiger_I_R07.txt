@@ -19,7 +19,7 @@ ab_phi -232
 pl_mass 4
 para_main_SCD 11.2312
 para_drogue_SCD 0.4299
-para_main_event 250
+para_main_event 300
 motor CS_M1800.txt
 motor_fac 1
 cone_mode on
