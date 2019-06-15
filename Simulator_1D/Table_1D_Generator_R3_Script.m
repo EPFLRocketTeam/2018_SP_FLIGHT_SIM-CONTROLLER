@@ -28,7 +28,7 @@ convert_func = @(x) interp1(AB_span, [0, 214] , x, 'linear');
 
 % thrust and drag error rate [0,1]
 
-thrust_err = 0.052;
+thrust_err = 0.085;
 ab_err = 0;
 
 % generate table

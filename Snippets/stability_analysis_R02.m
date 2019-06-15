@@ -15,7 +15,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_3D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_R07.txt');
+Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_Final.txt');
 Environment = environnementReader('Environment/Environnement_Definition_USA.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
