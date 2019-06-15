@@ -14,7 +14,7 @@ Environnement = environnementReader('Environment/Environnement_Definition_USA.tx
 
 % Define table generation parameters
 
-H_target = 3048; N_H = 100; N_AB = 5; 
+H_target = 3048; N_H = 100; N_AB = 5;
 
 % shuriken
 AB_span = [-232, -18];
