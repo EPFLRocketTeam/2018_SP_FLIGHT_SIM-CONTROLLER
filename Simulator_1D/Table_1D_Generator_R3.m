@@ -35,6 +35,7 @@ H_initial = interp1(t1, x1(:,1), Rocket.Burn_Time, 'linear');
 V_rail = interp1(x1(:,1), x1(:,2), x_rail, 'linear');
 display(['Velocity off rail: ' num2str(V_rail) ' m/s']);
 display(['Time to apogee: ' num2str(t1(end)) ' s']);
+display(['Apogee: ' num2str(x1(end,1)) ' m']);
 
 if (nargin>10)
    plotAxes = ax; 
@@ -90,7 +91,7 @@ for i = 1:N_H
     end
 end
 tab = [h_tab, v_tab, convert_func(theta_tab)];
-CSVFileName = ['Simulator_1D/1D_TAB_TARGET=' num2str(H_target) '.csv'];
+CSVFileName = ['1D_TAB_TARGET=' num2str(H_target) '.csv'];
 csvwrite(CSVFileName, tab);
 [filepath, name, ext] = fileparts(CSVFileName);
 path = [filepath,name,ext];
