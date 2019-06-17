@@ -52,6 +52,7 @@ display(['Max Mach number : ' num2str(maxi/a)]);
 display(['Max acceleration : ' num2str(maxi)]);
 display(['Max g : ' num2str(maxi/9.81)]);
 display(['Max g @t = ' num2str(T2(index))]);
+
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Drogue
 %--------------------------------------------------------------------------
@@ -73,13 +74,17 @@ display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' m
 [T5, S5, T5E, S5E, I5E] = SimObj.CrashSim(T2(end), S2(end,1:3)', S2(end, 4:6)');
 
 %% ------------------------------------------------------------------------
-% Analyse results
+% Analyse results ?
 %--------------------------------------------------------------------------
 
 PlotShowAns = input('Show plots ? [Y/N]\n','s');
 if ~strcmp(PlotShowAns,{'Y','y','Yes','yes'})
     return
 end
+
+%% ------------------------------------------------------------------------
+% Plots
+%--------------------------------------------------------------------------
 
 % PLOT 1 : 3D rocket trajectory
 
