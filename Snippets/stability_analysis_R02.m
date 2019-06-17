@@ -20,6 +20,7 @@ Environment = environnementReader('Environment/Environnement_Definition_USA.txt'
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 warning('off','all')
+Error = 0;
 
 %% ========================================================================
 % Nominal case
@@ -88,13 +89,45 @@ Il = SimObj.SimAuxResults.Il(1);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display('=============== Nominal case');
 % display(['CG - Nominal case : ' num2str(Rocket.rocket_cm)]);
 % display(['Il initial - Nominal case : ' num2str(Rocket.rocket_I)]);
 % display(['Rho - Nominal case : ' num2str(rho)]);
-display(['Speed - Nominal case : ' num2str(norm(V))]);
+
+if norm(V)>=20
+    Status = 'OK';
+else
+    Status = 'ERROR';
+    Error = Error + 1;
+end
+display(['Speed - Nominal case : ' num2str(norm(V)) ' ' Status]);
+
 display(['CN_alpha - Nominal case : ' num2str(Calpha(end))]);
-display(['Stability - Nominal case : ' num2str((P-W)/d)]);
-display(['Damping ratio - Nominal case : ' num2str(epsilon)]);
+
+if (P-W)/d>=1.5
+    if (P-W)/d>6
+        Status = 'WARNING: Value is high';
+    else
+        Status = 'OK';
+    end
+elseif (P-W)/d<0
+    Status = 'ERROR: Negative value';
+    Error = Error + 1;
+else
+    Status = 'ERROR: Value is too small';
+    Error = Error + 1;
+end
+display(['Stability - Nominal case : ' num2str((P-W)/d) ' ' Status]);
+display(['CG : ' num2str(W) 'm from nose tip']);
+display(['CP : ' num2str(P) 'm from nose tip']);
+
+if epsilon>=0.05 && epsilon<0.3
+    Status = 'OK';
+else
+    Status = 'ERROR: Value is out of bounds';
+    Error = Error +1;
+end
+display(['Damping ratio - Nominal case : ' num2str(epsilon) ' ' Status]);
 
 
 %% ========================================================================
@@ -154,13 +187,45 @@ Il = SimObj.SimAuxResults.Il(index);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display('=============== Max speed case');
 % display(['CG - Max speed : ' num2str(Rocket.rocket_cm)]);
 % display(['Il initial - Max speed : ' num2str(Rocket.rocket_I)]);
 % display(['Rho - Max speed : ' num2str(rho)]);
-display(['Speed - Max speed : ' num2str(norm(V))]);
-display(['CN_alpha - Max speed : ' num2str(Calpha(end))]);
-display(['Stability - Max speed case : ' num2str((P-W)/d)]);
-display(['Damping ratio - Max speed case : ' num2str(epsilon)]);
+
+if norm(V)>=20
+    Status = 'OK';
+else
+    Status = 'ERROR';
+    Error = Error + 1;
+end
+display(['Speed - Max speed : ' num2str(norm(V)) ' ' Status]);
+
+display(['CN_alpha - Max speed : ' num2str(Calpha(end)) ' ' Status]);
+
+if (P-W)/d>=1.5
+    if (P-W)/d>6
+        Status = 'WARNING: Value is high';
+    else
+        Status = 'OK';
+    end
+elseif (P-W)/d<0
+    Status = 'ERROR: Negative value';
+    Error = Error + 1;
+else
+    Status = 'ERROR: Value is too small';
+    Error = Error + 1;
+end
+display(['Stability - Max speed case : ' num2str((P-W)/d) ' ' Status]);
+display(['CG : ' num2str(W) 'm from nose tip']);
+display(['CP : ' num2str(P) 'm from nose tip']);
+
+if epsilon>=0.05 && epsilon<0.3
+    Status = 'OK';
+else
+    Status = 'ERROR: Value is out of bounds';
+    Error = Error +1;
+end
+display(['Damping ratio - Max speed case : ' num2str(epsilon) ' ' Status]);
 
 %% ========================================================================
 % Extra values
@@ -251,13 +316,45 @@ Il = SimObj.SimAuxResults.Il(1);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display('=============== Worst case');
 % display(['CG - Worst case : ' num2str(Rocket.rocket_cm)]);
 % display(['Il initial - Worst case : ' num2str(Rocket.rocket_I)]);
 % display(['Rho - Worst case : ' num2str(rho)]);
-display(['Speed - Worst case : ' num2str(norm(V))]);
-display(['CN_alpha - Worst case : ' num2str(Calpha(end))]);
-display(['Stability - Worst case : ' num2str((P-W)/d)]);
-display(['Damping ratio - Worst case : ' num2str(epsilon)]);
+
+if norm(V)>=20
+    Status = 'OK';
+else
+    Status = 'ERROR';
+    Error = Error + 1;
+end
+display(['Speed - Worst case : ' num2str(norm(V)) ' ' Status]);
+
+display(['CN_alpha - Worst case : ' num2str(Calpha(end)) ' ' Status]);
+
+if (P-W)/d>=1.5
+    if (P-W)/d>6
+        Status = 'WARNING: Value is high';
+    else
+        Status = 'OK';
+    end
+elseif (P-W)/d<0
+    Status = 'ERROR: Negative value';
+    Error = Error + 1;
+else
+    Status = 'ERROR: Value is too small';
+    Error = Error + 1;
+end
+display(['Stability - Worst case : ' num2str((P-W)/d) ' ' Status]);
+display(['CG : ' num2str(W) 'm from nose tip']);
+display(['CP : ' num2str(P) 'm from nose tip']);
+
+if epsilon>=0.05 && epsilon<0.3
+    Status = 'OK';
+else
+    Status = 'ERROR: Value is out of bounds';
+    Error = Error +1;
+end
+display(['Damping ratio - Worst case : ' num2str(epsilon) ' ' Status]);
 
 
 %% ========================================================================
@@ -321,13 +418,45 @@ Il = SimObj.SimAuxResults.Il(index);
 % Damping ratio
 epsilon = C2 / (2 * sqrt(C1 * Il));
 
+display('=============== Worst case max speed');
 % display(['CG - Worst case Max speed : ' num2str(Rocket.rocket_cm)]);
 % display(['Il initial - Worst case Max speed : ' num2str(Rocket.rocket_I)]);
 % display(['Rho - Worst case Max speed : ' num2str(rho)]);
-display(['Speed - Worst case Max speed : ' num2str(norm(V))]);
-display(['CN_alpha - Worst case Max speed : ' num2str(Calpha(end))]);
-display(['Stability - Worst case Max speed case : ' num2str((P-W)/d)]);
-display(['Damping ratio - Worst case Max speed case : ' num2str(epsilon)]);
+
+if norm(V)>=20
+    Status = 'OK';
+else
+    Status = 'ERROR';
+    Error = Error + 1;
+end
+display(['Speed - Worst case Max speed : ' num2str(norm(V)) ' ' Status]);
+
+display(['CN_alpha - Worst case Max speed : ' num2str(Calpha(end)) ' ' Status]);
+
+if (P-W)/d>=1.5
+    if (P-W)/d>6
+        Status = 'WARNING: Value is high';
+    else
+        Status = 'OK';
+    end
+elseif (P-W)/d<0
+    Status = 'ERROR: Negative value';
+    Error = Error + 1;
+else
+    Status = 'ERROR: Value is too small';
+    Error = Error + 1;
+end
+display(['Stability - Worst case Max speed case : ' num2str((P-W)/d) ' ' Status]);
+display(['CG : ' num2str(W) 'm from nose tip']);
+display(['CP : ' num2str(P) 'm from nose tip']);
+
+if epsilon>=0.05 && epsilon<0.3
+    Status = 'OK';
+else
+    Status = 'ERROR: Value is out of bounds';
+    Error = Error +1;
+end
+display(['Damping ratio - Worst case Max speed case : ' num2str(epsilon) ' ' Status]);
 
 %% ========================================================================
 % Extra values
@@ -344,5 +473,11 @@ display(['Min Static Margin : ' num2str(min(Stability))]);
 display(['Max Static Margin : ' num2str(max(Stability))]);
 
 %% End
+
+if Error == 0
+    display('All good !');
+else
+    display([num2str(Error) ' errors']);
+end
 
 warning('on','all')
