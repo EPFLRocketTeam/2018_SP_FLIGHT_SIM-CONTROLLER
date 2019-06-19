@@ -1,7 +1,7 @@
 classdef Simulator3D < handle
     
 % -------------------------------------------------------------------------  
-% Class properties  
+% Class properties
 % -------------------------------------------------------------------------
    properties(Access = public)
       SimAuxResults; 
