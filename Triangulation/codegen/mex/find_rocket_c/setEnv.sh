@@ -1,0 +1,13 @@
+CC="/usr/bin/xcrun -sdk macosx10.14 clang"
+                CXX="/usr/bin/xcrun -sdk macosx10.14 clang++"
+                CFLAGS="-fno-common -arch x86_64 -mmacosx-version-min=10.9 -fexceptions -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -DMATLAB_MEX_FILE "
+                CXXFLAGS="-fno-common -arch x86_64 -mmacosx-version-min=10.9 -fexceptions -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -fobjc-arc -std=c++11 -stdlib=libc++ -DMATLAB_MEX_FILE "
+                COPTIMFLAGS="-O2 -fwrapv -DNDEBUG"
+                CXXOPTIMFLAGS="-O2 -fwrapv -DNDEBUG"
+                CDEBUGFLAGS="-g"
+                CXXDEBUGFLAGS="-g"
+                LD="/usr/bin/xcrun -sdk macosx10.14 clang"
+                LDXX="/usr/bin/xcrun -sdk macosx10.14 clang++"
+                LDFLAGS="-Wl,-twolevel_namespace -undefined error -arch x86_64 -mmacosx-version-min=10.9 -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -framework Cocoa -bundle  -stdlib=libc++ -L"/Applications/MATLAB_R2018b.app/bin/maci64" -lmx -lmex -lmat -L"/Applications/MATLAB_R2018b.app/extern/bin/maci64" -lMatlabDataArray -lMatlabEngine -Wl,-exported_symbols_list,"/Applications/MATLAB_R2018b.app/extern/lib/maci64/mexFunction.map""
+                LDDEBUGFLAGS="-g"
+set INCLUDE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/10.0.0/include;/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks;%INCLUDE%
