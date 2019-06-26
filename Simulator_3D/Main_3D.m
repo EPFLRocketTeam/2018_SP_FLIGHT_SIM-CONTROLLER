@@ -74,6 +74,25 @@ display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' m
 [T5, S5, T5E, S5E, I5E] = SimObj.CrashSim(T2(end), S2(end,1:3)', S2(end, 4:6)');
 
 %% ------------------------------------------------------------------------
+% 6DOF Crash Simulation for the nosecone
+%--------------------------------------------------------------------------
+
+% There is currently an error with the integration
+
+% Nosecone = rocketReader('Rocket_Definition_Eiger_I_Final_Nosecone.txt');
+% 
+% % SimObj2 = Simulator3D(Nosecone, Environment, SimOutputs);
+% SimObj.Rocket = Nosecone;
+% 
+% [T6, S6, T6E, S6E, I6E] = SimObj.Nose_CrashSim_6DOF([T2(end) 40], S2(end, 1:3)', S2(end, 4:6)', S2(end, 7:10)', S2(end, 11:13)');
+
+%% ------------------------------------------------------------------------
+% Payload Crash Simulation
+%--------------------------------------------------------------------------
+
+[T7, S7, T7E, S7E, I7E] = SimObj.CrashSim(T2(end), S2(end,1:3)', S2(end, 4:6)');
+
+%% ------------------------------------------------------------------------
 % Analyse results ?
 %--------------------------------------------------------------------------
 
@@ -117,23 +136,26 @@ legend show;
 
 % PLOT 2 : time dependent altitude
 figure('Name','Time dependent altitude'); hold on;
-plot(T2, S2(:,3));
-plot(T3, S3(:,3));
-plot(T4, S4(:,3));
-plot(T5, S5(:,3));
+plot(T2, S2(:,3), 'DisplayName', 'Ascent');
+plot(T3, S3(:,3), 'DisplayName', 'Drogue Descent');
+plot(T4, S4(:,3), 'DisplayName', 'Main Descent');
+plot(T5, S5(:,3), 'DisplayName', 'Ballistic Descent');
+plot(T6, S6(:,3), 'DisplayName', 'Ballistic Nosecone Descent', 'LineWidth', 2);
 title 'Altitude vs. time'
 xlabel 't [s]'; ylabel 'Altitude [m]';
+legend show;
 
 % PLOT 3 : Altitude vs. drift
 figure('Name','Altitude vs Drift')'; hold on;
-plot(sqrt(S2(:,1).^2 + S2(:,2).^2), S2(:,3));
+%plot(sqrt(S2(:,1).^2 + S2(:,2).^2), S2(:,3), '*', 'DisplayName', 'Flight');
 %quiver(sqrt(S2(:,1).^2 + S2(:,2).^2), S2(:,3), sqrt(direcv(:,1).^2 + direcv(:,2).^2), direcv(:,3));
-plot(sqrt(S3(:,1).^2 + S3(:,2).^2), S3(:,3));
-plot(sqrt(S4(:,1).^2 + S4(:,2).^2), S4(:,3));
-plot(sqrt(S5(:,1).^2 + S5(:,2).^2), S5(:,3));
+plot(sqrt(S3(:,1).^2 + S3(:,2).^2), S3(:,3), 'DisplayName', 'Drogue');
+plot(sqrt(S4(:,1).^2 + S4(:,2).^2), S4(:,3), 'DisplayName', 'Main');
+plot(sqrt(S5(:,1).^2 + S5(:,2).^2), S5(:,3), 'd', 'DisplayName', 'CrashSim');
 title 'Altitude vs. drift'
 xlabel 'Drift [m]'; ylabel 'Altitude [m]';
-daspect([1 1 1]);
+%daspect([1 1 1]);
+legend show;
 
 % PLOT 4 : Aerodynamic properties
 figure('Name','Aerodynamic properties'); hold on;
@@ -170,6 +192,15 @@ set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
 hold on;
 plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
 title 'Cd'
+% Plot angle with vertical
+subplot(3,2,6);
+plot(T2, SimObj.SimAuxResults.Delta)
+ylim([0, 1]);
+tmpYlim = ylim;
+set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
+hold on;
+plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
+title 'Delta, angle with Oz'
 screensize = get( groot, 'Screensize' );
 set(gcf,'Position',[screensize(1:2), screensize(3)*0.5,screensize(4)]);
 
@@ -227,3 +258,17 @@ legend show;
 % plot 7 : norm of quaternion
 figure('Name','Norm of quaternion'); hold on;
 plot(T2, sqrt(sum(S2(:, 7:10).^2, 2)));
+
+% Plot 8
+figure('Name','Nosecone crash angles'); hold on;
+% AoA
+subplot(1,2,1);
+plot(T6, SimObj.SimAuxResults.Nose_Alpha)
+title '\alpha';
+% Delta, angle with vertical
+subplot(1,2,2);
+plot(T6, SimObj.SimAuxResults.Nose_Delta)
+ylim([0, 1]);
+tmpYlim = ylim;
+set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
+title 'Delta, angle with Oz'

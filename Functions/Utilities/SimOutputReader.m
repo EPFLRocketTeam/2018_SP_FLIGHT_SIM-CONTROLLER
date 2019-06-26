@@ -55,6 +55,15 @@ while ~feof(rfid)
         case 'Delta'
             line_data_num = textscan(line_data, '%f');
             SimOutput.Delta = line_data_num{1}(1);
+            
+        case 'Nose_Alpha'
+            line_data_num = textscan(line_data, '%f');
+            SimOutput.Nose_Alpha = line_data_num{1}(1);
+            
+        case 'Nose_Delta'
+            line_data_num = textscan(line_data, '%f');
+            SimOutput.Nose_Delta = line_data_num{1}(1);
+            
         otherwise
             display(['ERROR: In simOutput definition, unknown line identifier: ' line_id]);
          
