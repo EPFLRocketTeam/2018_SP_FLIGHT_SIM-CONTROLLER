@@ -14,12 +14,12 @@ Environnement = environnementReader('Environment/Environnement_Definition_USA.tx
 
 % Define table generation parameters
 
-H_target = 3048; N_H = 100; N_AB = 5;
+H_target = 3048; N_H = 200; N_AB = 5;
 
 % shuriken
 AB_span = [-232, -18];
 drag_func = @drag_shuriken;
-convert_func = @(x) interp1(AB_span, [0, 214] , x, 'linear');
+convert_func = @(x) interp1(AB_span, [0, 200] , x, 'linear');
 
 % flaps
 % AB_span = [0, 60];

@@ -10,8 +10,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_3D'));
     
 % load defintions
-Rocket_USA = rocketReader('Rocket_Definition_Final.txt');
-Environment_USA = environnementReader('Environnement_Definition.txt');
+Rocket_USA = rocketReader('Rocket_Definition_Eiger_I_Final.txt');
+Environment_USA = environnementReader('Environnement_Definition_USA.txt');
 SimOutputs = SimOutputReader('Simulation_outputs.txt');
 
 %%  Simulate
@@ -66,7 +66,7 @@ velocity = [V0; S1(2:end,2);S2(2:end,6)];
 acceleration = diff(velocity)./diff(time);
 
 %% Sample simulation
-t = (0:0.01:time(end))';
+t = (0:0.1:time(end))';
 altitude_s = interp1(time, altitude, t, 'linear', 'extrap');
 pressure_s = interp1(time, pressure, t, 'linear', 'extrap');
 acceleration_s = interp1(time(1:end-1), acceleration, t, 'linear', 'extrap');
@@ -74,10 +74,6 @@ velocity_s = interp1(time, velocity, t, 'linear', 'extrap');
 
 %% Add noise to samples
 n_samples = length(t);
-altitude_s = normrnd(altitude_s, 0.08986928);
-pressure_s = normrnd(pressure_s, 0.00101296);
-acceleration_s = normrnd(acceleration_s, 0.08);
-velocity_s = normrnd(velocity_s, 0.05);
 
 %% Create file
 
@@ -128,3 +124,15 @@ title 'Speed vs. altitude'; xlabel 'h [m]'; ylabel 'v [m/s]';
 
 %% write csv with data
 csvwrite('SimDataUSA.csv', [t*1000 altitude_s pressure_s acceleration_s/9.81 velocity_s]);
+
+%% CAN Data Generation
+id_can = (1:length(t)*4)';
+time_can = kron(t, ones(4,1));
+data_can = kron((altitude_s-altitude_s(1))*1000, [1;0;0;0]);
+data_can = data_can + kron(velocity_s*1000, [0;1;0;0]);
+data_can = data_can + kron(pressure_s, [0;0;1;0]);
+data_can = data_can + kron(acceleration_s*100, [0;0;0;1]);
+data_code = repmat([42; 45; 0; 3], length(altitude_s), 1);
+data_tens = 10*ones(size(data_can));
+data_zeros = zeros(size(data_can));
+csvwrite('SimDataUSA_CAN.csv', [id_can time_can data_code data_can data_tens data_zeros ]);

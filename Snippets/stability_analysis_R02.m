@@ -277,7 +277,7 @@ S2 = [S2_1; S2_2(2:end, :)];
 % Local speed of sound and density of air
 [~,a,~,rho] = stdAtmos(Environment.Start_Altitude + S2(1, 3), Environment);
 % CHANGE DENSITY
-rho = rho * 0.85;
+rho = rho * 0.99;
 % Mach number
 M = V / a;
 alpha = 0;
