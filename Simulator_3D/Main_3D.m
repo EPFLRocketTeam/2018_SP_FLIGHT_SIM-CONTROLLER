@@ -77,8 +77,8 @@ display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' m
 % 6DOF Crash Simulation for the nosecone
 %--------------------------------------------------------------------------
 
-% There is currently an error with the integration
-
+% % There is currently an error with the integration
+% 
 % Nosecone = rocketReader('Rocket_Definition_Eiger_I_Final_Nosecone.txt');
 % 
 % % SimObj2 = Simulator3D(Nosecone, Environment, SimOutputs);
