@@ -24,7 +24,20 @@ tspan = [0 28];
 Option = odeset('Events', @myEvent);
 [T,X] = ode45(@(t,x) Rocket_Kinematic_R2(t,x,Rocket,Environnement,@drag_shuriken, -232),tspan,x_0,Option);
 
-display(['Apogee = ' num2str(max(X(:,1)))]);
+display(['Apogee AGL : ' num2str(X(end,1))]);
+display(['Apogee AGL @t = ' num2str(T(end))]);
+[maxi,index] = max(X(:,2));
+display(['Max speed : ' num2str(maxi)]);
+display(['Max speed @t = ' num2str(T(index))]);
+[~,a,~,rho,nu] = stdAtmos(X(index,1),Environnement);
+C_Dab = drag_shuriken(Rocket, 0, 0, maxi, nu);
+F_Dab = 0.5*C_Dab*rho*pi*Rocket.dm^2/4*maxi^2;
+display(['AB drag force at max speed = ' num2str(F_Dab)]);
+display(['Max Mach number : ' num2str(maxi/a)]);
+[maxi,index] = max(diff(X(:,2))./diff(T));
+display(['Max acceleration : ' num2str(maxi)]);
+display(['Max g : ' num2str(maxi/9.81)]);
+display(['Max g @t = ' num2str(T(index))]);
 
 %--------------------------------------------------------------------------
 % Visualization
