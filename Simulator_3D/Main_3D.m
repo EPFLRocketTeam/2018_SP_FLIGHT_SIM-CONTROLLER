@@ -35,6 +35,10 @@ display(['Launch rail departure time : ' num2str(T1(end))]);
 
 T2 = [T2_1; T2_2(2:end)];
 S2 = [S2_1; S2_2(2:end, :)];
+
+T_1_2 = [T1;T2];
+S_1_2 = [S1;S2(:,3) S2(:,6)];
+
 display(['Apogee AGL : ' num2str(S2(end,3))]);
 display(['Apogee AGL @t = ' num2str(T2(end))]);
 [maxi,index] = max(S2(:,6));
@@ -48,10 +52,10 @@ C_Dab = drag_shuriken(Rocket, 0, SimObj.SimAuxResults.Delta(index), maxi, nu);
 F_Dab = 0.5*C_Dab*rho*pi*Rocket.dm^2/4*maxi^2;
 display(['AB drag force at max speed = ' num2str(F_Dab)]);
 display(['Max Mach number : ' num2str(maxi/a)]);
-[maxi,index] = max(diff(S2(:,6))./diff(T2));
+[maxi,index] = max(diff(S_1_2(:,2))./diff(T_1_2));
 display(['Max acceleration : ' num2str(maxi)]);
 display(['Max g : ' num2str(maxi/9.81)]);
-display(['Max g @t = ' num2str(T2(index))]);
+display(['Max g @t = ' num2str(T_1_2(index))]);
 
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Drogue
