@@ -144,7 +144,7 @@ plot(T2, S2(:,3), 'DisplayName', 'Ascent');
 plot(T3, S3(:,3), 'DisplayName', 'Drogue Descent');
 plot(T4, S4(:,3), 'DisplayName', 'Main Descent');
 plot(T5, S5(:,3), 'DisplayName', 'Ballistic Descent');
-plot(T6, S6(:,3), 'DisplayName', 'Ballistic Nosecone Descent', 'LineWidth', 2);
+%plot(T6, S6(:,3), 'DisplayName', 'Ballistic Nosecone Descent', 'LineWidth', 2);
 title 'Altitude vs. time'
 xlabel 't [s]'; ylabel 'Altitude [m]';
 legend show;
@@ -263,16 +263,16 @@ legend show;
 figure('Name','Norm of quaternion'); hold on;
 plot(T2, sqrt(sum(S2(:, 7:10).^2, 2)));
 
-% Plot 8
-figure('Name','Nosecone crash angles'); hold on;
-% AoA
-subplot(1,2,1);
-plot(T6, SimObj.SimAuxResults.Nose_Alpha)
-title '\alpha';
-% Delta, angle with vertical
-subplot(1,2,2);
-plot(T6, SimObj.SimAuxResults.Nose_Delta)
-ylim([0, 1]);
-tmpYlim = ylim;
-set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
-title 'Delta, angle with Oz'
+% % Plot 8
+% figure('Name','Nosecone crash angles'); hold on;
+% % AoA
+% subplot(1,2,1);
+% plot(T6, SimObj.SimAuxResults.Nose_Alpha)
+% title '\alpha';
+% % Delta, angle with vertical
+% subplot(1,2,2);
+% plot(T6, SimObj.SimAuxResults.Nose_Delta)
+% ylim([0, 1]);
+% tmpYlim = ylim;
+% set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
+% title 'Delta, angle with Oz'
