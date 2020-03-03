@@ -1,0 +1,28 @@
+stages 4
+diameters 0 0.156 0.156 0.135
+stage_z 0 0.242 4.15 4.22
+fin_n 3
+fin_xt 3.87
+fin_s 0.20
+fin_cr 0.28
+fin_ct 0.125
+fin_xs 0.107
+fin_t 0.004
+lug_n 2
+lug_S 1.81e-4
+rocket_m 27.722
+rocket_I 56.042 
+rocket_cm 2.02
+ab_x 100
+ab_n 0
+ab_phi 0
+pl_mass 4.0
+para_main_SCD 11.2312
+para_drogue_SCD 0.4299
+para_main_event 282.854
+motor BL_h2.txt
+motor_fac 1
+cone_mode on
+cp_fac 1
+CNa_fac 1
+CD_fac 1

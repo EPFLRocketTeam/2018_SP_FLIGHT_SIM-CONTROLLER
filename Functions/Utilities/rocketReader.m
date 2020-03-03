@@ -9,7 +9,7 @@ rfid = fopen(rocketFilePath);
 if rfid < 0
    error('ERROR: Rocket file name unfound.') 
 end
-
+Rocket.isHybrid = 0;
 while ~feof(rfid)
 
     line_content = fgetl(rfid);
@@ -99,7 +99,8 @@ while ~feof(rfid)
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_I = line_data_num{1}(1);
         
-        % rocket center of mass    
+        % rocket center of mass for empty rocket (PL + rocket without
+        % motor)
         case 'rocket_cm'
             line_data_num = textscan(line_data, '%f');
             Rocket.rocket_cm = line_data_num{1}(1);
@@ -119,11 +120,27 @@ while ~feof(rfid)
             line_data_num = textscan(line_data, '%f');
             Rocket.ab_phi = line_data_num{1}(1);    
         
-        % motor file name (with extension)    
+        % motor file name (with extension)  
+        %in case of a hybrid motor, is the propergol bloc
+	    % so the closest to the end of the rocket
         case 'motor'
             line_data_string = textscan(line_data,'%s');
             Rocket.motor_ID = line_data_string{1}{1};
+            
+            
+        % is the tank fuel part of a hybrid motor, so
+	    %the furthest to the end of the rocket         
+	    % Second parameter is 
+	    %the distance of the valve between the 
+	    %propergol bloc and the tank fuel
+	    case 'hybr'
+	        line_data_string = textscan(line_data,'%s');
+	        Rocket.fuel_ID = line_data_string{1}{1};
+	        Rocket.intermotor_d = str2double(line_data_string{1}{2});
+	        Rocket.isHybrid = 1;    
         
+            
+            
         % motor thrust multiplication factor    
         case 'motor_fac'
             line_data_num = textscan(line_data,'%f');

@@ -17,6 +17,8 @@ function [M,dMdt,Cm,dCmdt,I_L,dI_Ldt,I_R,dI_Rdt] = Mass_Properties(t,Rocket,Opt)
 %--------------------------------------------------------------------------
 % Mass
 %--------------------------------------------------------------------------
+if (Rocket.isHybrid == 0)
+    
 if strcmp(Opt, 'Linear')
     if t == 0
         dMdt = Rocket.propel_mass/Rocket.Burn_Time;
@@ -83,5 +85,83 @@ I_R = 1e6;
 
 % dI_R/dt:
 dI_Rdt = 0;
+
+else
+    
+    if strcmp(Opt, 'Linear')
+    
+    if t == 0
+        dMdt = (Rocket.propel_mass+Rocket.propel_massF)/Rocket.Burn_Time;
+        M = Rocket.rocket_m;       
+    elseif t > Rocket.Burn_Time
+        M = Rocket.rocket_m + Rocket.casing_mass+ Rocket.casing_massF;
+        dMdt = 0;
+    else
+        dMdt = (Rocket.propel_mass+Rocket.propel_massF)/Rocket.Burn_Time;
+        M = Rocket.rocket_m+Rocket.motor_mass+Rocket.motor_massF-t*dMdt;
+    end
+elseif strcmp(Opt, 'NonLinear')
+    if t == 0
+        dMdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
+        M = Rocket.rocket_m ; 
+    elseif t>Rocket.Burn_Time
+        M = Rocket.rocket_m+Rocket.casing_mass;
+        dMdt = 0;
+    else
+        tt = linspace(0,t,500);
+        Current_Impulse = trapz(tt,Thrust(tt,Rocket));
+        M = Rocket.rocket_m + Rocket.motor_mass - ... 
+        Rocket.Thrust2dMass_Ratio*Current_Impulse;
+        dMdt = Rocket.Thrust2dMass_Ratio*Thrust(t,Rocket);
+    end
+else
+    error('Opt parameter should be Linear or Nonlinear')
+    end
+%--------------------------------------------------------------------------
+% Center of Mass
+%--------------------------------------------------------------------------
+% Centre de masse
+
+motor_cm = (Rocket.L - Rocket.motor_lengthP/2 )* (Rocket.motor_massP - t*(Rocket.propel_massP/Rocket.Burn_Time));
+motor_cmF = (Rocket.L - Rocket.motor_lengthF/2 -Rocket.motor_lengthP - Rocket.intermotor_d )* (Rocket.motor_massF - t*(Rocket.propel_massF/Rocket.Burn_Time));
+% Centre de masse
+Cm = (Rocket.rocket_cm*Rocket.rocket_m +  motor_cm + motor_cmF )/M;
+% D?riv?e centre de masse
+%dcmdtn = (dMdt*(Rocket.L-Rocket.motor_length)-dMdt*Cm)/M;
+
+%Cm =(Rocket.rocket_cm*Rocket.rocket_m +  (M-Rocket.rocket_m)*(Rocket.L-Rocket.motor_length/2))/M;
+ 
+% Derivee centre de masse
+dCmdt = (dMdt*(Rocket.L-(Rocket.motor_length+Rocket.motor_lengthF + Rocket.intermotor_d)/2)-dMdt*Cm)/M;
+
+%--------------------------------------------------------------------------
+% Moment of Inertia
+%--------------------------------------------------------------------------
+% I_L:
+R_i = 0.005; % Diametre interieur grains (Tjr identique)
+R_e = Rocket.motor_dia/2; % Diametre exterieur grains
+
+I_L_Casing = Rocket.casing_mass*(Rocket.motor_length^2/12 + R_e^2/2); 
+
+Grain_Mass = M-Rocket.rocket_m-Rocket.casing_mass; % Masse des grains
+I_L_Grain = Grain_Mass*(Rocket.motor_length^2/12 + (R_e^2+R_i^2)/4);
+
+I_L = Rocket.rocket_I + I_L_Casing + I_L_Grain + ...
+    (Grain_Mass+Rocket.casing_mass)*...
+    (Rocket.L-Cm-Rocket.motor_length/2)^2; % I + ... + Steiner
+
+% dI_L/dt:
+dI_L_Grain = dMdt*(Rocket.motor_length^2/12 + (R_e^2+R_i^2)/4);
+
+dI_Ldt = dI_L_Grain+dMdt*(Rocket.L-Cm-Rocket.motor_length/2)^2+...
+    2*(Grain_Mass+Rocket.casing_mass)*(Rocket.L-Cm-Rocket.motor_length/2)*...
+    dCmdt;
+
+% I_R:
+I_R = 1e6;
+
+% dI_R/dt:
+dI_Rdt = 0;
+end
 end
 

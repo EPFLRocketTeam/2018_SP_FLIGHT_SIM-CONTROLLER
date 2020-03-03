@@ -2,9 +2,9 @@
 % https://apogeerockets.com/education/downloads/Newsletter197.pdf
 % https://www.apogeerockets.com/education/downloads/Newsletter195.pdf
 % https://www.apogeerockets.com/education/downloads/Newsletter193.pdf
-% https://www.apogeerockets.com/downloads/barrowman_report.pdf (pas utilisé
+% https://www.apogeerockets.com/downloads/barrowman_report.pdf (pas utilisï¿½
 % directement)
-% Formules tirées des documents ci-dessus et des fichiers Main_3D et
+% Formules tirï¿½es des documents ci-dessus et des fichiers Main_3D et
 % Simulator3D.
 
 clear all; close all; clc;
@@ -15,7 +15,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_3D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket/Rocket_Definition_Eiger_I_Final.txt');
+Rocket = rocketReader('Rocket/Bellalui_hybrid2.txt');
 Environment = environnementReader('Environment/Environnement_Definition_USA.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
