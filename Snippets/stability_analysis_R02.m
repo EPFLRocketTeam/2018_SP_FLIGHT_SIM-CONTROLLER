@@ -13,10 +13,9 @@ addpath(genpath('../Declarations'),...
         genpath('../Snippets'),...
         genpath('../Simulator_1D'),...
         genpath('../Simulator_3D'));
-
 % Rocket Definition
-Rocket = rocketReader('Rocket/Bellalui_hybrid2.txt');
-Environment = environnementReader('Environment/Environnement_Definition_USA.txt');
+Rocket = rocketReader('Rocket/BL_H3.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Cernier.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 warning('off','all')

@@ -91,14 +91,14 @@ else
     if strcmp(Opt, 'Linear')
     
     if t == 0
-        dMdt = (Rocket.propel_mass+Rocket.propel_massF)/Rocket.Burn_Time;
+        dMdt = (Rocket.propel_mass)/Rocket.Burn_Time;
         M = Rocket.rocket_m;       
     elseif t > Rocket.Burn_Time
-        M = Rocket.rocket_m + Rocket.casing_mass+ Rocket.casing_massF;
+        M = Rocket.rocket_m + Rocket.casing_mass;
         dMdt = 0;
     else
-        dMdt = (Rocket.propel_mass+Rocket.propel_massF)/Rocket.Burn_Time;
-        M = Rocket.rocket_m+Rocket.motor_mass+Rocket.motor_massF-t*dMdt;
+        dMdt = Rocket.propel_mass /Rocket.Burn_Time;   
+        M = Rocket.rocket_m+Rocket.motor_mass-t*dMdt;
     end
 elseif strcmp(Opt, 'NonLinear')
     if t == 0
@@ -132,7 +132,7 @@ Cm = (Rocket.rocket_cm*Rocket.rocket_m +  motor_cm + motor_cmF )/M;
 %Cm =(Rocket.rocket_cm*Rocket.rocket_m +  (M-Rocket.rocket_m)*(Rocket.L-Rocket.motor_length/2))/M;
  
 % Derivee centre de masse
-dCmdt = (dMdt*(Rocket.L-(Rocket.motor_length+Rocket.motor_lengthF + Rocket.intermotor_d)/2)-dMdt*Cm)/M;
+dCmdt = (dMdt*(Rocket.L-(Rocket.motor_length+Rocket.motor_lengthF + Rocket.intermotor_d))/2-dMdt*Cm)/M;
 
 %--------------------------------------------------------------------------
 % Moment of Inertia
