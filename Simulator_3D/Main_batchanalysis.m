@@ -8,9 +8,9 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition_Final.txt');
-Environment = environnementReader('Environnement_Definition.txt');
-SimOutputs = SimOutputReader('Simulation_outputs.txt');
+Rocket = rocketReader('Eiger_Kaltbrunn.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Kaltbrunn.txt');
+SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = Simulator3D(Rocket, Environment, SimOutputs);
 %%
@@ -37,7 +37,7 @@ for i=1:length(windSpace)
         % 6DOF Flight Simulation
         %--------------------------------------------------------------------------
 
-        [T2, S2] = SimObj.FlightSim(T1(end), S1(end,2));
+         [T2, S2, T21, S21, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], S1(end, 2));
 
         apogee_rec(i,j) = S2(end, 3);
 

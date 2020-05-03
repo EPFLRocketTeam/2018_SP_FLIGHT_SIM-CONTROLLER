@@ -1,4 +1,4 @@
-function Environnement = environnementReader(environnementFilePath)
+function Environnement = environnementReader(environnementFilePath,varargin)
 
 % -------------------------------------------------------------------------
 % 1. Read Environnement
@@ -71,6 +71,47 @@ while ~feof(rfid)
         case 'dTdh'
             line_data_num = textscan(line_data, '%f');
             Environnement.dTdh = line_data_num{1}(1);  
+          
+            %multilayerwind, number of layer , windlayer1, ..., windlayer n
+            % windlayer: mesured_height, V_inf, V_Azimuth, Turb_I 
+        case 'multilayerwind'
+            line_data_string = textscan(line_data,'%s');
+            Environnement.numberLayer = str2double(line_data_string{1}{1});
+            i = 1: Environnement.numberLayer;
+            layerheight = i;
+            layerspeed = i;
+            layerAzi = i;
+            layerTurb = i;
+            for i = 1: Environnement.numberLayer
+                layerheight(i)= str2double(line_data_string{1}{2+4*(i-1)});
+                layerspeed(i)= str2double(line_data_string{1}{3+4*(i-1)});
+                layerAzi(i)= str2double(line_data_string{1}{4*i});
+                layerTurb(i)= str2double(line_data_string{1}{1+4*i});
+            end
+            if nargin < 2
+                for i = 1: Environnement.numberLayer
+                    turb_std = layerspeed(i) * layerTurb(i);
+                    layerspeed(i) = normrnd(layerspeed(i), turb_std);
+                end
+            end
+            axis = 0:10: 4000;
+            Environnement.Vspeed = interp1(layerheight,layerspeed,axis, 'pchip', 'extrap');
+            Environnement.Vazy = interp1(layerheight,layerAzi,axis, 'pchip', 'extrap');
+            Environnement.Vturb= interp1(layerheight,layerTurb,axis, 'pchip', 'extrap');
+            Environnement.Vdirx= cosd(Environnement.Vazy);
+            Environnement.Vdiry= sind(Environnement.Vazy);
+            Environnement.Vdirz= 0*cosd(Environnement.Vazy);
+            
+            
+            
+            %hold on
+            %plot(axis,Environnement.Vspeed,'r')
+            %plot(axis,azi,'b')
+            %plot(axis,turb,'k')
+            %xlim([0 4000])
+            %ylim([-1 100])
+            %hold off;
+            Environnement.isWindLayered = 1;
             
         otherwise
             display(['ERROR: In environnement definition, unknown line identifier: ' line_id]);

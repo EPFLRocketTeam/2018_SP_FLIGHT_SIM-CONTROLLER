@@ -172,13 +172,14 @@ classdef SimuMike3D < handle
             
             % Mach number
             Mach = Vcm_mag/a;
+            
             % Normal lift coefficient and center of pressure
             i = 1;
             marge= zeros(1,91);
             for s = AoA
                 
                 [CNa, Xcp,CNa_bar,CP_bar] = normalLift(obj.Rocket, s, 1.1,...
-                Mach, angle(3), 1);
+                Mach, angle(3) , 1);
                 marge(i) = (Xcp-Cm)/obj.Rocket.dm;
                 i = i + 1;
 

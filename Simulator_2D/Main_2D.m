@@ -9,7 +9,7 @@ addpath(genpath('../Declarations'),...
     
 % Rocket Definition
 Rocket = rocketReader('Rocket/Rocket_Definition_Mat_III.txt');
-Environnement = environnementReader('Environment/Environnement_Payerne.txt');
+Environnement = environnementReader('Environment/Environnement_Definition_USA.txt');
 
 %--------------------------------------------------------------------------
 % Rail Simulation

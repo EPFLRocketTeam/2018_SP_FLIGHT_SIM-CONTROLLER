@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('BL_H3.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Cernier.txt');
+Rocket = rocketReader('Eiger_Kaltbrunn.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Meringen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = Simulator3D(Rocket, Environment, SimOutputs);
@@ -89,6 +89,7 @@ display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' m
 % SimObj.Rocket = Nosecone;
 % 
 % [T6, S6, T6E, S6E, I6E] = SimObj.Nose_CrashSim_6DOF([T2(end) 40], S2(end, 1:3)', S2(end, 4:6)', S2(end, 7:10)', S2(end, 11:13)');
+
 
 %% ------------------------------------------------------------------------
 % Payload Crash Simulation

@@ -16,7 +16,7 @@ addpath(genpath('../Declarations'),...
 % -------------------------------------------------------------------------
 
 readRocketFile = 1;
-rocketFile = 'Rocket_Definition_Final.txt';
+rocketFile = 'BL_H3.txt';
 
 if readRocketFile
    Rocket = rocketReader(rocketFile); 

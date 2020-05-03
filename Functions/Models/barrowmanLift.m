@@ -33,6 +33,7 @@ function [Calpha, CP] = barrowmanLift(Rocket, alpha, M, theta)
         warning('Warining: In barrowman calculations Mach number is > 1.');
         beta = sqrt(M^2-1);
     end
+    
     gamma_c = atan(((Rocket.fin_xs+Rocket.fin_ct)/2-Rocket.fin_cr/2)/Rocket.fin_s);
     A = 0.5*(Rocket.fin_ct+Rocket.fin_cr)*Rocket.fin_s;
     R = Rocket.diameters(find(Rocket.stage_z<Rocket.fin_xt, 1, 'last'))/2;
