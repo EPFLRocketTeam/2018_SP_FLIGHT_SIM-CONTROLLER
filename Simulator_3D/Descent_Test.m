@@ -9,7 +9,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition.txt');
+Rocket = rocketReader('BL_H4.txt');
 Environnement = environnementReader('Environnement_Definition.txt');
 
 %% ------------------------------------------------------------------------
