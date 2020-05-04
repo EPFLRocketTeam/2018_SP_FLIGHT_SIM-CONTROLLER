@@ -99,7 +99,7 @@ if isnumeric(apiKey)
     if exist('api_key.mat','file')
         load api_key
     else
-        apiKey = 'AIzaSyBzvev_7cC98xmW3udAbS2S8D_KYJaO2K4';
+        apiKey = 'AIzaSyBzvev_SomePrivatekey';
     end
 end
 
