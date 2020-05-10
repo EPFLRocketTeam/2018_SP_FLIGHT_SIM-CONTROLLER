@@ -1,0 +1,15 @@
+Temperature_Ground 298
+Pressure_Ground 92900
+Humidity_Ground 0.69
+Start_Altitude 440
+Start_Latitude 47.056761
+Start_Longitude 6.911169
+dTdh -9.5
+V_inf 10
+V_Azimuth 0
+Turb_I 0.5
+Turb_model None
+Rail_Length 4
+Rail_Angle 3
+Rail_Azimuth 90
+multilayerwind 6 1 8 90 0.00 100 9 30 0.00 200 10 60 0.00 300 11 90 0.00 400 12 110 0.00 4000 13 160 0.00
