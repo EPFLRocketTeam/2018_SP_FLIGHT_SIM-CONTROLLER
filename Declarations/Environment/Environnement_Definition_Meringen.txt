@@ -10,6 +10,6 @@ V_Azimuth 0
 Turb_I 0.5
 Turb_model None
 Rail_Length 4
-Rail_Angle 3
+Rail_Angle 1
 Rail_Azimuth 90
-multilayerwind 6 1 8 90 0.00 100 9 30 0.00 200 10 60 0.00 300 11 90 0.00 400 12 110 0.00 4000 13 160 0.00
+multilayerwind 2 1 5 0 0.03 100 5 90 0.03 

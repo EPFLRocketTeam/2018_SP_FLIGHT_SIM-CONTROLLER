@@ -99,13 +99,12 @@ if isnumeric(apiKey)
     if exist('api_key.mat','file')
         load api_key
     else
-        apiKey = 'AIzaSyBzvev_SomePrivatekey';
+        apiKey = 'AIzaSyBzvev_7cC98xmW3udAbS2S8D_KYJaO2K4';
     end
 end
 
 cal_distance = 30;  % in degrees of latitude
 degpermeter = 1/60*1/1852;
-
 % HANDLE ARGUMENTS
 height = 640;
 width = 640;
@@ -151,12 +150,11 @@ if mod(zoomlevel,1) ~= 0
     warning(['Zoom Level must be an integer. Rounding to '...
         num2str(zoomlevel)]);
 end
-
+scale = '&scale=2' ;
 % CONSTRUCT QUERY URL
 preamble = 'http://maps.googleapis.com/maps/api/staticmap';
 location = ['?center=' num2str(lat,10) ',' num2str(lon,10)];
 cal_location = ['?center=' num2str(lat - degpermeter*cal_distance,10) ',' num2str(lon,10)];
-
 zoom = ['&zoom=' num2str(zoomlevel)];
 size = ['&size=' num2str(width) 'x' num2str(height)];
 maptype = ['&maptype=' maptype ];
@@ -175,12 +173,11 @@ else
     key = '';
 end
 sensor = '&sensor=false';
-url = [preamble location zoom size maptype format markers sensor key];
-cal_url = [preamble cal_location zoom size maptype format markers sensor key];
-
+url = [preamble location zoom scale size maptype format markers sensor key];
+cal_url = [preamble cal_location zoom scale size maptype format markers sensor key];
 % GET THE IMAGE
 [M Mcolor] = webread(url);
-M = cast(M,'double');
+%M = cast(M,'double');
 
 % ESTIMATE BOUNDS OF IMAGE:
 % We get 2 images instead of just one, separated by a known distance. Then
@@ -192,6 +189,7 @@ M = cast(M,'double');
 % GET THE CAL IMAGE
 [Mcal Mcolorcal] = webread(cal_url);
 Mcal = cast(Mcal,'double');
+
 
 % Cross correlate a column in the middle of the data to get the shift
 % between them in pixels.

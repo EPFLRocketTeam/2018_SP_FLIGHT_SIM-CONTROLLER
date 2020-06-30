@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Eiger_Kaltbrunn.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Meringen.txt');
+Rocket = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = Simulator3D(Rocket, Environment, SimOutputs);
@@ -106,6 +106,7 @@ if ~strcmp(PlotShowAns,{'Y','y','Yes','yes'})
     return
 end
 
+
 %% ------------------------------------------------------------------------
 % Plots
 %--------------------------------------------------------------------------
@@ -117,11 +118,14 @@ angle = rot2anglemat(C);
 
 % plot rocket orientation
 figure('Name','3D Trajectory Representation'); hold on;
-direcv = zeros(length(C),3);
-for i  = 1:length(C)
-    direcv(i,:) = C(:,:,i)*[0;0;1];
-end
-%quiver3(S2(:,1), S2(:,2), S2(:,3), direcv(:,1), direcv(:,2), direcv(:,3));
+[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', 1072, 'Width', 1072);
+xlim = [-1500 1500];
+ylim = [-1500 1500];
+xImage = [xlim',xlim'];
+yImage = [ylim;ylim];
+zImage = zeros(2);
+colormap(Mcolor);
+surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
 
 % plot trajectory of CM
 plot3(S2(:,1), S2(:,2), S2(:,3), 'DisplayName', 'Ascent','LineWidth',2);
@@ -129,12 +133,7 @@ plot3(S3(:,1), S3(:,2), S3(:,3), 'DisplayName', 'Drogue Descent','LineWidth',2);
 plot3(S4(:,1), S4(:,2), S4(:,3), 'DisplayName', 'Main Descent','LineWidth',2);
 plot3(S5(:,1), S5(:,2), S5(:,3), 'DisplayName', 'Ballistic Descent','LineWidth',2)
 daspect([1 1 1]); pbaspect([1, 1, 1]); view(45, 45);
-[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', ceil(diff(xlim)/3.4), 'Width', ceil(diff(ylim)/3.4));
-xImage = [xlim',xlim'];
-yImage = [ylim;ylim];
-zImage = zeros(2);
-colormap(Mcolor);
-surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 'none', 'DisplayName', 'Base Map');
+
 title '3D trajectory representation'
 xlabel 'S [m]'; ylabel 'E [m]'; zlabel 'Altitude [m]';
 legend show;
@@ -191,7 +190,7 @@ title 'Cn_{\alpha}';
 % Plot Cd vs. time
 subplot(3,2,5);
 plot(T2, SimObj.SimAuxResults.Cd)
-ylim([0, 1.5]);
+ylim([0, 1]);
 tmpYlim = ylim;
 set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
 hold on;

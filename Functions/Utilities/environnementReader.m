@@ -66,7 +66,7 @@ while ~feof(rfid)
             
         case 'Start_Longitude'
             line_data_num = textscan(line_data, '%f');
-            Environnement.Start_Longitude = line_data_num{1}(1);    
+            Environnement.Start_Longitude = line_data_num{1}(1);
             
         case 'dTdh'
             line_data_num = textscan(line_data, '%f');

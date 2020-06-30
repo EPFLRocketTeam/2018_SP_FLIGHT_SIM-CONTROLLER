@@ -1,4 +1,4 @@
-%% Rocket Simulator 3D
+% Rocket Simulator 3D
 
 % Initialize
 close all; clear all;
@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('BL_H3.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Cernier.txt');
+Rocket = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = SimuMike3D(Rocket, Environment, SimOutputs);
