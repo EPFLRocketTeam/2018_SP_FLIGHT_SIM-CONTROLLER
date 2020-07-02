@@ -13,7 +13,7 @@ SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 [azed,r_ellipse,r_ellipse1, X0, Y0, data] = landing_tool(n_sim,-1,-1, Rocket_0, SimOutputs);
 
-Environment = environnementReader('Environment/Environnement_Definition_Meringen.txt',1);
+Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt',1);
 SimObj = multilayerwindSimulator3D(Rocket_0, Environment, SimOutputs);
 [T1, S1] = SimObj.RailSim();
 [T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], S1(end, 2));

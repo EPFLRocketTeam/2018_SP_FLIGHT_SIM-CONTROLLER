@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Eiger_Kaltbrunn.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Meringen.txt');
+Rocket = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = Simulator3D(Rocket, Environment, SimOutputs);

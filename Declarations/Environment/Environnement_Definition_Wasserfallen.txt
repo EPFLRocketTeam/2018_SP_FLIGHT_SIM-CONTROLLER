@@ -1,14 +1,15 @@
-Temperature_Ground 298
-Pressure_Ground 92900
-Humidity_Ground 0.69
+Temperature_Ground 290,15
+Pressure_Ground 102100
+Humidity_Ground 0.60
 Start_Altitude 1440
-Start_Latitude 47.056761
-Start_Longitude 6.911169
+Start_Latitude 46.906488
+Start_Longitude 8.073976
 dTdh -9.5
-V_inf 5
-V_Azimuth 90
+V_inf 0.55
+V_Azimuth 45
 Turb_I 0.005
 Turb_model None
 Rail_Length 5
-Rail_Angle 1
-Rail_Azimuth 0
+Rail_Angle 1   // TO ADJUST !!
+Rail_Azimuth 45 // TO MODIFY
+multilayerwind 3 10 0.55 45 0.03 500 2.22 45 0.03 1000 1.39 50 0.03 // number of datapoint; altitude [m]; total wind speed [m/s]; azimuth; standart deviation; ... time number of point

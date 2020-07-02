@@ -4,22 +4,22 @@ stage_z 0 0.242 4.11 4.16
 fin_n 3
 fin_xt 3.83 
 fin_s 0.2
-fin_cr 0.28
+fin_cr 0.28 // base length
 fin_ct 0.125
 fin_xs 0.107
 fin_t 0.004
 lug_n 2
 lug_S 1.81e-4 //TODO
-rocket_m 36.807
+rocket_m 37.2 // -2 KG ?
 rocket_I 75 //65
-rocket_cm 2.19
+rocket_cm 2.14
 ab_x 2.05
 ab_n 0
 ab_phi -232
 pl_mass 4.0
-para_main_SCD 11.2312 //todo
-para_drogue_SCD 0.4299
-para_main_event 282.854
+para_main_SCD 23.14 
+para_drogue_SCD 1.75
+para_main_event 300 // TO ADJUST !!
 motor M2400T.txt
 motor_fac 1
 cone_mode on
