@@ -6,14 +6,14 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-n_sim = 3;
+n_sim = 0;
 Rocket_0 = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
-
-
-[azed,r_ellipse,r_ellipse1, X0, Y0, data] = landing_tool(n_sim,-1,-1, Rocket_0, SimOutputs);
-
-Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt',1);
+name_of_environnment = 'Environment/Environnement_Definition_Wasserfallen.txt';
+if n_sim ~= 0
+[azed,r_ellipse,r_ellipse1, X0, Y0, data] = landing_tool(n_sim,-1,-1, Rocket_0, SimOutputs, name_of_environnment );
+end
+Environment = environnementReader(name_of_environnment,1);
 SimObj = multilayerwindSimulator3D(Rocket_0, Environment, SimOutputs);
 [T1, S1] = SimObj.RailSim();
 [T2_1, S2_1, T2_1E, S2_1E, I2_1E] = SimObj.FlightSim([T1(end) SimObj.Rocket.Burn_Time(end)], S1(end, 2));
@@ -42,9 +42,11 @@ surf(xImage, yImage, zImage, 'CData', M,'FaceColor', 'texturemap', 'EdgeColor', 
 plot3(S2(:,1), S2(:,2), S2(:,3), 'DisplayName', 'Ascent','LineWidth',2);
 plot3(S3(:,1), S3(:,2), S3(:,3), 'DisplayName', 'Drogue Descent','LineWidth',2);
 plot3(S4(:,1), S4(:,2), S4(:,3), 'DisplayName', 'Main Descent','LineWidth',2);
+if n_sim ~= 0
 plot3(r_ellipse(:,1) + X0,r_ellipse(:,2) + Y0,0*r_ellipse(:,2),'DisplayName', '95% confidence Interval','LineWidth',2);
 plot3(r_ellipse1(:,1) + X0,r_ellipse1(:,2) + Y0,0*r_ellipse1(:,2),'DisplayName', '99,99% confidence Interval','LineWidth',2);
 plot3(data(:,1), data(:,2),0*data(:,2),'*k' , 'DisplayName', 'noised landing');
+end
 daspect([1 1 1]); pbaspect([1, 1, 2]); view(45, 45);
 title '3D trajectory representation'
 xlabel 'S [m]'; ylabel 'E [m]'; zlabel 'Altitude [m]';

@@ -1,4 +1,4 @@
-function [aire ,r_ellipse,r_ellipse1, X0, Y0, data] = landing_tool(n_sim, angle1, azimuth, Rocket_0, SimOutputs) 
+function [aire ,r_ellipse,r_ellipse1, X0, Y0, data] = landing_tool(n_sim, angle1, azimuth, Rocket_0, SimOutputs, name_of_environnment) 
 coordsx = 1:n_sim;
 coordsy = 1:n_sim;
 for i = 1 : n_sim
@@ -8,7 +8,7 @@ for i = 1 : n_sim
     Rocket = setfield(Rocket, 'CNa_fac' , a(2));
     Rocket = setfield(Rocket, 'cp_fac' , a(3));
     Rocket = setfield(Rocket, 'motor_fac' , a(4));
-    Environment =environnementReader('Environment/Environnement_Definition_Meringen.txt');
+    Environment =environnementReader(name_of_environnment);
     if(azimuth ~= -1)
         Environment = setfield(Environment, 'Rail_Azimuth', azimuth);
     end
