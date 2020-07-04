@@ -10,6 +10,6 @@ V_Azimuth 45
 Turb_I 0.005
 Turb_model None
 Rail_Length 5
-Rail_Angle 1   // TO ADJUST !!
+Rail_Angle 3   // TO ADJUST !!
 Rail_Azimuth 45 // TO MODIFY
 multilayerwind 3 10 0.55 45 0.03 500 2.22 45 0.03 1000 1.39 50 0.03 // number of datapoint; altitude [m]; total wind speed [m/s]; azimuth; standart deviation; ... time number of point
