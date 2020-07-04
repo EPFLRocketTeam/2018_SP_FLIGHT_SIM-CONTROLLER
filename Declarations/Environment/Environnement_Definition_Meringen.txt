@@ -12,4 +12,4 @@ Turb_model None
 Rail_Length 4
 Rail_Angle 1
 Rail_Azimuth 90
-multilayerwind 2 1 5 0 0.03 100 5 90 0.03 
+multilayerwind 2 1 5 0 0.03 100 5 0 0.03 

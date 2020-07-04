@@ -5,11 +5,11 @@ Start_Altitude 1440
 Start_Latitude 46.906488
 Start_Longitude 8.073976
 dTdh -9.5
-V_inf 0.55
-V_Azimuth 45
-Turb_I 0.005
+V_inf 0
+V_Azimuth 0
+Turb_I 0.00
 Turb_model None
 Rail_Length 5
-Rail_Angle 3   // TO ADJUST !!
-Rail_Azimuth 45 // TO MODIFY
+Rail_Angle 2.3   // TO ADJUST !!
+Rail_Azimuth 225 // TO MODIFY
 multilayerwind 3 10 0.55 45 0.03 500 2.22 45 0.03 1000 1.39 50 0.03 // number of datapoint; altitude [m]; total wind speed [m/s]; azimuth; standart deviation; ... time number of point
