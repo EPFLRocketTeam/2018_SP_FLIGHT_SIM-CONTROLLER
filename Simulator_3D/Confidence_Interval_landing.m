@@ -1,5 +1,6 @@
 % Initialize
-close all; clear all;
+close all; 
+%clear all;
 addpath(genpath('../Declarations'),...
         genpath('../Functions'),...
         genpath('../Snippets'),...
@@ -29,7 +30,7 @@ S_1_2 = [S1;S2(:,3) S2(:,6)];
 figure('Name','montecarlo'); hold on;
 %plot trajectory of CM
 zoom = 15;
-[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', 640, 'Width', 640, 'Zoom', zoom);
+%[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', 640, 'Width', 640, 'Zoom', zoom);
 metersPerPx = 156543.03392 * cos(Environment.Start_Latitude*pi/180)/ 2^zoom;
 lim = metersPerPx*640/2; % because [-lim + lim ] = 2 lim
 xlim = [-lim lim];
