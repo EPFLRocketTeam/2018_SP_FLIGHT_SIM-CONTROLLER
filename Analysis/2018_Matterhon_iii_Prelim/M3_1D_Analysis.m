@@ -28,7 +28,7 @@ n_motors = length(test_motors);
 %--------------------------------------------------------------------------
 
 % Rocket Definition
-Rocket = rocketReader('Rocket_Definition_Final.txt');
+Rocket = rocketReader('BL_H4.txt');
 Environnement = environnementReader('Environnement_Definition_Cernier.txt');
 
 % Initial Conditions

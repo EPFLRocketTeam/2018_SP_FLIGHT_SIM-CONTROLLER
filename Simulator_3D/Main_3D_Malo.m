@@ -8,7 +8,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
+Rocket = rocketReader('Copy_of_BL_H4.txt');
 Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 

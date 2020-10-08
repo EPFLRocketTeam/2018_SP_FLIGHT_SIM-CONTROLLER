@@ -12,7 +12,7 @@ function [T, a, p, rho, Nu] = stdAtmos(alt,Env)
 %
 % ASSUMPTIONS:
 % - hydrostatic approximation of atmosphere
-% - linear temperature variation with altitude with a slope of -9.5°C/km-->
+% - linear temperature variation with altitude with a slope of -9.5ï¿½C/km-->
 % comes from result of radiosonde data
 % - homogenous composition
 %
@@ -23,7 +23,7 @@ function [T, a, p, rho, Nu] = stdAtmos(alt,Env)
 % LAST UPDATE: 01/04/2019
 
 % CHECK ALTITUDE RANGE
-if alt > 1e4
+if alt > 1e5
     error('stdAtmos:outOfRange', 'The altitude is out of range: max 10km.')
 end
     

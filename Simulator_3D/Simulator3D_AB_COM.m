@@ -1,4 +1,4 @@
-classdef Simulator3D < handle
+classdef Simulator3D_AB_COM < handle
     
 % -------------------------------------------------------------------------  
 % Class properties
@@ -35,7 +35,7 @@ classdef Simulator3D < handle
 % -------------------------------------------------------------------------   
    methods
        
-       function obj = Simulator3D(Rocket, Environment, SimOutput)
+       function obj = Simulator3D_AB_COM(Rocket, Environment, SimOutput)
            if nargin == 0
                % TODO: Put default values or send warning message
            elseif nargin == 3
@@ -64,12 +64,18 @@ classdef Simulator3D < handle
        end
        
    end
+   
+   
+   
+   
+       
      
 % -------------------------------------------------------------------------  
 % Dynamic Computation methods & Output functions
 % -------------------------------------------------------------------------      
    methods(Access = protected)
        
+      
         % --------------------------- 
         % Rail equations 
         % ---------------------------
@@ -84,7 +90,7 @@ classdef Simulator3D < handle
 
             % Environment
             g = 9.81;               % Gravity [m/s2] 
-            [~, a, ~, rho, Nu] = stdAtmos(x*sin(obj.Environment.Rail_Angle),obj.Environment); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
+            [~, a, p, rho, Nu] = stdAtmos(x*sin(obj.Environment.Rail_Angle) + obj.Environment.Start_Altitude ,obj.Environment); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
 
             % Force estimation
 
@@ -99,7 +105,11 @@ classdef Simulator3D < handle
             D = -0.5*rho*obj.Rocket.Sm*CD*v^2; % (TODO: define drag in wind coordinate system)
 
             F_tot = G + T*obj.Rocket.motor_fac + D;
-
+            
+            
+            F = [0; 0 ; F_tot]; 
+            AB_COM(t,F,Mass,p);          
+            
             % State derivatives
             
             x_dot = v;
@@ -144,7 +154,7 @@ classdef Simulator3D < handle
 
             % Environment
             g = 9.81;               % Gravity [m/s2] 
-            [~, a, ~, rho, nu] = stdAtmos(X(3)+obj.Environment.Start_Altitude,...
+            [~, a, p, rho, nu] = stdAtmos(X(3)+obj.Environment.Start_Altitude,...
                 obj.Environment); % Atmosphere information 
 
             % Force estimations 
@@ -244,6 +254,9 @@ classdef Simulator3D < handle
             X_dot = V;
             V_dot = 1/M*(F_tot - V*dMdt);
 
+            AB_COM(t, F_tot, M, p);
+            
+            
             % Rotational dynamics
             Q_dot = quat_evolve(Q, W);
             W_dot = I\(M_tot); % (TODO: Add inertia variation with time)
@@ -274,7 +287,7 @@ classdef Simulator3D < handle
             V = s(4:6);
 
             % Atmospheric Data
-            [~, ~, ~, rho] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere [K,m/s,Pa,kg/m3]
+            [~, ~, p, rho] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere [K,m/s,Pa,kg/m3]
 
             % Aerodynamic force
             Vrel = -V + ...
@@ -295,7 +308,9 @@ classdef Simulator3D < handle
 
             dXdt = V;
             dVdt = (D+G)/M;
-
+            
+            AB_COM(t,D+G,M,p);
+            
             dsdt = [dXdt; dVdt];
         end
         

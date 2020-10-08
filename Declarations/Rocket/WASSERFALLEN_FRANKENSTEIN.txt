@@ -10,7 +10,7 @@ fin_xs 0.107
 fin_t 0.004
 lug_n 2
 lug_S 5.7e-4 
-rocket_m 35.2 
+rocket_m 34.8
 rocket_I 47
 rocket_cm 2.14
 ab_x 2.05
@@ -19,7 +19,7 @@ ab_phi -232
 pl_mass 4.0
 para_main_SCD 23.14 
 para_drogue_SCD 1.75
-para_main_event 400 // TO ADJUST !!
+para_main_event 1 // TO ADJUST !!
 motor M2400T.txt
 motor_fac 1
 cone_mode on

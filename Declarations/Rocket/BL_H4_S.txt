@@ -1,6 +1,6 @@
 stages 4
-diameters 0 0.156 0.156 0.135
-stage_z 0 0.242 4.15 4.22
+diameters 0 0.185 0.185 0.156
+stage_z 0 0.442 4.15 4.22
 fin_n 3
 fin_xt 3.87
 fin_s 0.18
@@ -10,17 +10,17 @@ fin_xs 0.107
 fin_t 0.004
 lug_n 2
 lug_S 1.81e-4
-rocket_m 27.636
+rocket_m 47.440
 rocket_I 56.042 
-rocket_cm 1.99
-ab_x 314
+rocket_cm 1.93
+ab_x 100
 ab_n 0
-ab_phi 0.9
+ab_phi 0
 pl_mass 4.0
 para_main_SCD 11.2312
 para_drogue_SCD 0.4299
 para_main_event 282.854
-motor BL_PP_10s.txt
+motor BL_PP_30k1.txt
 hybr BL_fuel1.txt 0.38
 motor_fac 1
 cone_mode on

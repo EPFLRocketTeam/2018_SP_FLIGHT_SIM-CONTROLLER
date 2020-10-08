@@ -26,11 +26,17 @@ S_1_2 = [S1;S2(:,3) S2(:,6)];
 [T3, S3, T3E, S3E, I3E] = SimObj.DrogueParaSim(T2(end), S2(end,1:3)', S2(end, 4:6)');
 [T4, S4, T4E, S4E, I4E] = SimObj.MainParaSim(T3(end), S3(end,1:3)', S3(end, 4:6)');
 
+% To output results in CSV format for further analysis
+%c= {T1; ; T2_1; S2_1; T2_2; S2_2; T_1_2; S_1_2; T3; S3; T4; S4 };
+%d= {S2(:,1); S2(:,2); S2(:,3); S3(:,1); S3(:,2); S3(:,3); S4(:,1); S4(:,2); S4(:,3)};
+%T = cell2table(d);
+%writetable(T,'myDataFile.csv');
+
 %plot rocket orientation
 figure('Name','montecarlo'); hold on;
 %plot trajectory of CM
 zoom = 15;
-%[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', 640, 'Width', 640, 'Zoom', zoom);
+[XX, YY, M, Mcolor] = get_google_map(Environment.Start_Latitude, Environment.Start_Longitude, 'Height', 640, 'Width', 640, 'Zoom', zoom);
 metersPerPx = 156543.03392 * cos(Environment.Start_Latitude*pi/180)/ 2^zoom;
 lim = metersPerPx*640/2; % because [-lim + lim ] = 2 lim
 xlim = [-lim lim];
@@ -48,6 +54,7 @@ plot3(r_ellipse(:,1) + X0,r_ellipse(:,2) + Y0,0*r_ellipse(:,2),'DisplayName', '9
 plot3(r_ellipse1(:,1) + X0,r_ellipse1(:,2) + Y0,0*r_ellipse1(:,2),'DisplayName', '99,99% confidence Interval','LineWidth',2);
 plot3(data(:,1), data(:,2),0*data(:,2),'*k' , 'DisplayName', 'noised landing');
 end
+plot3(-447, 114,0,'*r' , 'DisplayName', 'real landing');
 daspect([1 1 1]); pbaspect([1, 1, 2]); view(45, 45);
 title '3D trajectory representation'
 xlabel 'S [m]'; ylabel 'E [m]'; zlabel 'Altitude [m]';

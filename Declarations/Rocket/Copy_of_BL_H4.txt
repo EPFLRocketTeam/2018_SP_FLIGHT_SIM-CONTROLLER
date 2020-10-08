@@ -10,17 +10,17 @@ fin_xs 0.107
 fin_t 0.004
 lug_n 2
 lug_S 1.81e-4
-rocket_m 27.636
+rocket_m 47.440
 rocket_I 56.042 
-rocket_cm 1.99
-ab_x 314
+rocket_cm 1.93
+ab_x 100
 ab_n 0
-ab_phi 0.9
+ab_phi 0
 pl_mass 4.0
 para_main_SCD 11.2312
 para_drogue_SCD 0.4299
 para_main_event 282.854
-motor BL_PP_10s.txt
+motor BL_PP_30k.txt
 hybr BL_fuel1.txt 0.38
 motor_fac 1
 cone_mode on
