@@ -1,7 +1,7 @@
 Temperature_Ground 298
 Pressure_Ground 95300
 Humidity_Ground 0.52
-Start_Altitude 694.5
+Start_Altitude 0
 Start_Latitude 46.542186
 Start_Longitude 6.345334
 dTdh -9.5
