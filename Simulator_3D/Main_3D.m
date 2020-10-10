@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('supersonic_project.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Biere.txt');
+Rocket = rocketReader('BL_H4.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = Simulator3D(Rocket, Environment, SimOutputs);

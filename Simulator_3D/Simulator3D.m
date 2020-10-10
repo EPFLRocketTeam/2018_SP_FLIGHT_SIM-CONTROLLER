@@ -170,7 +170,7 @@ classdef Simulator3D < handle
             Mach = Vcm_mag/a;
             % Normal lift coefficient and center of pressure
             [CNa, Xcp,CNa_bar,CP_bar] = normalLift(obj.Rocket, alpha_cm, 1.1,...
-                Mach, angle(3), 1)
+                Mach, angle(3), 1);
             
             
             % Stability margin
