@@ -9,7 +9,7 @@ V_inf 10
 V_Azimuth 150
 Turb_I 0.00
 Turb_model None
-Rail_Length 6
-Rail_Angle 2   // TO ADJUST !!
-Rail_Azimuth 181 // TO MODIFY 
+Rail_Length 7,5
+Rail_Angle 0  
+Rail_Azimuth 181 
 multilayerwind 7 10 2 150 0.3 100 2 150 0.3 250 3 150 0.3 500 3 150 0.3 750 3 150 0.3 1000 3 150 0.3 1500 3 150 0.3 // number of datapoint; altitude [m]; total wind speed [m/s]; azimuth; standart deviation; ... time number of point

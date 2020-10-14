@@ -8,8 +8,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-Rocket = rocketReader('Copy_of_BL_H4.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
+Rocket = rocketReader('BL2_H1.txt');
+Environment = environnementReader('Environment/Environnement_Definition_2021.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = SimuMike3D(Rocket, Environment, SimOutputs);
