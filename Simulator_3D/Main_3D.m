@@ -6,9 +6,8 @@ addpath(genpath('../Declarations'),...
         genpath('../Functions'),...
         genpath('../Snippets'),...
         genpath('../Simulator_1D'));
-
 % Rocket Definition
-Rocket = rocketReader('BL2_H1.txt');
+Rocket = rocketReader('Valetudo.txt');
 Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
@@ -182,21 +181,19 @@ plot(T2, SimObj.SimAuxResults.Alpha)
 hold on;
 plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
 title '\alpha';
-% Plot CNa vs. time
+% Plot CNa vs. speed
 subplot(3,2,4);
 plot(T2, SimObj.SimAuxResults.Cn_alpha)
 hold on;
 plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
 title 'Cn_{\alpha}';
-% Plot Cd vs. time
+
 subplot(3,2,5);
 plot(T2, SimObj.SimAuxResults.Cd)
-ylim([0, 1.5]);
-tmpYlim = ylim;
-set(gca, 'YTick', tmpYlim(1):0.1:tmpYlim(2));
 hold on;
-plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
-title 'Cd'
+title 'CD';
+
+
 % Plot angle with vertical
 subplot(3,2,6);
 plot(T2, SimObj.SimAuxResults.Delta)
@@ -208,6 +205,35 @@ plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
 title 'Delta, angle with Oz'
 screensize = get( groot, 'Screensize' );
 set(gcf,'Position',[screensize(1:2), screensize(3)*0.5,screensize(4)]);
+
+
+figure('Name',' CD against speed up'); hold on;
+
+[max,idx] = max(S2(:,6));
+ %[~, index] = unique(RAW{:,1}); 0.0: 0.01 :  max(S2(:,6))
+ AX = interp1(S2(1:idx,6),SimObj.SimAuxResults.Cd(1:idx),  S2(1,6): 0.01 :  max , 'pchip', 'extrap');  
+
+      %      to_log = transpose([ 20.0: 0.01 : bound+20 ; AX ; AY ; AZ ; P ]);
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+plot( S2(1,6): 0.01 :  max , AX ) %SimObj.SimAuxResults.Cd
+ylim([0, 3]);
+xlim([S2(1,6),max]);
+tmpYlim = ylim;
+set(gca, 'YTick', tmpYlim(1):0.2:tmpYlim(2));
+hold on;
+title 'Cd'
+
+AY = interp1(S2(idx:end,6),SimObj.SimAuxResults.Cd(idx:end),  S2(end,6): 0.01 :  max , 'pchip', 'extrap');  
+plot( S2(end,6): 0.01 :  max , AY ) %SimObj.SimAuxResults.Cd
+ylim([0, 3]);
+tmpYlim = ylim;
+set(gca, 'YTick', tmpYlim(1):0.2:tmpYlim(2));
+hold on;
+title 'Cd'
+
+
+
+
 
 % PLOT 5 : Mass properties
 figure('Name','Mass properties'); hold on;

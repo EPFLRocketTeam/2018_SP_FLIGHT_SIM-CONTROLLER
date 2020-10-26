@@ -7,10 +7,10 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'));
 
 % Rocket Definition
-n_sim = 0   ;
-Rocket_0 = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
+n_sim = 0 ;
+Rocket_0 =  rocketReader('Valetudo.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
-name_of_environnment = 'Environment/Environnement_Definition_Wasserfallen.txt';
+name_of_environnment = 'Environment/Environnement_Definition_Valetudo.txt';
 if n_sim ~= 0
 [azed,r_ellipse,r_ellipse1, X0, Y0, data] = landing_tool(n_sim,-1,-1, Rocket_0, SimOutputs, name_of_environnment );
 end

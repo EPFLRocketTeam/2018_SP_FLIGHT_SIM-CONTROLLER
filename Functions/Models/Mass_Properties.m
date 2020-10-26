@@ -125,6 +125,7 @@ else
 motor_cm = (Rocket.L - Rocket.motor_lengthP/2 )* (Rocket.motor_massP - t*(Rocket.propel_massP/Rocket.Burn_Time));
 motor_cmF = (Rocket.L - Rocket.motor_lengthF/2 -Rocket.motor_lengthP - Rocket.intermotor_d )* (Rocket.motor_massF - t*(Rocket.propel_massF/Rocket.Burn_Time));
 % Centre de masse
+
 Cm = (Rocket.rocket_cm*Rocket.rocket_m +  motor_cm + motor_cmF )/M;
 % D?riv?e centre de masse
 %dcmdtn = (dMdt*(Rocket.L-Rocket.motor_length)-dMdt*Cm)/M;

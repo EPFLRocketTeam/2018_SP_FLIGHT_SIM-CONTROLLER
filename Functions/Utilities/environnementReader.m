@@ -104,10 +104,10 @@ while ~feof(rfid)
             
             
             
-            %hold on
-            %plot(axis,Environnement.Vspeed,'r')
-            %plot(axis,azi,'b')
-            %plot(axis,turb,'k')
+         %   hold on
+          %  plot(axis,Environnement.Vspeed,'r')
+           % plot(axis,Environnement.Vazy,'b')
+            %plot(axis,Environnement.Vturb,'k')
             %xlim([0 4000])
             %ylim([-1 100])
             %hold off;
