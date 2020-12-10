@@ -7,7 +7,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Snippets'),...
         genpath('../Simulator_1D'));
 % Rocket Definition
-Rocket = rocketReader('Valetudo.txt');
+Rocket = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
 Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
@@ -56,17 +56,32 @@ display(['Max acceleration : ' num2str(maxi)]);
 display(['Max g : ' num2str(maxi/9.81)]);
 display(['Max g @t = ' num2str(T_1_2(index))]);
 
+figure('Name','Aerodynamic properties'); hold on;
+
+plot(diff(S_1_2(:,2))./diff(T_1_2));
+legend show;
+
+%plot(S2(:,1), S2(:,6));
+
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Drogue
 %--------------------------------------------------------------------------
 
 [T3, S3, T3E, S3E, I3E] = SimObj.DrogueParaSim(T2(end), S2(end,1:3)', S2(end, 4:6)');
+figure('Name','Aerodynamic properties'); hold on;
+
+plot(diff(S3(:,2))./diff(T3));
+legend show;
 
 %% ------------------------------------------------------------------------
 % 3DOF Recovery Main
 %--------------------------------------------------------------------------
 
 [T4, S4, T4E, S4E, I4E] = SimObj.MainParaSim(T3(end), S3(end,1:3)', S3(end, 4:6)');
+figure('Name','Aerodynamic properties'); hold on;
+
+plot(diff(S4(:,2))./diff(T4));
+legend show;
 
 display(['Touchdown @t = ' num2str(T4(end)) ' = ' num2str(floor(T4(end)/60)) ' min ' num2str(mod(T4(end),60)) ' s']);
 
@@ -189,9 +204,9 @@ plot(ones(1,2)*Rocket.Burn_Time, ylim, 'g');
 title 'Cn_{\alpha}';
 
 subplot(3,2,5);
-plot(T2, SimObj.SimAuxResults.Cd)
+plot(T2, SimObj.SimAuxResults.Cd*1.3) % 1.3 is scale corrective CD factor!
 hold on;
-title 'CD';
+title 'SCALED CD';
 
 
 % Plot angle with vertical

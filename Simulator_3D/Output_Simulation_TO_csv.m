@@ -8,7 +8,7 @@ addpath(genpath('../Declarations'),...
 
 % Rocket Definition
 
-cHeader = {'time(ms)' 'A(x)' 'A(y)' 'A(z)', 'P(Pa)'}; %dummy header
+cHeader = {'time(ms)' 'X(x)' 'X(y)' 'X(z)'  'A(x)' 'A(y)' 'A(z)', 'P(Pa)', 'T(K)'}; %dummy header
 commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
 commaHeader = commaHeader(:)';
 textHeader = cell2mat(commaHeader); %cHeader in text with commas
@@ -39,11 +39,17 @@ T = readtable('test.csv', 'HeaderLines',1);
 max = T{end,1};
 bound = round(100*max)/100;
 [~, index] = unique(T{:,1}); 
-AX = interp1(T{:,1}(index), T{:,2}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
-AY = interp1(T{:,1}(index), T{:,3}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
-AZ = interp1(T{:,1}(index), T{:,4}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
-P = interp1(T{:,1}(index), T{:,5}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
-cHeader = {'time(ms)' 'A(mg)' 'A(mg)' 'A(mg)' 'P(Pa)'}; %dummy header
+X = interp1(T{:,1}(index), T{:,2}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+Y = interp1(T{:,1}(index), T{:,3}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+Z = interp1(T{:,1}(index), T{:,4}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+AX = interp1(T{:,1}(index), T{:,5}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+AY = interp1(T{:,1}(index), T{:,6}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+AZ = interp1(T{:,1}(index), T{:,7}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+P = interp1(T{:,1}(index), T{:,8}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+T = interp1(T{:,1}(index), T{:,9}(index) , 0.0: 0.01 : bound, 'pchip', 'extrap');  
+
+%cHeader = {'time(ms)' 'A(mg selon x)' 'A(mg y)' 'A(mg z)' 'P(Pa)'}; %dummy header
+cHeader = {'time(ms)' 'X(m)' 'Y(m)' 'Z(m)'  'Ax(mg)' 'Ay(mg)' 'Az(mg)', 'P(Pa)', 'T(K)'}; %dummy header
 commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
 commaHeader = commaHeader(:)';
 textHeader = cell2mat(commaHeader); %cHeader in text with commas
@@ -52,15 +58,16 @@ fid = fopen('result.csv','w');
 fprintf(fid,'%s\n',textHeader);
 fclose(fid);
 
-[~,~,p,~, ~] = stdAtmos(Environment.Start_Altitude, Environment);
+[t,~,p,~, ~] = stdAtmos(Environment.Start_Altitude, Environment);
 
 
-to_output = transpose([ 0.0: 0.01 : 19.99 ; 0*ones(1,2000) ; 0*ones(1,2000); -1000*ones(1,2000); p*ones(1,2000)]);
+to_output = transpose([ 0.0: 0.01 : 19.99 ; 0*ones(1,2000) ; 0*ones(1,2000); 000*ones(1,2000);
+     0*ones(1,2000) ; 0*ones(1,2000); -1000*ones(1,2000); p*ones(1,2000); t*ones(1,2000) ]);
 
 dlmwrite('result.csv',to_output,'-append');
 
 
-to_output = transpose([ 20.0: 0.01 : bound+20 ; AX ; AY ; AZ ; P ]);
+to_output = transpose([ 20.0: 0.01 : bound+20 ; X;Y;Z;AX ; AY ; AZ ; P ;T]);
             
 dlmwrite('result.csv',to_output,'-append');
 

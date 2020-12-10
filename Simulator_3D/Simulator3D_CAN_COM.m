@@ -90,7 +90,7 @@ classdef Simulator3D_CAN_COM < handle
 
             % Environment
             g = 9.81;               % Gravity [m/s2] 
-            [~, a, p, rho, Nu] = stdAtmos(x*sin(obj.Environment.Rail_Angle) + obj.Environment.Start_Altitude ,obj.Environment); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
+            [Te, a, p, rho, Nu] = stdAtmos(x*sin(obj.Environment.Rail_Angle) + obj.Environment.Start_Altitude ,obj.Environment); % Atmosphere information (TODO: Include effect of humidity and departure altitude)
 
             % Force estimation
 
@@ -108,7 +108,7 @@ classdef Simulator3D_CAN_COM < handle
             
             
             F = [0; 0 ; F_tot]; 
-            CAN_COM(t,F,Mass,p);          
+            CAN_COM(t,[0;0;x],F,Mass,p,Te);          
             
             % State derivatives
             
@@ -154,7 +154,7 @@ classdef Simulator3D_CAN_COM < handle
 
             % Environment
             g = 9.81;               % Gravity [m/s2] 
-            [~, a, p, rho, nu] = stdAtmos(X(3)+obj.Environment.Start_Altitude,...
+            [Te, a, p, rho, nu] = stdAtmos(X(3)+obj.Environment.Start_Altitude,...
                 obj.Environment); % Atmosphere information 
 
             % Force estimations 
@@ -254,7 +254,7 @@ classdef Simulator3D_CAN_COM < handle
             X_dot = V;
             V_dot = 1/M*(F_tot - V*dMdt);
 
-            CAN_COM(t, F_tot, M, p);
+            CAN_COM(t,X, F_tot, M, p,Te);
             
             
             % Rotational dynamics
@@ -287,7 +287,7 @@ classdef Simulator3D_CAN_COM < handle
             V = s(4:6);
 
             % Atmospheric Data
-            [~, ~, p, rho] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere [K,m/s,Pa,kg/m3]
+            [T, ~, p, rho] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere [K,m/s,Pa,kg/m3]
 
             % Aerodynamic force
             Vrel = -V + ...
@@ -309,7 +309,7 @@ classdef Simulator3D_CAN_COM < handle
             dXdt = V;
             dVdt = (D+G)/M;
             
-            CAN_COM(t,D+G,M,p);
+            CAN_COM(t,X,D+G,M,p,T);
             
             dsdt = [dXdt; dVdt];
         end

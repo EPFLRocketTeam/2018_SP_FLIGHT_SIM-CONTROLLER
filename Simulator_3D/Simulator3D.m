@@ -334,7 +334,6 @@ classdef Simulator3D < handle
             CD = drag(Rocket, 0, norm(V_rel), nu, a); % (TODO: make air-viscosity adaptable to temperature)
             % Drag force
             D = -0.5*rho*Rocket.Sm*CD*V_rel*norm(V_rel); 
-
             % Translational dynamics
             X_dot = V;
             V_dot = 1/M*(D + G);

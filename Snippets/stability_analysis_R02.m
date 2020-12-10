@@ -14,7 +14,7 @@ addpath(genpath('../Declarations'),...
         genpath('../Simulator_1D'),...
         genpath('../Simulator_3D'));
 % Rocket Definition
-Rocket = rocketReader('BL2_H1.txt');
+Rocket = rocketReader('BL2_H2_AB.txt');
 Environment = environnementReader('Environment/Environnement_Definition_2021.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
