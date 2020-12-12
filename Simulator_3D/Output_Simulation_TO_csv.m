@@ -19,7 +19,7 @@ fclose(fid);
 
 
 
-Rocket_0 = rocketReader('BL_H4.txt');
+Rocket_0 = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 name_of_environnment = 'Environment/Environnement_Definition_Wasserfallen.txt';
 

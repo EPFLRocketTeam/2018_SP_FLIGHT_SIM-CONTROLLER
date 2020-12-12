@@ -1,0 +1,31 @@
+Alors:
+stages :nombre de fois que la fusée change de diametre (donc le nez, le bout du nozecone, le début du boat tail, la fin du boattail)
+diameters: les diametres des 4 éléments nommé au dessus
+stage_z  :la distance entre chaque élément nommé au dessus
+fin_n : nombre d'ailerons
+fin_xt : distance début aileron-nez de la fusée
+fin_s : hauteur des ailerons (donc pas selon l'axe z) autrement dit longueur bout des ailerons-corps de la fusée
+fin_cr : longueur des ailerons au niveau de la fusée
+fin_ct longueur des ailerons au bout des ailerons
+fin_xs : distance entre le début de ct et cr selon l'axe z
+fin_t : epaisseur des ailerons (j'ai un shépa si jamais si c'est pas clair pour les ailerons)
+lug_n : nombre de lunch lugs
+lug_S : surface de référence d'un lunch lugs
+rocket_m : masse de la fusée sans moteur
+rocket_I : inertie selon l'axe x et y de la fusée sans moteur
+rocket_cm : centre de masse de la fusée sans moteur
+ab_x : distance airbrakes-nez de la fusée
+ab_n : nomre d'airbrakes
+ab_phi : angle de déploiement des airbrakes
+pl_mass : masse de la payload ( il faut quand meme conter la payload dans rocket_m)
+para_main_SCD: surface de référence du main parachute *coef de frottement
+para_drogue_SCD surface de référence du drogue parachute*coef de frottement
+para_main_event: altitude à laquelle se déploie le main parachute
+motor : nom du moteur (cf caracteristiques du moteur)
+motor_fac :facteur multiplicatif de la thrust du moteur (souvent 1)
+cone_mode on (pas important)
+cp_fac :facteur multipicatif sur le centre de pression (souvant 1)
+CNa_fac :facteur multiplicatif sur la force normal(souvant 1)
+CD_fac : facteur multiplicatif sur la force de drag (souvant 1)
+Voila :slightly_smiling_face:
+N'hésite pas si quelque chose n'est pas clair (edited) 

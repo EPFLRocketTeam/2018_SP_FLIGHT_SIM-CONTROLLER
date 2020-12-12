@@ -208,7 +208,6 @@ classdef Simulator3D < handle
             else
                 N = 0.5*rho*obj.Rocket.Sm*CNa*alpha*Vmag^2*NA/norm(NA);
             end
-
             % Drag
             % Drag coefficient
             CD = drag(obj.Rocket, alpha, Vmag, nu, a)*obj.Rocket.CD_fac; 

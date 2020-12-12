@@ -166,12 +166,16 @@ classdef Simulator3D_CAN_COM < handle
             % Gravity
             G = -g*M*ZE;
 
+           alt = min(400, max(1,round(X(3)/10)));	
+           V_inf = obj.Environment.Vspeed(alt)*[obj.Environment.Vdirx(alt);obj.Environment.Vdiry(alt);obj.Environment.Vdirz(alt)];
+            
             % Aerodynamic corrective forces
             % Compute center of mass angle of attack
             Vcm = V -...
-                     ... % Wind as computed by windmodel
-                windModel(t, obj.Environment.Turb_I,obj.Environment.V_inf*obj.Environment.V_dir,...
-                obj.Environment.Turb_model,X(3)); 
+                     ... % Wind as computed by windmodel                
+                 V_inf;
+                 %windModel(t, obj.Environment.Turb_I,obj.Environment.V_inf*obj.Environment.V_dir,...
+                %obj.Environment.Turb_model,X(3)); 
 
             Vcm_mag = norm(Vcm);
             alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
@@ -289,11 +293,15 @@ classdef Simulator3D_CAN_COM < handle
             % Atmospheric Data
             [T, ~, p, rho] = stdAtmos(X(3)+Environment.Start_Altitude, Environment); % Atmosphere [K,m/s,Pa,kg/m3]
 
+            alt = min(400, max(1,round(X(3)/10)));	
+	            V_inf = Environment.Vspeed(alt)*[Environment.Vdirx(alt);Environment.Vdiry(alt);Environment.Vdirz(alt)];
+            
             % Aerodynamic force
             Vrel = -V + ...
                  ... % Wind as computed by windmodel
-                windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
-                Environment.Turb_model,X(3));
+                    V_inf;
+             %windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+              %  Environment.Turb_model,X(3));
 
             if Main
                 SCD = Rocket.para_main_SCD;
@@ -334,10 +342,13 @@ classdef Simulator3D_CAN_COM < handle
             % mass
             M = Rocket.rocket_m;
 
+            alt = min(400, max(1,round(X(3)/10)));	
+	        V_inf = Environment.Vspeed(alt)*[Environment.Vdirx(alt);Environment.Vdiry(alt);Environment.Vdirz(alt)];
             V_rel = V -...
                  ... % Wind as computed by windmodel
-                windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
-                Environment.Turb_model,X(3));
+               V_inf; 
+             %windModel(t, Environment.Turb_I,Environment.V_inf*Environment.V_dir,...
+              %  Environment.Turb_model,X(3));
 
             % gravity
             % Gravity
@@ -448,10 +459,16 @@ classdef Simulator3D_CAN_COM < handle
 
             % Aerodynamic corrective forces
             % Compute center of mass angle of attack
+            
+            	            alt = min(4000, max(1,round(X(3))));	
+	            V_inf = obj.Environment.Vspeed(alt)*obj.Environment.Vdir(alt);
+            
             Vcm = V -...
                      ... % Wind as computed by windmodel
-                windModel(t, obj.Environment.Turb_I,obj.Environment.V_inf*obj.Environment.V_dir,...
-                obj.Environment.Turb_model,X(3)); 
+              V_inf;
+                 
+                 %  windModel(t, obj.Environment.Turb_I,obj.Environment.V_inf*obj.Environment.V_dir,...
+               % obj.Environment.Turb_model,X(3)); 
 
             Vcm_mag = norm(Vcm);
             alpha_cm = atan2(norm(cross(RA, Vcm)), dot(RA, Vcm));
