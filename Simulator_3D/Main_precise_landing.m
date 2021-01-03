@@ -9,7 +9,7 @@ addpath(genpath('../Declarations'),...
 
 % Rocket Definition
 Rocket = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');
-Environment = environnementReader('Environment/Environnement_Definition_Meringen.txt');
+Environment = environnementReader('Environment/Environnement_Definition_Wasserfallen.txt');
 SimOutputs = SimOutputReader('Simulation/Simulation_outputs.txt');
 
 SimObj = multilayerwindSimulator3D(Rocket, Environment, SimOutputs);

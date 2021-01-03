@@ -108,7 +108,7 @@ classdef Simulator3D_CAN_COM < handle
             
             
             F = [0; 0 ; F_tot]; 
-            CAN_COM(t,[0;0;x],F,Mass,p,Te);          
+            CAN_COM(t,[0;0;x],F,Mass,p,Te,obj);          
             
             % State derivatives
             
@@ -224,6 +224,8 @@ classdef Simulator3D_CAN_COM < handle
             % Drag
             % Drag coefficient
             CD = drag(obj.Rocket, alpha, Vmag, nu, a)*obj.Rocket.CD_fac; 
+            %obj.Rocket.ab_phi
+            %obj.Rocket.ab_n
             if(t>obj.Rocket.Burn_Time)
               CD = CD + drag_shuriken(obj.Rocket, obj.Rocket.ab_phi, alpha, Vmag, nu); 
             end
@@ -258,8 +260,9 @@ classdef Simulator3D_CAN_COM < handle
             X_dot = V;
             V_dot = 1/M*(F_tot - V*dMdt);
 
-            CAN_COM(t,X, F_tot, M, p,Te);
-            
+            CAN_COM(t,X, F_tot, M, p,Te,obj);
+
+
             
             % Rotational dynamics
             Q_dot = quat_evolve(Q, W);
@@ -317,7 +320,7 @@ classdef Simulator3D_CAN_COM < handle
             dXdt = V;
             dVdt = (D+G)/M;
             
-            CAN_COM(t,X,D+G,M,p,T);
+            CAN_COM(t,X,D+G,M,p,T,obj.Rocket);
             
             dsdt = [dXdt; dVdt];
         end

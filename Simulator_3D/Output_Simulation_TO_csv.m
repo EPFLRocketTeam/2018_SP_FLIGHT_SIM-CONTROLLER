@@ -17,6 +17,15 @@ fid = fopen('test.csv','w');
 fprintf(fid,'%s\n',textHeader);
 fclose(fid);
 
+cHeader = {'time(ms)' 'X(x)' 'X(y)' 'X(z)'  'A(x)' 'A(y)' 'A(z)', 'P(Pa)', 'T(K)'}; %dummy header
+commaHeader = [cHeader;repmat({','},1,numel(cHeader))]; %insert commaas
+commaHeader = commaHeader(:)';
+textHeader = cell2mat(commaHeader); %cHeader in text with commas
+%write header to file
+fid = fopen('log.csv','w'); 
+fprintf(fid,'%s\n',textHeader);
+fclose(fid);
+
 
 
 Rocket_0 = rocketReader('WASSERFALLEN_FRANKENSTEIN.txt');

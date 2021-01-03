@@ -23,9 +23,9 @@ function AB_COM(t,f,m,p,Rocket)
             if ( mod(bound*100,5) == 0)
                 IN = -1;
                 while( IN == -1)
-                    IN=readtable(ab_out);
+                    IN=readtable(ab_out); % changer le nom
                 end
-                  Rocket.AB_angle = IN;
+                  Rocket.AB_angle = IN; % rentrer -1 dans IN
             end
         
         end
