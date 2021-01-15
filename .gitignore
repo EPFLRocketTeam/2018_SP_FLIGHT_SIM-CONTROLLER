@@ -31,3 +31,6 @@ octave-workspace
 
 # 1D_TAB_TARGET files
 1D_TAB_TARGET*
+
+# Sensibility Analysis Outputs (too large for git, >100 MB usually)
+Sensitivity_Analysis/Outputs/*

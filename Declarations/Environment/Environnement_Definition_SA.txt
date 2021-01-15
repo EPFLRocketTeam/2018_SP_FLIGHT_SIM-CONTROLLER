@@ -1,0 +1,15 @@
+Temperature_Ground 290,15
+Pressure_Ground 84972.484
+Humidity_Ground 0.51031
+Start_Altitude 1567.6
+Start_Latitude 46.90479
+Start_Longitude 8.07575
+dTdh -9.5
+V_inf 10
+V_Azimuth 150
+Turb_I 0.00
+Turb_model None
+Rail_Length 7,5
+Rail_Angle 2  
+Rail_Azimuth 181 
+multilayerwind 6 10 3 150 0 100 3 150 0 200 3 150 0 500 3 150 0 1000 3 150 0 2000 3 150 0 // number of datapoint; altitude [m]; total wind speed [m/s]; azimuth; standart deviation; ... time number of point
