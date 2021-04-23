@@ -1,7 +1,0 @@
-; @File: stf06_oxydiser.txt, @Pts-I: 3, @Pts-O: 3, @Sm: 0, @CO: 5%
-; @TI: 15.10992, @TIa: 15.10455, @TIe: 0.0%, @ThMax: 3.1, @ThAvg: 2.3946, @Tb: 6.31
-; Exported using ThrustCurveTool, www.ThrustGear.com
-D2 145 600 0 3.175 7.765 ERT
-  0.02       3.1
-  5.44       2.1
-  6.38       0.0
