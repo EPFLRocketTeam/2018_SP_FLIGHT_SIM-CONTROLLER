@@ -1,0 +1,4 @@
+N2423 144 607 0 3.82 9.67 ERT //mass of N20 with gaseous phase:3.82kg and mass of tank:5.85kg
+ 0.02       3.1
+ 5.44       2.1
+ 6.38       0.0
