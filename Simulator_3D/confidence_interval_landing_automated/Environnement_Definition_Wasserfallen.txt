@@ -1,0 +1,16 @@
+Temperature_Ground 290,15
+Pressure_Ground 84972.484
+Humidity_Ground 0.51031
+Start_Altitude 1567.6
+Start_Latitude 46.90479
+Start_Longitude 8.07575
+dTdh -9.5
+V_inf 10
+V_Azimuth 360
+Turb_I 0.00
+Turb_model None
+Rail_Length 10
+Rail_Angle 2
+Rail_Azimuth 540
+multilayerwind 7 10 7 360 0.3 100 8 360 0.3 250 8 360 0.3 500 9 360 0.3 750 9 360 0.3 1000 10 360 0.3 1500 10 360 0.3 // number of datapoint; altitude [m]; total wind speed [m/s]; azimuth; standart deviation; ... time number of point
+map wasserfallenmapdata.xyz
